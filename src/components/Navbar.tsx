@@ -19,10 +19,9 @@ import {
   FaCaretDown,
 } from "react-icons/fa"
 import { useEffect } from "react"
-import { getMyProfileAsync } from "../redux/actions"
+import { getMyProfileAsync } from "../redux/actions/profileActions"
 import { useDispatch, useSelector } from "react-redux"
 import type { AppDispatch, RootState } from "../redux/store"
-import LinkedinDropdown from "./DropDown"
 
 const Navbar = () => {
   const dispatch = useDispatch<AppDispatch>()
