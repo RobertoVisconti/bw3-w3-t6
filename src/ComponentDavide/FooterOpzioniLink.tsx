@@ -1,21 +1,37 @@
+import { Col } from "react-bootstrap";
+
 export const FooterOpzioniLink = () => {
   return (
-    <div>
-      <div>
-        <i className="fas fa-question-circle text-secondary"></i>
-        <span>Domande?</span>
-        <span>Visita il nostro Centro assistenza</span>
+    <Col xs={12} lg={6}>
+      <div className=" d-flex">
+        <i className="m-1 fs-4 fas fa-question-circle text-secondary"></i>
+        <div>
+          <span className="fw-medium">Domande?</span>
+          <br />
+          <span className="small">Visita il nostro Centro assistenza</span>
+        </div>
       </div>
-      <div>
-        <i className="fas fa-cog text-secondary"></i>
-        <span>Gestisci il tuo account e la tua privacy</span>
-        <span>Vai alle impostazioni</span>
+      <div className=" d-flex">
+        <i className="m-1 fs-4 fas fa-cog text-secondary"></i>
+        <div>
+          <span className="fw-medium">
+            Gestisci il tuo account e la tua privacy
+          </span>{" "}
+          <br />
+          <span className="small">Vai alle impostazioni</span>
+        </div>
       </div>
-      <div>
-        <i className="fas fa-shield-alt text-secondary"></i>
-        <span>Trasparenza sui contenuti consigliati</span>
-        <span>Scopri di più sui contenuti consigliati</span>
+      <div className=" d-flex">
+        <i className="m-1 fs-4 fas fa-shield-alt text-secondary"></i>
+        <div>
+          {" "}
+          <span className="fw-medium">
+            Trasparenza sui contenuti consigliati
+          </span>{" "}
+          <br />
+          <span className="small">Scopri di più sui contenuti consigliati</span>
+        </div>
       </div>
-    </div>
+    </Col>
   );
 };
