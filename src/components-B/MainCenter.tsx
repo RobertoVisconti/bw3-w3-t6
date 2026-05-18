@@ -6,7 +6,7 @@ import ListaConsigliati from "./ListaConsigliati";
 
 const MainCenter = function () {
   return (
-    <Container fluid>
+    <Container>
       <Row>
         <FormPost />
       </Row>
