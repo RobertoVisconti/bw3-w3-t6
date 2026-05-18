@@ -4,10 +4,12 @@ import { FooterLinkProfile } from "./FooterLinkProfile";
 import { FooterOpzioniLink } from "./FooterOpzioniLink";
 import { SelezioneLingua } from "./SelezioneLingua";
 
+// Footer per la pagina principale profile
+
 const FooterLinkedin = () => {
   return (
     <Container>
-      <div style={{ width: "70%" }}>
+      <div style={{ width: "70%" }} className="my-4">
         {" "}
         <div>
           <FooterLinkProfile></FooterLinkProfile>
