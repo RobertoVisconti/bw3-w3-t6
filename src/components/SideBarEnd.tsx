@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Container, ListGroup } from "react-bootstrap";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { IoChevronDownOutline, IoChevronForwardOutline } from "react-icons/io5";
-import FooterLinkedin from "./FooterLinkedin";
+
+import { FooterMiniGenerale } from "./FooterMiniGenerale";
 
 const SideBarEnd = () => {
   const newsData = [
@@ -338,7 +339,7 @@ const SideBarEnd = () => {
         </div>
       </div>
       <div>
-        <FooterLinkedin />
+        <FooterMiniGenerale></FooterMiniGenerale>
       </div>
     </Container>
   );

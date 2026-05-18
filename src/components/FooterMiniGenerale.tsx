@@ -2,6 +2,8 @@ import { Container, Dropdown } from "react-bootstrap";
 import React from "react";
 import { CurrentYear } from "./CurrentYear";
 
+// Mini footer da mettere nel aside
+
 interface FooterLink {
   label: string;
   url: string;
@@ -115,12 +117,15 @@ export const FooterMiniGenerale = () => {
             )}
           </React.Fragment>
         ))}
-        <span className="text-primary fw-medium">
-          Linked<i className="fab fa-linkedin"></i>
-        </span>{" "}
-        <span className="ms-1 small">
-          <CurrentYear></CurrentYear>
-        </span>
+        <p>
+          {" "}
+          <span className="text-primary fw-medium">
+            Linked<i className="fab fa-linkedin"></i>
+          </span>{" "}
+          <span className="ms-1 small">
+            <CurrentYear></CurrentYear>
+          </span>
+        </p>
       </div>
     </Container>
   );

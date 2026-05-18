@@ -1,7 +1,7 @@
 import "./App.css";
 import "./Navbar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import FooterLinkedin from "./components/FooterLinkedin";
+
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import { Provider } from "react-redux";

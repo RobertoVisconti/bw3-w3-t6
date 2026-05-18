@@ -9,7 +9,7 @@ import { SelezioneLingua } from "./SelezioneLingua";
 const FooterLinkedin = () => {
   return (
     <Container>
-      <div style={{ width: "70%" }}>
+      <div style={{ width: "70%" }} className="my-4">
         {" "}
         <div>
           <FooterLinkProfile></FooterLinkProfile>

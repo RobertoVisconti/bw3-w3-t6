@@ -5,6 +5,8 @@ import FormPost from "./FormPost";
 import ListaConsigliati from "./ListaConsigliati";
 import ListArticle from "./ListArticles";
 
+import FooterLinkedin from "../components/FooterLinkedin";
+
 const MainCenter = function () {
   return (
     <Container>
@@ -16,11 +18,10 @@ const MainCenter = function () {
       </Row>
       <Row>
         <ListArticle />
+        <FooterLinkedin></FooterLinkedin>
       </Row>
     </Container>
   );
 };
 
 export default MainCenter;
-
-
