@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Container, ListGroup } from "react-bootstrap";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { IoChevronDownOutline, IoChevronForwardOutline } from "react-icons/io5";
+import FooterLinkedin from "./FooterLinkedin";
 
 const SideBarEnd = () => {
   const newsData = [
@@ -335,6 +336,9 @@ const SideBarEnd = () => {
           <span className="ps-1">Mostra altro</span>
           <IoChevronDownOutline size={15} />
         </div>
+      </div>
+      <div>
+        <FooterLinkedin />
       </div>
     </Container>
   );
