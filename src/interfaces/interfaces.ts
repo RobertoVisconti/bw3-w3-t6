@@ -1,3 +1,4 @@
+// interfaccia base
 export interface Profile {
   _id: string;
   name: string;
@@ -10,6 +11,14 @@ export interface Profile {
   username: string;
   createdAt: string;
   updatedAt: string;
+}
+
+// interfaccia per sezione profilo
+export interface ProfileState {
+  myProfile: Profile | null;
+  isLoading: boolean;
+  isUpdating: boolean;
+  error: string | null;
 }
 
 // qui ci sono i dati per l'aggiornamento profilo

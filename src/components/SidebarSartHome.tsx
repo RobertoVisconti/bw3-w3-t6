@@ -1,6 +1,6 @@
-import { BiNews } from "react-icons/bi"
-import { FaBookmark, FaCalendarAlt, FaLinkedin } from "react-icons/fa"
-import { HiUserGroup } from "react-icons/hi"
+import { BiNews } from "react-icons/bi";
+import { FaBookmark, FaCalendarAlt, FaLinkedin } from "react-icons/fa";
+import { HiUserGroup } from "react-icons/hi";
 
 const SidebarStartHome = () => {
   return (
@@ -51,6 +51,6 @@ const SidebarStartHome = () => {
         </div>
       </section>
     </div>
-  )
-}
-export default SidebarStartHome
+  );
+};
+export default SidebarStartHome;

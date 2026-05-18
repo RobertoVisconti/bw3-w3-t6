@@ -1,8 +1,9 @@
 import "./App.css";
+import "./Navbar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import FooterLinkedin from "./ComponentDavide/FooterLinkedin";
+import FooterLinkedin from "./components/FooterLinkedin";
 import Home from "./pages/Home";
-import Navbar from "./componentsDaniele/Navbar";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (

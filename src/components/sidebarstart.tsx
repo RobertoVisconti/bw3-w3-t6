@@ -1,7 +1,6 @@
-import { GoShieldCheck } from "react-icons/go"
-
-import SidebarStartHome from "./SidebarSartHome"
-import SidebarStartLavoro from "./SidebarStartLavoro"
+import { GoShieldCheck } from "react-icons/go";
+import SidebarStartHome from "./SidebarSartHome";
+import SidebarStartLavoro from "./SidebarStartLavoro";
 
 const SidebarStart = () => {
   return (
@@ -46,6 +45,6 @@ const SidebarStart = () => {
         {/* <SidebarStartLavoro /> */}
       </div>
     </>
-  )
-}
-export default SidebarStart
+  );
+};
+export default SidebarStart;

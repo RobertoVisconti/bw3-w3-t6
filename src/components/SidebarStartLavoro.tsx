@@ -1,6 +1,6 @@
-import { FaBookmark, FaListUl } from "react-icons/fa"
-import { ImLinkedin } from "react-icons/im"
-import { PiNoteFill } from "react-icons/pi"
+import { FaBookmark, FaListUl } from "react-icons/fa";
+import { ImLinkedin } from "react-icons/im";
+import { PiNoteFill } from "react-icons/pi";
 
 const SidebarStartLavoro = () => {
   return (
@@ -27,6 +27,6 @@ const SidebarStartLavoro = () => {
         <p className="m-0 ms-3 fw-bold"> Pubblica offerte di lavoro gratuita</p>
       </div>
     </section>
-  )
-}
-export default SidebarStartLavoro
+  );
+};
+export default SidebarStartLavoro;

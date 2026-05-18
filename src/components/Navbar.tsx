@@ -1,15 +1,36 @@
 import { Link } from "react-router-dom";
-import { Navbar as BsNavbar, Container, Form, InputGroup, Image } from "react-bootstrap";
-import {FaLinkedin, FaSearch, FaMapMarkerAlt, FaHome, FaUserFriends, FaBriefcase, FaCommentDots, FaBell, FaTh, FaCaretDown,} from "react-icons/fa";
-import "./Navbar.css";
-import robertoImg from "../public/roberto.jpeg";
+import {
+  Navbar as BsNavbar,
+  Container,
+  Form,
+  InputGroup,
+  Image,
+} from "react-bootstrap";
+import {
+  FaLinkedin,
+  FaSearch,
+  FaMapMarkerAlt,
+  FaHome,
+  FaUserFriends,
+  FaBriefcase,
+  FaCommentDots,
+  FaBell,
+  FaTh,
+  FaCaretDown,
+} from "react-icons/fa";
 
 const Navbar = () => {
   return (
     <BsNavbar bg="white" className="border-bottom py-0 linkedin-navbar">
-      <Container fluid className="d-flex align-items-center justify-content-center gap-3">
+      <Container
+        fluid
+        className="d-flex align-items-center justify-content-center gap-3"
+      >
         <div className="d-flex align-items-center gap-2">
-          <Link to="/" className="text-primary fs-1 lh-1 d-flex align-items-center text-decoration-none">
+          <Link
+            to="/"
+            className="text-primary fs-1 lh-1 d-flex align-items-center text-decoration-none"
+          >
             <FaLinkedin />
           </Link>
 
@@ -61,7 +82,11 @@ const Navbar = () => {
           </Link>
 
           <Link to="/profilo" className="linkedin-item">
-            <Image src={robertoImg} roundedCircle  className="linkedin-avatar"/>
+            <Image
+              src="/roberto.jpeg"
+              roundedCircle
+              className="linkedin-avatar"
+            />
             <span className="linkedin-profile-text">
               Tu <FaCaretDown className="linkedin-caret" />
             </span>
@@ -76,9 +101,11 @@ const Navbar = () => {
             </span>
           </Link>
 
-          <Link to="/premium" className="linkedin-premium text-decoration-underline">
+          <Link
+            to="/premium"
+            className="linkedin-premium text-decoration-underline"
+          >
             Prova premium per 0 €
-            
           </Link>
         </div>
       </Container>
