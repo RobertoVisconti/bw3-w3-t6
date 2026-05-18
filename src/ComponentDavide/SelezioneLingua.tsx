@@ -24,10 +24,11 @@ export const SelezioneLingua = () => {
         const scelto = lingue.find((lingua) => lingua.code === e);
         if (scelto) setLing(scelto);
       }}
+      className="d-flex align-items-center gap-2 border-0 "
     >
       <Dropdown.Toggle
         id="dropdown-language"
-        className="d-flex align-items-center gap-2"
+        className="dropdown-allungato text-black d-flex align-items-center gap-2 bg-transparent w-100 border-black"
       >
         <span>{ling.label}</span>
       </Dropdown.Toggle>

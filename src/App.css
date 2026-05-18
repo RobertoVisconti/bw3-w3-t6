@@ -1,0 +1,4 @@
+/* css per spingere la freccia dropdown lingue a destra */
+.dropdown-allungato::after {
+  margin-left: auto !important;
+}
