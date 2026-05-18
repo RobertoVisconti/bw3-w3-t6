@@ -2,3 +2,22 @@
 .dropdown-allungato::after {
   margin-left: auto !important;
 }
+
+.custom-profile-card {
+  background-image: url("https://placebear.com/1000/1000");
+  background-repeat: no-repeat;
+  background-position: top;
+  height: 100px;
+}
+
+.profile-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+
+  position: absolute;
+  bottom: -50px;
+  left: 20px;
+
+  border: 2px solid white;
+}
