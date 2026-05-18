@@ -1,6 +1,7 @@
 import { GoShieldCheck } from "react-icons/go"
 
 import SidebarStartHome from "./SidebarSartHome"
+import SidebarStartLavoro from "./SidebarStartLavoro"
 
 const SidebarStart = () => {
   return (
