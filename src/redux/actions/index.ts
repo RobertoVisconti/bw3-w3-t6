@@ -1,4 +1,5 @@
-import { Dispatch } from 'redux';
+import type  { Dispatch } from 'redux';
+import type { Profile } from '../../interfaces/interfaces';
 
 // questa è l'api con la key
 const BASE_URL = 'https://striveschool-api.herokuapp.com/api/profile/';
@@ -21,11 +22,11 @@ export const PUT_PROFILE_ERROR = 'PUT_PROFILE_ERROR';
 
 // qui ci sono le interfacce per lavorarci sopra
 interface GetProfileLoadingAction { type: typeof GET_PROFILE_LOADING }
-interface GetProfileSuccessAction { type: typeof GET_PROFILE_SUCCESS; payload: any }
+interface GetProfileSuccessAction { type: typeof GET_PROFILE_SUCCESS; payload: Profile }
 interface GetProfileErrorAction { type: typeof GET_PROFILE_ERROR; payload: string }
 
 interface PutProfileLoadingAction { type: typeof PUT_PROFILE_LOADING }
-interface PutProfileSuccessAction { type: typeof PUT_PROFILE_SUCCESS; payload: any }
+interface PutProfileSuccessAction { type: typeof PUT_PROFILE_SUCCESS; payload: Profile }
 interface PutProfileErrorAction { type: typeof PUT_PROFILE_ERROR; payload: string }
 
 export type ProfileActions = 
@@ -46,14 +47,15 @@ export const getMyProfileAsync = () => {
       
       const data = await response.json();
       dispatch({ type: GET_PROFILE_SUCCESS, payload: data });
-    } catch (error: any) {
-      dispatch({ type: GET_PROFILE_ERROR, payload: error.message });
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message: 'Errore sconosciuto'
+      dispatch({ type: GET_PROFILE_ERROR, payload: errorMessage });
     }
   };
 };
 
 //  fetch per modificare il profilo
-export const updateProfileAsync = (profileData: any) => {
+export const updateProfileAsync = (profileData: Profile) => {
   return async (dispatch: Dispatch<ProfileActions>) => {
     dispatch({ type: PUT_PROFILE_LOADING });
     try {
@@ -66,8 +68,9 @@ export const updateProfileAsync = (profileData: any) => {
 
       const data = await response.json();
       dispatch({ type: PUT_PROFILE_SUCCESS, payload: data });
-    } catch (error: any) {
-      dispatch({ type: PUT_PROFILE_ERROR, payload: error.message });
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message: 'Errore sconosciuto'
+      dispatch({ type: PUT_PROFILE_ERROR, payload: errorMessage });
     }
   };
 };
