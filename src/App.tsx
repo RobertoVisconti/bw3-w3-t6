@@ -1,6 +1,6 @@
-import "./App.css";
-import 'bootstrap/dist/css/bootstrap.min.css'
-import Home from "./pages/Home";
+import "./App.css"
+import "bootstrap/dist/css/bootstrap.min.css"
+import Home from "./pages/Home"
 
 function App() {
   // ciao
@@ -8,11 +8,11 @@ function App() {
     <div className="d-flex flex-column min-vh-100">
       <header></header>
       <main className="flex-grow-1">
-        <Home/>
+        <Home />
       </main>
       <footer></footer>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

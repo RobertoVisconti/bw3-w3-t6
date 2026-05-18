@@ -1,21 +1,18 @@
 import { Col, Container, Row } from "react-bootstrap"
 import SidebarStart from "../component_caf/SidebarStart/sidebarstart"
 
-const Home = () => {
+const Lavoro = () => {
   return (
     <Container>
       <Row>
         {/* colonna sinistra */}
-        <Col md={3}>
+        <Col md={4}>
           <SidebarStart />
         </Col>
         {/* colonna centrale */}
-        <Col md={6}></Col>
-        {/* colonna destra */}
-        <Col md={3}></Col>
+        <Col md={8}></Col>
       </Row>
     </Container>
   )
 }
-
-export default Home
+export default Lavoro
