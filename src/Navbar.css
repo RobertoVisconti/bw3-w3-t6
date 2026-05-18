@@ -1,3 +1,4 @@
+/* NAVBAR */
 .linkedin-navbar {
   height: 55px;
 }
@@ -87,4 +88,51 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* DROPDOWN "Per le aziende" */
+.linkedin-business-dropdown .dropdown-toggle::after {
+  display: none;
+}
+
+.linkedin-business {
+  cursor: pointer;
+}
+
+.linkedin-business-menu {
+  width: 630px;
+  border-radius: 0 0 10px 10px;
+  border: 1px solid #ddd;
+  transform: translateY(5px);
+}
+
+.business-left {
+  width: 300px;
+  border-right: 1px solid #ddd;
+}
+
+.business-right {
+  width: 330px;
+}
+
+.business-app {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 15px;
+}
+
+.business-icon {
+  width: 35px;
+  font-size: 20px;
+  color: #0a66c2;
+  flex-shrink: 0;
+}
+
+.business-app:hover strong,
+.business-right div:hover strong,
+.business-right div:hover p,
+.business-right strong:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }

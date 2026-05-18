@@ -1,0 +1,6 @@
+/* MAIN CENTER */
+
+#input-post::placeholder{
+    color: black;
+    font-weight: bold;
+}
