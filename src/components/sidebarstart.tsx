@@ -70,7 +70,6 @@ const SidebarStart = () => {
         <SidebarStartHome />
         {/* ! PAGE LAVORO! */}
         {/* <SidebarStartLavoro /> */}
-        <DropDawnTu />
       </div>
     </>
   )
