@@ -77,11 +77,7 @@ const SideBarEnd = () => {
   return (
     <Container
       fluid
-      className="bg-white rounded-3 border border-light shadow-sm p-0 text-start m-0"
-      style={{
-        maxWidth: "315px",
-        boxSizing: "border-box",
-      }}
+      className="bg-white rounded-3 border border-secondary shadow-sm p-0 text-start m-0 my-2"
     >
       {/* ================= SEZIONE NOTIZIE ================= */}
       <div className="pt-3" style={{ textAlign: "left" }}>
