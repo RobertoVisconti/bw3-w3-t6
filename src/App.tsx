@@ -1,11 +1,13 @@
-import "./App.css"
-import "./Navbar.css"
-import "bootstrap/dist/css/bootstrap.min.css"
+import "./App.css";
+import "./Navbar.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import Home from "./pages/Home"
-import Navbar from "./components/Navbar"
-import { Provider } from "react-redux"
-import { store } from "./redux/store"
+import Home from "./pages/Home";
+import Navbar from "./components/Navbar";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+import { Route, Routes } from "react-router-dom";
+import Lavoro from "./pages/Lavoro";
 
 function App() {
   return (
@@ -23,7 +25,7 @@ function App() {
         <footer></footer>
       </div>
     </Provider>
-  )
+  );
 }
 
-export default App
+export default App;

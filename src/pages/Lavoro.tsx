@@ -11,9 +11,11 @@ const Lavoro = () => {
           <SidebarStart />
         </Col>
         {/* colonna centrale */}
-        <Col md={9}></Col>
+        <Col md={9}>
+          <LavoroMain />
+        </Col>
       </Row>
     </Container>
-  )
-}
-export default Lavoro
+  );
+};
+export default Lavoro;
