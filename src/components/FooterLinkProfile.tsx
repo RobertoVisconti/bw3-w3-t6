@@ -1,9 +1,9 @@
-import { Col, Container, Row, Dropdown } from "react-bootstrap";
+import { Col, Container, Row, Dropdown } from "react-bootstrap"
 
-interface FooterLink {
-  label: string;
-  url: string;
-  isDropdown?: boolean;
+export interface FooterLink {
+  label: string
+  url: string
+  isDropdown?: boolean
 }
 
 export const FooterLinkProfile = () => {
@@ -21,7 +21,7 @@ export const FooterLinkProfile = () => {
     { label: "Mobile", url: "#" },
     { label: "Piccole imprese", url: "#" },
     { label: "Centro sicurezza", url: "#" },
-  ];
+  ]
 
   return (
     <Container>
@@ -68,5 +68,5 @@ export const FooterLinkProfile = () => {
         ))}
       </Row>
     </Container>
-  );
-};
+  )
+}

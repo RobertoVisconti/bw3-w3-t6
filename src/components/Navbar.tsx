@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 import {
   Navbar as BsNavbar,
   Container,
   Form,
   InputGroup,
   Image,
-} from "react-bootstrap";
+} from "react-bootstrap"
 import {
   FaLinkedin,
   FaSearch,
@@ -17,21 +17,22 @@ import {
   FaBell,
   FaTh,
   FaCaretDown,
-} from "react-icons/fa";
-import { useEffect } from "react";
-import { getMyProfileAsync } from "../redux/actions";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../redux/store";
+} from "react-icons/fa"
+import { useEffect } from "react"
+import { getMyProfileAsync } from "../redux/actions"
+import { useDispatch, useSelector } from "react-redux"
+import type { AppDispatch, RootState } from "../redux/store"
+import LinkedinDropdown from "./DropDown"
 
 const Navbar = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch<AppDispatch>()
   const { myProfile, isLoading, error } = useSelector(
     (state: RootState) => state.profile,
-  );
+  )
 
   useEffect(() => {
-    dispatch(getMyProfileAsync());
-  }, [dispatch]);
+    dispatch(getMyProfileAsync())
+  }, [dispatch])
 
   return (
     <>
@@ -109,9 +110,7 @@ const Navbar = () => {
                   className="linkedin-avatar"
                   style={{ width: "24px", height: "24px", objectFit: "cover" }}
                 />
-                <span className="linkedin-profile-text">
-                  Tu <FaCaretDown className="linkedin-caret" />
-                </span>
+                <LinkedinDropdown />
               </Link>
 
               <div className="vr mx-2 linkedin-divider"></div>
@@ -134,7 +133,7 @@ const Navbar = () => {
         </BsNavbar>
       )}
     </>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

@@ -1,11 +1,11 @@
 import { GoShieldCheck } from "react-icons/go"
 import SidebarStartHome from "./SidebarSartHome"
-import SidebarStartLavoro from "./SidebarStartLavoro"
+
 import { useDispatch, useSelector } from "react-redux"
 import type { AppDispatch, RootState } from "../redux/store"
 import { useEffect } from "react"
 import { getMyProfileAsync } from "../redux/actions"
-import DropDawnTu from "./DropdawnTu"
+import DropDownTu from "./DropdownTu"
 
 const SidebarStart = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -70,6 +70,7 @@ const SidebarStart = () => {
         <SidebarStartHome />
         {/* ! PAGE LAVORO! */}
         {/* <SidebarStartLavoro /> */}
+        <DropDownTu />
       </div>
     </>
   )
