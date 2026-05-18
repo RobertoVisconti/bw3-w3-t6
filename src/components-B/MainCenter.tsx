@@ -1,8 +1,9 @@
 import { Container, Row } from "react-bootstrap";
 
 import FormPost from "./FormPost";
-import SingleCardArticle from "./SingleCardArticle";
+
 import ListaConsigliati from "./ListaConsigliati";
+import ListArticle from "./ListArticles";
 
 const MainCenter = function () {
   return (
@@ -11,13 +12,15 @@ const MainCenter = function () {
         <FormPost />
       </Row>
       <Row>
-        <SingleCardArticle />
+        <ListaConsigliati />
       </Row>
       <Row>
-        <ListaConsigliati />
+        <ListArticle />
       </Row>
     </Container>
   );
 };
 
 export default MainCenter;
+
+
