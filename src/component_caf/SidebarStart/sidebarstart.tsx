@@ -12,7 +12,7 @@ const SidebarStart = () => {
         {/* banner */}
         <div className=" w-100 custom-profile-card rounded-top-2 position-relative ">
           <img
-            src="https://placebear.com/100/100"
+            src="https://placehold.co/30x30"
             alt=" foto profilo"
             className="rounded-circle profile-image"
           />
@@ -28,11 +28,11 @@ const SidebarStart = () => {
           </div>
           <div className="d-flex align-items-center">
             <img
-              src="https://placebear.com/100/100"
+              src="https://placehold.co/40x30"
               alt="logo-lavoro"
               className="me-3"
             />
-            <p>
+            <p className="p-0 m-0">
               <b>luogo di lavoro</b>
             </p>
           </div>
