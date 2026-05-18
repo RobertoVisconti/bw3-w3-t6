@@ -17,10 +17,7 @@ function App() {
         <main className="flex-grow-1">
           <Home />
         </main>
-        <footer>
-          {" "}
-          <FooterLinkedin></FooterLinkedin>
-        </footer>
+        <footer></footer>
       </div>
     </Provider>
   );

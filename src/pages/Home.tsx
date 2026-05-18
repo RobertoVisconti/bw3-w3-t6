@@ -13,7 +13,7 @@ const Home = () => {
           <SidebarStart />
         </Col>
         {/* colonna centrale */}
-        <Col md={6} className="border border-1" style={{height:"100vh"}}>
+        <Col md={6} style={{ height: "100vh" }}>
           <MainCenter />
         </Col>
         {/* colonna destra */}

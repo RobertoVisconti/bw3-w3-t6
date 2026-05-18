@@ -1,15 +1,15 @@
 import { PiVideoFill } from "react-icons/pi";
 import { AiFillPicture } from "react-icons/ai";
 import { PiArticleBold } from "react-icons/pi";
-import { Col, FormControl, Row } from "react-bootstrap";
+import { Col, FormControl} from "react-bootstrap";
 
 const FormPost = function () {
   return (
     <div
-      className="justify-content-center mt-3 rounded-2"
+      className="justify-content-center mt-3 rounded-2 bg-white"
       style={{ border: "1px solid black", overflow: "hidden" }}
     >
-      <Col className="d-flex flex-column  pt-2 px-3 bg-white" xs={12}>
+      <Col className="d-flex flex-column  pt-2 px-3 " xs={12}>
         <div className="d-flex justify-content-center align-items-center gap-2 w-100">
           <img
             src="https://placecats.com/60/60"
