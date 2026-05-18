@@ -1,6 +1,6 @@
 import { Col, Container, Row } from "react-bootstrap";
 import SidebarStart from "../components/sidebarstart";
-import LavoroMain from "../components-biagio-lavoro/LavoroMain";
+import LavoroMain from "../components/LavoroMain";
 
 const Lavoro = () => {
   return (
