@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom";
 import {
   Navbar as BsNavbar,
   Container,
@@ -6,7 +6,8 @@ import {
   InputGroup,
   Image,
   Dropdown,
-} from "react-bootstrap"
+  ListGroup,
+} from "react-bootstrap";
 import {
   FaLinkedin,
   FaSearch,
@@ -22,24 +23,49 @@ import {
   FaUsers,
   FaChartBar,
   FaCheckCircle,
-} from "react-icons/fa"
+} from "react-icons/fa";
 
-import { useEffect } from "react"
-import { getMyProfileAsync } from "../redux/actions/profileActions"
-import { useDispatch, useSelector } from "react-redux"
-import type { AppDispatch, RootState } from "../redux/store"
+import { useEffect, useState, useRef } from "react";
+import { getMyProfileAsync } from "../redux/actions/profileActions";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../redux/store";
 
-import DropDownTu from "./DropdownTu"
+import DropDownTu from "./DropdownTu";
 
 const Navbar = () => {
-  const dispatch = useDispatch<AppDispatch>()
-  const { myProfile, isLoading, error } = useSelector(
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const { myProfile, allProfiles, isLoading, error } = useSelector(
     (state: RootState) => state.profile,
-  )
+  );
 
   useEffect(() => {
-    dispatch(getMyProfileAsync())
-  }, [dispatch])
+    dispatch(getMyProfileAsync());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const filteredResults = (allProfiles || []).filter((user) =>
+    `${user.name} ${user.surname}`
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase()),
+  );
 
   return (
     <>
@@ -63,15 +89,85 @@ const Navbar = () => {
                 <FaLinkedin />
               </Link>
 
-              <InputGroup size="sm" className="linkedin-search">
-                <InputGroup.Text className="bg-white border-end-0 rounded-start-pill">
-                  <FaSearch />
-                </InputGroup.Text>
-                <Form.Control
-                  placeholder="Qualifica, competenza..."
-                  className="border-start-0 rounded-end-pill shadow-none"
-                />
-              </InputGroup>
+              <div
+                className="position-relative"
+                ref={dropdownRef}
+                style={{ width: "240px" }}
+              >
+                <InputGroup size="sm" className="linkedin-search">
+                  <InputGroup.Text className="bg-white border-end-0 rounded-start-pill">
+                    <FaSearch />
+                  </InputGroup.Text>
+                  <Form.Control
+                    placeholder="Qualifica, competenza..."
+                    className="border-start-0 rounded-end-pill shadow-none"
+                    value={searchQuery}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      setShowDropdown(true);
+                    }}
+                    onFocus={() => setShowDropdown(true)}
+                  />
+                </InputGroup>
+
+                {showDropdown && searchQuery.trim() !== "" && (
+                  <ListGroup
+                    className="position-absolute w-100 shadow-lg mt-1 overflow-auto"
+                    style={{
+                      maxHeight: "280px",
+                      zIndex: 1100,
+                      borderRadius: "8px",
+                    }}
+                  >
+                    {filteredResults.length > 0 ? (
+                      filteredResults.map((user) => (
+                        <ListGroup.Item
+                          key={user._id}
+                          action
+                          className="d-flex align-items-center gap-2 py-2 border-start-0 border-end-0"
+                          onClick={() => {
+                            navigate(`/profilo/${user._id}`);
+                            setShowDropdown(false);
+                            setSearchQuery("");
+                          }}
+                        >
+                          <img
+                            src={user.image || "https://placecats.com/30/30"}
+                            alt={user.name}
+                            className="rounded-circle"
+                            style={{
+                              width: "28px",
+                              height: "28px",
+                              objectFit: "cover",
+                            }}
+                          />
+                          <div
+                            className="d-flex flex-column overflow-hidden"
+                            style={{ lineHeight: "1.2" }}
+                          >
+                            <span
+                              className="fw-semibold text-dark small text-truncate"
+                              style={{ fontSize: "0.82rem" }}
+                            >
+                              {user.name} {user.surname}
+                            </span>
+                            <span
+                              className="text-muted text-truncate"
+                              style={{ fontSize: "0.72rem" }}
+                            >
+                              {user.title || "Membro LinkedIn"}
+                            </span>
+                          </div>
+                        </ListGroup.Item>
+                      ))
+                    ) : (
+                      <ListGroup.Item className="text-muted small py-3 text-center bg-white">
+                        Nessun utente trovato
+                      </ListGroup.Item>
+                    )}
+                  </ListGroup>
+                )}
+              </div>
 
               <InputGroup size="sm" className="linkedin-location">
                 <InputGroup.Text className="bg-white border-end-0 rounded-start-pill">
@@ -256,7 +352,7 @@ const Navbar = () => {
         </BsNavbar>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
