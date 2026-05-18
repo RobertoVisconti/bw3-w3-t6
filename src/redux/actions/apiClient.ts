@@ -10,15 +10,24 @@ export async function customFetch<T>(
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET', 
   body?: unknown
 ): Promise<T> {
-  const headers = {
-    'Authorization': TOKEN,
-    'Content-Type': 'application/json'
+  const headers: Record<string, string> = {
+    'Authorization': TOKEN
   };
 
+  let finalBody: BodyInit | undefined = undefined;
+  if (body) {
+    if (body instanceof FormData) {
+      finalBody = body;
+    } else {
+      headers['Content-Type'] = 'application/json';
+      finalBody = JSON.stringify(body);
+    }
+  };
+     
   const config: RequestInit = {
     method,
     headers,
-    body: body ? JSON.stringify(body) : undefined
+    body: finalBody
   };
 
   const response = await fetch(`${BASE_URL}${endpoint}`, config);
@@ -31,6 +40,7 @@ export async function customFetch<T>(
 
   return await response.json();
 }
+
 
 // // esporto le azioni di GET
 // export const GET_PROFILE_LOADING = 'GET_PROFILE_LOADING';

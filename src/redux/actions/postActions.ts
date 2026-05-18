@@ -36,16 +36,35 @@ export const createPost = (postData: PostInput) => async (dispatch: Dispatch) =>
   }
 };
 
+// per caricare l immagine devo richiamare il form data del create post
+export const uploadPostImage = (postId: string, file: File) => async (dispatch: Dispatch) => {
+  try {
+    const formData = new FormData();
+    formData.append('post', file);
+    const data = await customFetch<Post>(`posts/${postId}`, 'POST', formData);
+    dispatch({ type: UPDATE_POST_SUCCESS, payload: data });
+    
+    return data;
+  } catch (err) {
+    console.error("Errore durante il caricamento dell'immagine:", err);
+    const msg = err instanceof Error ? err.message : 'Errore nel caricamento immagine';
+    dispatch({ type: POST_ERROR, payload: msg });
+    return null;
+  }
+};
+
 export const updatePost = (postId: string, postData: PostInput) => async (dispatch: Dispatch) => {
   dispatch({ type: POST_LOADING });
   try {
     const data = await customFetch<Post>(`posts/${postId}`, 'PUT', postData);
     dispatch({ type: UPDATE_POST_SUCCESS, payload: data });
+    return data;
   } catch (err) {
     const msg = err instanceof Error ? err.message : 'Errore sconosciuto';
     dispatch({ type: POST_ERROR, payload: msg });
   }
 };
+
 
 export const deletePost = (postId: string) => async (dispatch: Dispatch) => {
   dispatch({ type: POST_LOADING });
