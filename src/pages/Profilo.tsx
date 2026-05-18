@@ -1,5 +1,5 @@
 import { Col, Container, Row } from "react-bootstrap"
-import SidebarStart from "../components/sidebarstart"
+
 import MainProfile from "../components/MainProfile"
 
 const Profilo = () => {
