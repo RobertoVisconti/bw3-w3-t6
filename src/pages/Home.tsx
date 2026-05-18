@@ -1,6 +1,6 @@
 import SidebarStart from "../components/sidebarstart";
 import { Col, Container, Row } from "react-bootstrap";
-import MainCenter from "../components-B/MainCenter";
+import MainCenter from "../components-B-colonna-centrale/MainCenter";
 
 import SideBarEnd from "../components/SideBarEnd";
 

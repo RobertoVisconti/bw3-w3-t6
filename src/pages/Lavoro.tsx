@@ -1,5 +1,6 @@
-import { Col, Container, Row } from "react-bootstrap"
-import SidebarStart from "../components/sidebarstart"
+import { Col, Container, Row } from "react-bootstrap";
+import SidebarStart from "../components/sidebarstart";
+import LavoroMain from "../components-biagio-lavoro/LavoroMain";
 
 const Lavoro = () => {
   return (
@@ -10,9 +11,11 @@ const Lavoro = () => {
           <SidebarStart />
         </Col>
         {/* colonna centrale */}
-        <Col md={9}></Col>
+        <Col md={9}>
+          <LavoroMain />
+        </Col>
       </Row>
     </Container>
-  )
-}
-export default Lavoro
+  );
+};
+export default Lavoro;

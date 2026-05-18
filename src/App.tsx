@@ -6,7 +6,8 @@ import Home from "./pages/Home"
 import Navbar from "./components/Navbar"
 import { Provider } from "react-redux"
 import { store } from "./redux/store"
-import Profilo from "./pages/Profilo"
+import { Route, Routes } from "react-router-dom"
+import Lavoro from "./pages/Lavoro"
 
 function App() {
   return (
@@ -16,8 +17,10 @@ function App() {
           <Navbar />
         </header>
         <main className="flex-grow-1">
-          <Home />
-          <Profilo />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/lavoro" element={<Lavoro />} />
+          </Routes>
         </main>
         <footer></footer>
       </div>
