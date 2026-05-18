@@ -1,18 +1,18 @@
 import { Col, Container, Row } from "react-bootstrap"
 import SidebarStart from "../components/sidebarstart"
 
-const Lavoro = () => {
+const Profilo = () => {
   return (
     <Container>
       <Row>
         {/* colonna sinistra */}
-        <Col md={3}>
+        <Col md={9}>
           <SidebarStart />
         </Col>
         {/* colonna centrale */}
-        <Col md={9}></Col>
+        <Col md={3}></Col>
       </Row>
     </Container>
   )
 }
-export default Lavoro
+export default Profilo
