@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FormControl } from "react-bootstrap";
 import {
   PiCaretUpBold,
@@ -8,45 +8,16 @@ import {
 } from "react-icons/pi";
 import { useSelector } from "react-redux";
 import type { RootState } from "../redux/store";
-// Importiamo i tuoi file esistenti con i percorsi corretti per la cartella components
-import { customFetch } from "../redux/actions/apiClient";
-import type { Profile } from "../interfaces/interfaces";
 
 const ChatBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Usiamo uno stato locale visto che il profileReducer gestisce solo 'myProfile'
-  const [profiles, setProfiles] = useState<Profile[]>([]);
-  const [loading, setLoading] = useState(false);
+  const { myProfile, allProfiles, isLoading } = useSelector(
+    (state: RootState) => state.profile,
+  );
 
-  // Prendiamo il tuo profilo da Redux per escluderti dalla lista chat
-  const { myProfile } = useSelector((state: RootState) => state.profile);
-
-  useEffect(() => {
-    const fetchProfiles = async () => {
-      setLoading(true);
-      try {
-        // Sfruttiamo la tua fidata customFetch che ha già URL e Token impostati
-        const data = await customFetch<Profile[]>("profile", "GET");
-        if (data) {
-          setProfiles(data);
-        }
-      } catch (error) {
-        console.error("Errore nel recupero dei profili per la chat:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    // Ottimizzazione: scarica i profili solo quando l'utente clicca per aprire la chat la prima volta
-    if (isOpen && profiles.length === 0) {
-      fetchProfiles();
-    }
-  }, [isOpen, profiles.length]);
-
-  // Filtriamo i profili escludendo te stesso e applicando la ricerca per nome/cognome
-  const filteredChats = profiles.filter(
+  const filteredChats = (allProfiles || []).filter(
     (user) =>
       user._id !== myProfile?._id &&
       `${user.name} ${user.surname}`
@@ -105,7 +76,7 @@ const ChatBar = () => {
         </div>
       </div>
 
-      {/* CORPO CHAT ESPANSO */}
+      {/* CORPO CHAT */}
       {isOpen && (
         <div
           className="d-flex flex-column h-100"
@@ -130,9 +101,9 @@ const ChatBar = () => {
             className="flex-grow-1 overflow-auto bg-white"
             style={{ maxHeight: "350px" }}
           >
-            {loading ? (
+            {isLoading ? (
               <div className="text-center text-muted small mt-4">
-                Caricamento in corso...
+                Caricamento...
               </div>
             ) : filteredChats.length > 0 ? (
               filteredChats.map((user) => (
@@ -141,22 +112,16 @@ const ChatBar = () => {
                   className="d-flex align-items-start gap-2 px-3 py-2 token-chat-row"
                   style={{ cursor: "pointer" }}
                 >
-                  <div className="position-relative flex-shrink-0 mt-0.5">
-                    <img
-                      src={user.image || "https://placecats.com/40/40"}
-                      alt={`${user.name} ${user.surname}`}
-                      className="rounded-circle"
-                      style={{
-                        width: "42px",
-                        height: "42px",
-                        objectFit: "cover",
-                      }}
-                    />
-                    <span
-                      className="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle"
-                      style={{ width: "11px", height: "11px" }}
-                    ></span>
-                  </div>
+                  <img
+                    src={user.image || "https://placecats.com/40/40"}
+                    alt={user.name}
+                    className="rounded-circle"
+                    style={{
+                      width: "42px",
+                      height: "42px",
+                      objectFit: "cover",
+                    }}
+                  />
                   <div className="d-flex flex-column w-100 overflow-hidden">
                     <div className="d-flex justify-content-between align-items-baseline">
                       <span

@@ -5,12 +5,16 @@ import {
   GET_PROFILE_SUCCESS, 
   PUT_PROFILE_ERROR, 
   PUT_PROFILE_LOADING, 
-  PUT_PROFILE_SUCCESS 
+  PUT_PROFILE_SUCCESS,
+  GET_ALL_PROFILES_LOADING,
+  GET_ALL_PROFILES_SUCCESS,
+  GET_ALL_PROFILES_ERROR
 } from "../actions/profileActions";
 import type { ProfileActions } from "../actions/profileActions";
 
 export interface ProfileState {
   myProfile: Profile | null;
+  allProfiles: Profile[];
   isLoading: boolean;
   isUpdating: boolean;
   error: string | null;
@@ -18,6 +22,7 @@ export interface ProfileState {
 
 const initialState: ProfileState = {
   myProfile: null,
+  allProfiles: [],
   isLoading: false,
   isUpdating: false,
   error: null
@@ -68,7 +73,27 @@ export const profileReducer = (state = initialState, action: ProfileActions): Pr
         error: action.payload 
       };
 
+      case GET_ALL_PROFILES_LOADING:
+      return { 
+        ...state, 
+        isLoading: true, 
+        error: null 
+      };
+
+    case GET_ALL_PROFILES_SUCCESS:
+      return { 
+        ...state, 
+        isLoading: false, 
+        allProfiles: action.payload
+        };
+    case GET_ALL_PROFILES_ERROR:
+      return { 
+        ...state, 
+        isLoading: false, 
+        error: action.payload 
+      };
+
     default:
       return state;
   }
-};
+};  

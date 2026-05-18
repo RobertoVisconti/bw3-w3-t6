@@ -9,6 +9,9 @@ export const GET_PROFILE_ERROR = 'GET_PROFILE_ERROR';
 export const PUT_PROFILE_LOADING = 'PUT_PROFILE_LOADING';
 export const PUT_PROFILE_SUCCESS = 'PUT_PROFILE_SUCCESS';
 export const PUT_PROFILE_ERROR = 'PUT_PROFILE_ERROR';
+export const GET_ALL_PROFILES_LOADING = "GET_ALL_PROFILES_LOADING";
+export const GET_ALL_PROFILES_SUCCESS = "GET_ALL_PROFILES_SUCCESS";
+export const GET_ALL_PROFILES_ERROR = "GET_ALL_PROFILES_ERROR";
 
 // Interfacce Azioni
 interface GetProfileLoadingAction { type: typeof GET_PROFILE_LOADING }
@@ -17,11 +20,14 @@ interface GetProfileErrorAction { type: typeof GET_PROFILE_ERROR; payload: strin
 interface PutProfileLoadingAction { type: typeof PUT_PROFILE_LOADING }
 interface PutProfileSuccessAction { type: typeof PUT_PROFILE_SUCCESS; payload: Profile }
 interface PutProfileErrorAction { type: typeof PUT_PROFILE_ERROR; payload: string }
+export interface GetAllProfilesLoadingAction { type: typeof GET_ALL_PROFILES_LOADING }
+export interface GetAllProfilesSuccessAction { type: typeof GET_ALL_PROFILES_SUCCESS; payload: Profile[] }
+export interface GetAllProfilesErrorAction { type: typeof GET_ALL_PROFILES_ERROR; payload: string }
 
 export type ProfileActions =
   | GetProfileLoadingAction | GetProfileSuccessAction | GetProfileErrorAction
-  | PutProfileLoadingAction | PutProfileSuccessAction | PutProfileErrorAction;
-
+  | PutProfileLoadingAction | PutProfileSuccessAction | PutProfileErrorAction
+  | GetAllProfilesLoadingAction | GetAllProfilesSuccessAction | GetAllProfilesErrorAction;
 
 
 export const getMyProfileAsync = () => {
@@ -33,6 +39,23 @@ export const getMyProfileAsync = () => {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Errore sconosciuto';
       dispatch({ type: GET_PROFILE_ERROR, payload: errorMessage });
+    }
+  };
+};
+
+export const getAllProfilesAction = () => {
+  return async (dispatch: Dispatch<ProfileActions>) => {
+    dispatch({ type: GET_ALL_PROFILES_LOADING });
+    try {
+      const data = await customFetch<Profile[]>("profile", "GET");
+      if (data) {
+        dispatch({ type: GET_ALL_PROFILES_SUCCESS, payload: data });
+      } else {
+        dispatch({ type: GET_ALL_PROFILES_ERROR, payload: "Nessun dato ricevuto" });
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Errore sconosciuto';
+      dispatch({ type: GET_ALL_PROFILES_ERROR, payload: errorMessage || "Errore nel caricamento dei profili" });
     }
   };
 };
