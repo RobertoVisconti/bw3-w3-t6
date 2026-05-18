@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import type { AppDispatch, RootState } from "../redux/store"
 
 import { useEffect } from "react"
-import { getMyProfileAsync } from "../redux/actions"
+import { getMyProfileAsync } from "../redux/actions/profileActions"
 import { GoShieldCheck } from "react-icons/go"
 import { Button, Col } from "react-bootstrap"
 import type { FooterLink } from "../components/FooterLinkProfile"
@@ -104,24 +104,6 @@ const DropDownTu = () => {
                 </Col>
               )
             })}
-
-            {/* <div>
-              <p>
-                <b>Account</b>
-              </p>
-              <p>Prova 1 mese di Premium per 0€</p>
-              <p>impostazioni e privacy</p>
-              <p>Guida</p>
-              <p>Lingua</p>
-              <hr />
-              <p>
-                <b>Gestisci</b>
-              </p>
-              <p>Post e aattività</p>
-              <p>Account per la pubblicazione di offerte di lavoro</p>
-              <hr />
-              <p>Esci</p>
-            </div> */}
           </section>
         </>
       )}

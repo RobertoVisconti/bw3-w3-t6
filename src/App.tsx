@@ -1,11 +1,11 @@
-import "./App.css";
-import "./Navbar.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import FooterLinkedin from "./components/FooterLinkedin";
-import Home from "./pages/Home";
-import Navbar from "./components/Navbar";
-import { Provider } from "react-redux";
-import { store } from "./redux/store";
+import "./App.css"
+import "./Navbar.css"
+import "bootstrap/dist/css/bootstrap.min.css"
+
+import Home from "./pages/Home"
+import Navbar from "./components/Navbar"
+import { Provider } from "react-redux"
+import { store } from "./redux/store"
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
         <footer></footer>
       </div>
     </Provider>
-  );
+  )
 }
 
-export default App;
+export default App

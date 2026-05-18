@@ -28,7 +28,8 @@ import { useEffect } from "react"
 import { getMyProfileAsync } from "../redux/actions/profileActions"
 import { useDispatch, useSelector } from "react-redux"
 import type { AppDispatch, RootState } from "../redux/store"
-import LinkedinDropdown from "./DropDown"
+
+import DropDownTu from "./DropdownTu"
 
 const Navbar = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -109,15 +110,29 @@ const Navbar = () => {
                 <span>Notifiche</span>
               </Link>
 
-              <Link to="/profilo" className="linkedin-item">
-                <Image
-                  src={myProfile.image || "/roberto.jpeg"}
-                  roundedCircle
-                  className="linkedin-avatar"
-                  style={{ width: "24px", height: "24px", objectFit: "cover" }}
-                />
-                <LinkedinDropdown />
-              </Link>
+              <Dropdown className="linkedin-business-dropdown">
+                <Dropdown.Toggle
+                  as="div"
+                  className=" button-custom  d-flex flex-column linkedin-item linkedin-business"
+                >
+                  <Image
+                    src={myProfile.image || "/roberto.jpeg"}
+                    roundedCircle
+                    className="linkedin-avatar"
+                    style={{
+                      width: "24px",
+                      height: "24px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <span className="button-custom">
+                    Tu <FaCaretDown className="linkedin-caret " />
+                  </span>
+                  <Dropdown.Menu align="end" className="m-0 p-0">
+                    <DropDownTu />
+                  </Dropdown.Menu>
+                </Dropdown.Toggle>
+              </Dropdown>
 
               <div className="vr mx-2 linkedin-divider"></div>
 
