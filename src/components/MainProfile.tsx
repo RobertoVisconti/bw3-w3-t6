@@ -1,12 +1,11 @@
-import { GoShieldCheck } from "react-icons/go"
-import SidebarStartHome from "./SidebarSartHome"
-import SidebarStartLavoro from "./SidebarStartLavoro"
 import { useDispatch, useSelector } from "react-redux"
 import type { AppDispatch, RootState } from "../redux/store"
 import { useEffect } from "react"
 import { getMyProfileAsync } from "../redux/actions/profileActions"
+import { GoShieldCheck } from "react-icons/go"
+import ButtonLinkedin from "./ButtonLinkedin"
 
-const SidebarStart = () => {
+const MainProfile = () => {
   const dispatch = useDispatch<AppDispatch>()
   const { myProfile, isLoading, error } = useSelector(
     (state: RootState) => state.profile,
@@ -49,31 +48,34 @@ const SidebarStart = () => {
             </div>
             <div>
               <p className="m-0 text-muted">{myProfile.title}</p>
-              <p className="m-0 text-secondary">{myProfile.area}</p>
-            </div>
-            <div className="d-flex align-items-center mt-3">
-              <img
-                src="https://placehold.co/40x30"
-                alt="logo-lavoro"
-                className="me-3"
-              />
-              <p className="p-0 m-0">
-                <b>Attuale Posizione di Lavoro</b>
+              <p className="m-0 text-secondary">
+                {myProfile.area} .{" "}
+                <a href="#" className="fw-bold text-decoration-none">
+                  informazioni di contatto
+                </a>
               </p>
+              <a className="fw-bold text-decoration-none">381 collegamenti</a>
+            </div>
+            <div className="d-flex gap-1">
+              <ButtonLinkedin text="Disponibile per" />
+              <ButtonLinkedin text="Aggiungi sezione" />
+              <ButtonLinkedin text="Migliore profilo" />
+              <ButtonLinkedin text="..." />
+            </div>
+
+            <div className="d-flex align-items-start rounded-2 flex-column  mt-3">
+              <p className="p-0 m-0">
+                <b>Disponibile a lavorare</b>
+              </p>
+              <p>{myProfile.area} | in sede . Ibrido</p>
+              <a href="#" className="text-decoration-none fw-bold">
+                Mostra dettagli
+              </a>
             </div>
           </div>
         </section>
       )}
-
-      {/* ! PAGE LAVORO --> le section successive cambiano nella pagina Lavoro */}
-      {/* ! PAGE HOME ! */}
-      <div>
-        <SidebarStartHome />
-        {/* ! PAGE LAVORO! */}
-        {/* <SidebarStartLavoro /> */}
-      </div>
     </>
   )
 }
-
-export default SidebarStart
+export default MainProfile

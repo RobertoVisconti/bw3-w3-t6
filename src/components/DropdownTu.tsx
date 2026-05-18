@@ -6,6 +6,7 @@ import { getMyProfileAsync } from "../redux/actions/profileActions"
 import { GoShieldCheck } from "react-icons/go"
 import { Button, Col } from "react-bootstrap"
 import type { FooterLink } from "../components/FooterLinkProfile"
+import ButtonLinkedin from "./ButtonLinkedin"
 
 const DropDownTu = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -56,10 +57,7 @@ const DropDownTu = () => {
                 <p className="m-0 text-muted text-wrap">{myProfile.title}</p>
               </div>
             </div>
-
-            <Button className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2">
-              Visualizza profilo
-            </Button>
+            <ButtonLinkedin text="Visualizza profilo" />
 
             {links.slice(0, 5).map((link, i) => {
               return (

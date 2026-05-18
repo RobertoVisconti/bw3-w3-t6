@@ -1,5 +1,6 @@
 import { Col, Container, Row } from "react-bootstrap"
 import SidebarStart from "../components/sidebarstart"
+import MainProfile from "../components/MainProfile"
 
 const Profilo = () => {
   return (
@@ -7,7 +8,7 @@ const Profilo = () => {
       <Row>
         {/* colonna sinistra */}
         <Col md={9}>
-          <SidebarStart />
+          <MainProfile />
         </Col>
         {/* colonna centrale */}
         <Col md={3}></Col>
