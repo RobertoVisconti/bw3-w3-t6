@@ -55,7 +55,7 @@ export const getMyProfileAsync = () => {
 };
 
 //  fetch per modificare il profilo
-export const updateProfileAsync = (profileData: any) => {
+export const updateProfileAsync = (profileData: Profile) => {
   return async (dispatch: Dispatch<ProfileActions>) => {
     dispatch({ type: PUT_PROFILE_LOADING });
     try {
