@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Navbar as BsNavbar, Container, Form, InputGroup, Image } from "react-bootstrap";
 import {FaLinkedin, FaSearch, FaMapMarkerAlt, FaHome, FaUserFriends, FaBriefcase, FaCommentDots, FaBell, FaTh, FaCaretDown,} from "react-icons/fa";
 import "./Navbar.css";
+import robertoImg from "../public/roberto.jpeg";
 
 const Navbar = () => {
   return (
@@ -60,7 +61,7 @@ const Navbar = () => {
           </Link>
 
           <Link to="/profilo" className="linkedin-item">
-            <Image src="https://placehold.co/24x24" roundedCircle  className="linkedin-avatar"/>
+            <Image src={robertoImg} roundedCircle  className="linkedin-avatar"/>
             <span className="linkedin-profile-text">
               Tu <FaCaretDown className="linkedin-caret" />
             </span>
