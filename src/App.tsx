@@ -1,4 +1,6 @@
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import FooterLinkedin from "./ComponentDavide/FooterLinkedin";
 
 function App() {
   // ciao
@@ -6,7 +8,9 @@ function App() {
     <div className="d-flex flex-column min-vh-100">
       <header></header>
       <main className="flex-grow-1"></main>
-      <footer></footer>
+      <footer>
+        <FooterLinkedin></FooterLinkedin>
+      </footer>
     </div>
   );
 }
