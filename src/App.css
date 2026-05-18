@@ -21,3 +21,12 @@
 
   border: 2px solid white;
 }
+
+.bold-link {
+  font-weight: bold;
+}
+
+.buttom-custom {
+  width: fit-content;
+  height: fit-content;
+}

@@ -1,20 +1,21 @@
-import { GoShieldCheck } from "react-icons/go";
-import SidebarStartHome from "./SidebarSartHome";
-import SidebarStartLavoro from "./SidebarStartLavoro";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../redux/store";
-import { useEffect } from "react";
-import { getMyProfileAsync } from "../redux/actions";
+import { GoShieldCheck } from "react-icons/go"
+import SidebarStartHome from "./SidebarSartHome"
+import SidebarStartLavoro from "./SidebarStartLavoro"
+import { useDispatch, useSelector } from "react-redux"
+import type { AppDispatch, RootState } from "../redux/store"
+import { useEffect } from "react"
+import { getMyProfileAsync } from "../redux/actions/profileActions"
+import DropDownTu from "./DropdownTu"
 
 const SidebarStart = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch<AppDispatch>()
   const { myProfile, isLoading, error } = useSelector(
     (state: RootState) => state.profile,
-  );
+  )
 
   useEffect(() => {
-    dispatch(getMyProfileAsync());
-  }, [dispatch]);
+    dispatch(getMyProfileAsync())
+  }, [dispatch])
 
   return (
     <>
@@ -24,6 +25,7 @@ const SidebarStart = () => {
         <div className="text-center my-3">Caricamento profilo...</div>
       )}
       {error && <div className="alert alert-danger">{error}</div>}
+
       {myProfile && (
         <section className="bg-light border border-secondary rounded-3 my-2">
           {/* banner */}
@@ -62,16 +64,18 @@ const SidebarStart = () => {
             </div>
           </div>
         </section>
-      )}{" "}
+      )}
+
       {/* ! PAGE LAVORO --> le section successive cambiano nella pagina Lavoro */}
       {/* ! PAGE HOME ! */}
       <div>
         <SidebarStartHome />
         {/* ! PAGE LAVORO! */}
         {/* <SidebarStartLavoro /> */}
+        <DropDownTu />
       </div>
     </>
-  );
-};
+  )
+}
 
-export default SidebarStart;
+export default SidebarStart

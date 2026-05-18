@@ -7,15 +7,13 @@ const Lavoro = () => {
     <Container>
       <Row>
         {/* colonna sinistra */}
-        <Col md={4}>
+        <Col md={3}>
           <SidebarStart />
         </Col>
         {/* colonna centrale */}
-        <Col md={8}>
-          <LavoroMain />
-        </Col>
+        <Col md={9}></Col>
       </Row>
     </Container>
-  );
-};
-export default Lavoro;
+  )
+}
+export default Lavoro
