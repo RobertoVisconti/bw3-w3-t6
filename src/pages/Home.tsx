@@ -1,5 +1,6 @@
 import { Col, Container, Row } from "react-bootstrap";
-import SidebarStart from "../component_caf/sidebarstart";
+import SidebarStart from "../components/sidebarstart";
+import SideBarEnd from "../components/SideBarEnd";
 
 const Home = () => {
   return (
@@ -7,13 +8,14 @@ const Home = () => {
       <Row>
         {/* colonna sinistra */}
         <Col md={3}>
-        <SidebarStart/>
+          <SidebarStart />
         </Col>
         {/* colonna centrale */}
-        <Col md={6}>
-        </Col>
+        <Col md={6}></Col>
         {/* colonna destra */}
-        <Col md={3}></Col>
+        <Col md={3}>
+          <SideBarEnd />
+        </Col>
       </Row>
     </Container>
   );
