@@ -33,7 +33,7 @@ const SidebarStart = () => {
               className="me-3"
             />
             <p className="p-0 m-0">
-              <b>luogo di lavoro</b>
+              <b>area</b>
             </p>
           </div>
         </div>
