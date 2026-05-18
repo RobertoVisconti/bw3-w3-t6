@@ -1,5 +1,7 @@
 import { Col, Container, Row, Dropdown } from "react-bootstrap";
 
+// Creazione link per il footer profile
+
 interface FooterLink {
   label: string;
   url: string;

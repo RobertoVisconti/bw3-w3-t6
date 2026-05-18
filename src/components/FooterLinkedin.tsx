@@ -4,6 +4,8 @@ import { FooterLinkProfile } from "./FooterLinkProfile";
 import { FooterOpzioniLink } from "./FooterOpzioniLink";
 import { SelezioneLingua } from "./SelezioneLingua";
 
+// Footer per la pagina principale profile
+
 const FooterLinkedin = () => {
   return (
     <Container>

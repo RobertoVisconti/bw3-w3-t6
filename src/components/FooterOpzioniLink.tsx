@@ -1,5 +1,7 @@
 import { Col } from "react-bootstrap";
 
+// Parte del footer con opzioni e i loghi del footer profile
+
 export const FooterOpzioniLink = () => {
   return (
     <Col xs={12} lg={6}>
