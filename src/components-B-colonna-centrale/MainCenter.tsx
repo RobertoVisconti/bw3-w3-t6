@@ -22,5 +22,3 @@ const MainCenter = function () {
 };
 
 export default MainCenter;
-
-

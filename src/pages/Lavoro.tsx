@@ -1,5 +1,6 @@
 import { Col, Container, Row } from "react-bootstrap";
 import SidebarStart from "../components/sidebarstart";
+import LavoroMain from "../components-biagio-lavoro/LavoroMain";
 
 const Lavoro = () => {
   return (
@@ -10,7 +11,9 @@ const Lavoro = () => {
           <SidebarStart />
         </Col>
         {/* colonna centrale */}
-        <Col md={8}></Col>
+        <Col md={8}>
+          <LavoroMain />
+        </Col>
       </Row>
     </Container>
   );
