@@ -1,11 +1,12 @@
+import type { Profile } from "../../interfaces/interfaces";
 import { GET_PROFILE_ERROR, GET_PROFILE_LOADING, GET_PROFILE_SUCCESS, PUT_PROFILE_ERROR, PUT_PROFILE_LOADING, PUT_PROFILE_SUCCESS } from "../actions";
-import { ProfileActions } from "../actions";
+import type { ProfileActions } from "../actions";
 
 
 
 // stato iniziale
 export interface ProfileState {
-    myProfile: any | null;
+    myProfile: Profile | null;
     isLoading: boolean;
     isUpdating: boolean;
     error: string | null;
