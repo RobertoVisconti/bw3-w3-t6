@@ -1,7 +1,7 @@
-import SidebarStart from "../component_caf/SidebarStart/sidebarstart"
-import { Col, Container, Row } from "react-bootstrap"
+import SidebarStart from "../components/sidebarstart";
+import { Col, Container, Row } from "react-bootstrap";
 
-import SideBarEnd from "../components/SideBarEnd"
+import SideBarEnd from "../components/SideBarEnd";
 
 const Home = () => {
   return (
@@ -19,7 +19,7 @@ const Home = () => {
         </Col>
       </Row>
     </Container>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

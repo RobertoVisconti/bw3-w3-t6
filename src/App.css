@@ -1,3 +1,8 @@
+/* css per spingere la freccia dropdown lingue a destra */
+.dropdown-allungato::after {
+  margin-left: auto !important;
+}
+
 .custom-profile-card {
   background-image: url("https://placebear.com/1000/1000");
   background-repeat: no-repeat;

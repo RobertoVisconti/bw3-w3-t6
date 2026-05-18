@@ -1,8 +1,73 @@
+import { Dispatch } from 'redux';
 
+// questa è l'api con la key
+const BASE_URL = 'https://striveschool-api.herokuapp.com/api/profile/';
+const TOKEN = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBhZTM2YjA2YmJlOTAwMTVkZWU1ODQiLCJpYXQiOjE3NzkwOTg0NzUsImV4cCI6MTc4MDMwODA3NX0.-amWlkvhLkyvFEa7toH1UhJxcWNFuvFda6biS6swSVA';
 
-const getProfile =  'https://striveschool-api.herokuapp.com/api/profile/'
-const getMyProfile = 'https://striveschool-api.herokuapp.com/api/profile/me'
-const getSpecProfile = 'https://striveschool-api.herokuapp.com/api/profile/:userId'
-const putProfile = 'https://striveschool-api.herokuapp.com/api/profile/'
+const headers = {
+  'Authorization': TOKEN,
+  'Content-Type': 'application/json'
+};
 
-const key = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBhZTM2YjA2YmJlOTAwMTVkZWU1ODQiLCJpYXQiOjE3NzkwOTg0NzUsImV4cCI6MTc4MDMwODA3NX0.-amWlkvhLkyvFEa7toH1UhJxcWNFuvFda6biS6swSVA'
+// esporto le azioni di GET
+export const GET_PROFILE_LOADING = 'GET_PROFILE_LOADING';
+export const GET_PROFILE_SUCCESS = 'GET_PROFILE_SUCCESS';
+export const GET_PROFILE_ERROR = 'GET_PROFILE_ERROR';
+
+// esporto le azioni di PUT
+export const PUT_PROFILE_LOADING = 'PUT_PROFILE_LOADING';
+export const PUT_PROFILE_SUCCESS = 'PUT_PROFILE_SUCCESS';
+export const PUT_PROFILE_ERROR = 'PUT_PROFILE_ERROR';
+
+// qui ci sono le interfacce per lavorarci sopra
+interface GetProfileLoadingAction { type: typeof GET_PROFILE_LOADING }
+interface GetProfileSuccessAction { type: typeof GET_PROFILE_SUCCESS; payload: any }
+interface GetProfileErrorAction { type: typeof GET_PROFILE_ERROR; payload: string }
+
+interface PutProfileLoadingAction { type: typeof PUT_PROFILE_LOADING }
+interface PutProfileSuccessAction { type: typeof PUT_PROFILE_SUCCESS; payload: any }
+interface PutProfileErrorAction { type: typeof PUT_PROFILE_ERROR; payload: string }
+
+export type ProfileActions = 
+  | GetProfileLoadingAction 
+  | GetProfileSuccessAction 
+  | GetProfileErrorAction
+  | PutProfileLoadingAction
+  | PutProfileSuccessAction
+  | PutProfileErrorAction;
+
+//   fetch per richiamare il mio profilo
+export const getMyProfileAsync = () => {
+  return async (dispatch: Dispatch<ProfileActions>) => {
+    dispatch({ type: GET_PROFILE_LOADING });
+    try {
+      const response = await fetch(`${BASE_URL}me`, { headers });
+      if (!response.ok) throw new Error('Errore nel recupero del profilo');
+      
+      const data = await response.json();
+      dispatch({ type: GET_PROFILE_SUCCESS, payload: data });
+    } catch (error: any) {
+      dispatch({ type: GET_PROFILE_ERROR, payload: error.message });
+    }
+  };
+};
+
+//  fetch per modificare il profilo
+export const updateProfileAsync = (profileData: any) => {
+  return async (dispatch: Dispatch<ProfileActions>) => {
+    dispatch({ type: PUT_PROFILE_LOADING });
+    try {
+      const response = await fetch(BASE_URL, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify(profileData)
+      });
+      if (!response.ok) throw new Error("Errore durante la modifica del profilo");
+
+      const data = await response.json();
+      dispatch({ type: PUT_PROFILE_SUCCESS, payload: data });
+    } catch (error: any) {
+      dispatch({ type: PUT_PROFILE_ERROR, payload: error.message });
+    }
+  };
+};
