@@ -27,41 +27,43 @@ const SidebarStart = () => {
 
       {myProfile && (
         <section className="bg-light border border-secondary rounded-3 my-2 ">
-          {/* banner */}
-          <div
-            className="w-100 custom-profile-card rounded-top-2 position-relative"
-            style={{
-              backgroundImage: 'url("https://placebear.com/1000/1000")',
-            }}
-          >
-            <img
-              src={myProfile.image || "https://placehold.co/30x30"}
-              alt="foto profilo"
-              className="rounded-circle profile-image"
-            />
-          </div>
-          <div className="p-3 pt-5">
-            <div className="d-flex align-items-center">
-              <h1 className="fs-3 m-0 me-2">
-                {myProfile.surname} {myProfile.name}
-              </h1>
-              <GoShieldCheck />
-            </div>
-            <div>
-              <p className="m-0 text-muted">{myProfile.title}</p>
-              <p className="m-0 text-secondary">{myProfile.area}</p>
-            </div>
-            <div className="d-flex align-items-center mt-3">
+          <a href="/profilo" className="text-decoration-none text-black">
+            {/* banner */}
+            <div
+              className="w-100 custom-profile-card rounded-top-2 position-relative"
+              style={{
+                backgroundImage: 'url("https://placebear.com/1000/1000")',
+              }}
+            >
               <img
-                src="https://placehold.co/40x30"
-                alt="logo-lavoro"
-                className="me-3"
+                src={myProfile.image || "https://placehold.co/30x30"}
+                alt="foto profilo"
+                className="rounded-circle profile-image"
               />
-              <p className="p-0 m-0">
-                <b>Attuale Posizione di Lavoro</b>
-              </p>
             </div>
-          </div>
+            <div className="p-3 pt-5">
+              <div className="d-flex align-items-center">
+                <h1 className="fs-3 m-0 me-2">
+                  {myProfile.surname} {myProfile.name}
+                </h1>
+                <GoShieldCheck />
+              </div>
+              <div>
+                <p className="m-0 text-muted">{myProfile.title}</p>
+                <p className="m-0 text-secondary">{myProfile.area}</p>
+              </div>
+              <div className="d-flex align-items-center mt-3">
+                <img
+                  src="https://placehold.co/40x30"
+                  alt="logo-lavoro"
+                  className="me-3"
+                />
+                <p className="p-0 m-0">
+                  <b>Attuale Posizione di Lavoro</b>
+                </p>
+              </div>
+            </div>
+          </a>
         </section>
       )}
 

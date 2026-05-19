@@ -229,10 +229,16 @@ const MainProfile = () => {
         </Modal.Header>
         <Modal.Body className="bg-dark">
           <div className="w-100 justify-content-center d-flex">
-            <img
+            <Image
               src={myProfile?.image}
+              roundedCircle
+              className="linkedin-avatar "
               alt="foto-profilo"
-              className="w-50 rounded-circle "
+              style={{
+                width: "200px",
+                height: "200px",
+                objectFit: "cover",
+              }}
             />
           </div>
           {/* tasto visibilità */}
@@ -241,7 +247,7 @@ const MainProfile = () => {
             <ButtonLinkedin
               to="#"
               text="Chiunque"
-              className="border-0 text-light m-0 p-0"
+              className="border-0 text-light m-0 p-0 bg-transparent"
             />
           </div>
         </Modal.Body>
