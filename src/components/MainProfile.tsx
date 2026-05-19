@@ -4,14 +4,27 @@ import { useEffect, useState } from "react"
 import { getMyProfileAsync } from "../redux/actions/profileActions"
 import { GoShieldCheck } from "react-icons/go"
 import ButtonLinkedin from "./ButtonLinkedin"
-import { IoPencil } from "react-icons/io5"
+import { IoEyeSharp, IoPencil } from "react-icons/io5"
 import ModalePresentazione from "./ModalePresentazione"
+import ProfilePicModal from "./PRofilePicModal"
+import { Button, Modal } from "react-bootstrap"
+import { HiOutlinePencil } from "react-icons/hi"
+import { FaCamera, FaTrashAlt } from "react-icons/fa"
+import { SlPicture } from "react-icons/sl"
 
 const MainProfile = () => {
+  // funzioni modal e presentazioni
   const [showMod, setShowMod] = useState(false)
 
   const handleCloseMod = () => setShowMod(false)
   const handleShowMod = () => setShowMod(true)
+
+  // funzioni modeale pic
+
+  const [showImg, setShowImg] = useState(false)
+
+  const handleCloseImg = () => setShowImg(false)
+  const handleShowImg = () => setShowImg(true)
 
   const dispatch = useDispatch<AppDispatch>()
   const { myProfile, isLoading, error } = useSelector(
@@ -30,7 +43,6 @@ const MainProfile = () => {
         <div className="text-center my-3">Caricamento profilo...</div>
       )}
       {error && <div className="alert alert-danger">{error}</div>}
-
       {myProfile && (
         <section className="bg-light border border-secondary rounded-3 my-2">
           {/* banner */}
@@ -43,9 +55,11 @@ const MainProfile = () => {
             <img
               src={myProfile.image || "https://placehold.co/30x30"}
               alt="foto profilo"
-              className="rounded-circle profile-image"
+              className="rounded-circle profile-image  "
+              onClick={handleShowImg}
             />
           </div>
+
           <div className="p-3 pt-5">
             <div className="d-flex align-items-center justify-content-between">
               <div className="d-flex align-items-center">
@@ -110,6 +124,64 @@ const MainProfile = () => {
           </div>
         </section>
       )}
+
+      {/* modale pic */}
+      <Modal show={showImg} onHide={handleCloseImg}>
+        <Modal.Header closeButton className="bg-dark border-0">
+          <Modal.Title className="text-light">Foto del profilo</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="bg-dark">
+          <div className="w-100 justify-content-center d-flex">
+            <img
+              src={myProfile?.image}
+              alt="foto-profilo"
+              className="w-50 rounded-circle "
+            />
+          </div>
+          {/* tasto visibilità */}
+          <div className="w-25 border rounded-pill border-light mt-3 d-flex align-items-center">
+            <IoEyeSharp className="text-light me-2 ms-2" />
+            <ButtonLinkedin
+              to="#"
+              text="Chiunque"
+              className="border-0 text-light m-0 p-0"
+            />
+          </div>
+        </Modal.Body>
+        <Modal.Footer className="d-flex justify-content-between bg-dark border-0">
+          <div className="d-flex">
+            <Button
+              className="bg-transparent border-0 d-flex flex-column align-items-center"
+              style={{ fontSize: "13px" }}
+            >
+              {" "}
+              <HiOutlinePencil />
+              Modifica
+            </Button>
+            <Button
+              className="bg-transparent border-0 d-flex flex-column align-items-center text-light"
+              style={{ fontSize: "13px" }}
+            >
+              <FaCamera />
+              Aggiorna
+            </Button>
+            <Button
+              className="bg-transparent border-0 d-flex flex-column align-items-center text-light"
+              style={{ fontSize: "13px" }}
+            >
+              <SlPicture />
+              Cornici
+            </Button>
+          </div>
+          <Button
+            className="bg-transparent border-0 d-flex flex-column align-items-center text-light"
+            style={{ fontSize: "13px" }}
+          >
+            <FaTrashAlt />
+            Elimina
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   )
 }
