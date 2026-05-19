@@ -24,6 +24,11 @@ export const getComments = (postId: string) => async (dispatch: Dispatch) => {
       }
     });
 
+   if (response.status === 404) {
+      dispatch({ type: GET_COMMENTS_SUCCESS, payload: { postId, comments: [] } });
+      return [];
+    }
+
     if (!response.ok) throw new Error('Errore nel recupero dei commenti');
 
     const data: Comment[] = await response.json();

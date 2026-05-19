@@ -49,17 +49,17 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
     e.preventDefault();
     if (!newCommentText.trim()) return;
 
-    await dispatch(
-      addComment({
-        comment: newCommentText,
-        rate: "1",
-        elementId: post._id,
-      }),
-    );
+    const commentPayload = {
+      comment: newCommentText,
+      rate: "3",
+      elementId: post._id,
+    };
+
+    await dispatch(addComment(commentPayload));
+
     setNewCommentText("");
   };
 
-  // 🌟 FUNZIONE DI ELIMINAZIONE DIRETTA E SINCRONIZZATA CON REDUX
   const handleDeleteComment = async (commentId: string) => {
     if (window.confirm("Vuoi davvero eliminare questo commento?")) {
       const BASE_URL = "https://striveschool-api.herokuapp.com/api/comments/";
