@@ -16,6 +16,7 @@ import Lavoro from "./pages/Lavoro";
 import Profilo from "./pages/Profilo";
 import ChatBar from "./components/ChatBar";
 import { PaginaErrore } from "./pages/PaginaErrore";
+import { Rete } from "./pages/Rete";
 
 const AppContent = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -35,6 +36,7 @@ const AppContent = () => {
           <Route path="/profilo" element={<Profilo />} />
           <Route path="/profilo/:userId" element={<Profilo />} />
           <Route path="*" element={<PaginaErrore />} />
+          <Route path="/Rete" element={<Rete />}></Route>
         </Routes>
       </main>
       <ChatBar />

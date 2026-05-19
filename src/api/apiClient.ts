@@ -2,16 +2,17 @@
 // import type { Profile } from '../../interfaces/interfaces';
 
 // questa è l'api con la key
-const BASE_URL = 'https://striveschool-api.herokuapp.com/api/'
-const TOKEN = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBhZTM2YjA2YmJlOTAwMTVkZWU1ODQiLCJpYXQiOjE3NzkwOTg0NzUsImV4cCI6MTc4MDMwODA3NX0.-amWlkvhLkyvFEa7toH1UhJxcWNFuvFda6biS6swSVA';
+const BASE_URL = "https://striveschool-api.herokuapp.com/api/";
+const TOKEN =
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBhZTM2YjA2YmJlOTAwMTVkZWU1ODQiLCJpYXQiOjE3NzkwOTg0NzUsImV4cCI6MTc4MDMwODA3NX0.-amWlkvhLkyvFEa7toH1UhJxcWNFuvFda6biS6swSVA";
 
 export async function customFetch<T>(
-  endpoint: string, 
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET', 
-  body?: unknown
+  endpoint: string,
+  method: "GET" | "POST" | "PUT" | "DELETE" = "GET",
+  body?: unknown,
 ): Promise<T> {
   const headers: Record<string, string> = {
-    'Authorization': TOKEN
+    Authorization: TOKEN,
   };
 
   let finalBody: BodyInit | undefined = undefined;
@@ -19,15 +20,15 @@ export async function customFetch<T>(
     if (body instanceof FormData) {
       finalBody = body;
     } else {
-      headers['Content-Type'] = 'application/json';
+      headers["Content-Type"] = "application/json";
       finalBody = JSON.stringify(body);
     }
-  };
-     
+  }
+
   const config: RequestInit = {
     method,
     headers,
-    body: finalBody
+    body: finalBody,
   };
 
   const response = await fetch(`${BASE_URL}${endpoint}`, config);
@@ -36,11 +37,10 @@ export async function customFetch<T>(
     throw new Error(`Errore API: ${response.status}`);
   }
 
-  if (method === 'DELETE') return {} as T;
+  if (method === "DELETE") return {} as T;
 
   return await response.json();
 }
-
 
 // // esporto le azioni di GET
 // export const GET_PROFILE_LOADING = 'GET_PROFILE_LOADING';
@@ -61,9 +61,9 @@ export async function customFetch<T>(
 // interface PutProfileSuccessAction { type: typeof PUT_PROFILE_SUCCESS; payload: Profile }
 // interface PutProfileErrorAction { type: typeof PUT_PROFILE_ERROR; payload: string }
 
-// export type ProfileActions = 
-//   | GetProfileLoadingAction 
-//   | GetProfileSuccessAction 
+// export type ProfileActions =
+//   | GetProfileLoadingAction
+//   | GetProfileSuccessAction
 //   | GetProfileErrorAction
 //   | PutProfileLoadingAction
 //   | PutProfileSuccessAction
@@ -76,7 +76,7 @@ export async function customFetch<T>(
 //     try {
 //       const response = await fetch(`${BASE_URL}me`, { headers });
 //       if (!response.ok) throw new Error('Errore nel recupero del profilo');
-      
+
 //       const data = await response.json();
 //       dispatch({ type: GET_PROFILE_SUCCESS, payload: data });
 //     } catch (error) {
@@ -106,3 +106,41 @@ export async function customFetch<T>(
 //     }
 //   };
 // };
+
+const BASE_URL_JOBS = "https://strive-benchmark.herokuapp.com/api/";
+
+export async function customFetchJobs<T>(
+  endpoint: string,
+  method: "GET" | "POST" | "PUT" | "DELETE" = "GET",
+  body?: unknown,
+): Promise<T> {
+  const headers: Record<string, string> = {
+    Authorization: `Bearer ${TOKEN}`,
+  };
+
+  let finalBody: BodyInit | undefined = undefined;
+  if (body) {
+    if (body instanceof FormData) {
+      finalBody = body;
+    } else {
+      headers["Content-Type"] = "application/json";
+      finalBody = JSON.stringify(body);
+    }
+  }
+
+  const config: RequestInit = {
+    method,
+    headers,
+    body: finalBody,
+  };
+
+  const response = await fetch(`${BASE_URL_JOBS}${endpoint}`, config);
+
+  if (!response.ok) {
+    throw new Error(`Errore API: ${response.status}`);
+  }
+
+  if (method === "DELETE") return {} as T;
+
+  return await response.json();
+}
