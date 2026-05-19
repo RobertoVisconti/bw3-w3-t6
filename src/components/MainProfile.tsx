@@ -1,12 +1,22 @@
 import { useDispatch, useSelector } from "react-redux"
 import type { AppDispatch, RootState } from "../redux/store"
 import { useEffect, useState } from "react"
-import { getMyProfileAsync } from "../redux/actions/profileActions"
+import {
+  getMyProfileAsync,
+  uploadProfileImage,
+} from "../redux/actions/profileActions"
 import { GoShieldCheck } from "react-icons/go"
 import ButtonLinkedin from "./ButtonLinkedin"
 import { IoEyeSharp } from "react-icons/io5"
 import ModalePresentazione from "../components/ModalePresentazione"
-import { Button, Dropdown, Form, FormCheck, Modal } from "react-bootstrap"
+import {
+  Button,
+  Dropdown,
+  Form,
+  FormCheck,
+  Image,
+  Modal,
+} from "react-bootstrap"
 import { HiOutlinePencil } from "react-icons/hi"
 import { FaCamera, FaPen, FaTrashAlt } from "react-icons/fa"
 import { SlPicture } from "react-icons/sl"
@@ -14,6 +24,26 @@ import { AiOutlinePicture } from "react-icons/ai"
 import { IoMdPhotos } from "react-icons/io"
 
 const MainProfile = () => {
+  // funzioni upload Immagine profilo
+  const [showUpPic, setShowUpPic] = useState(false)
+
+  const handleCloseUpPic = () => setShowUpPic(false)
+  const handleShowUpPic = () => setShowUpPic(true)
+
+  // update
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [preview, setPreview] = useState<string | null>(null)
+
+  const handleUpload = async () => {
+    if (!selectedFile || !myProfile?._id) return
+
+    await dispatch(uploadProfileImage(myProfile._id, selectedFile))
+
+    setSelectedFile(null)
+    setPreview(null)
+    handleCloseImg()
+  }
+
   // funzioni modal e presentazioni
   const [showMod, setShowMod] = useState(false)
 
@@ -225,13 +255,20 @@ const MainProfile = () => {
               <HiOutlinePencil />
               Modifica
             </Button>
+
+            {/* caricamento immagine */}
             <Button
               className="bg-transparent border-0 d-flex flex-column align-items-center text-light"
               style={{ fontSize: "13px" }}
+              onClick={() => {
+                handleCloseImg()
+                handleShowUpPic()
+              }}
             >
               <FaCamera />
               Aggiorna
             </Button>
+            {/* fine caricamento imggagine */}
             <Button
               className="bg-transparent border-0 d-flex flex-column align-items-center text-light"
               style={{ fontSize: "13px" }}
@@ -370,14 +407,14 @@ const MainProfile = () => {
             <Form className="mt-3">
               <FormCheck
                 type="radio"
-                name="group1"
+                name="dataDiInizio"
                 label="Immediatamente, sto attivamente cercando lavoro"
                 id="available"
               />
 
               <FormCheck
                 type="radio"
-                name="group1"
+                name="dataDiInizio"
                 label="Flessibile, do occasionalmente un'occhiata"
                 id="flexible"
               />
@@ -429,14 +466,14 @@ const MainProfile = () => {
             <Form className="mt-3">
               <FormCheck
                 type="radio"
-                name="group1"
+                name="visibilità"
                 label="Solo recruiter"
                 id="available"
               />
 
               <FormCheck
                 type="radio"
-                name="group1"
+                name="visibilità"
                 label="Tutti gli utenti LinkedIn"
                 id="flexible"
               />
@@ -457,6 +494,70 @@ const MainProfile = () => {
             className="rounded-pill m-0 py-0 "
           >
             Salva
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* modal Caricamento Foto */}
+      <Modal show={showUpPic} onHide={handleCloseUpPic}>
+        <Modal.Header closeButton className="bg-dark border-0">
+          <Modal.Title className="text-light">Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="bg-dark">
+          <Form.Group>
+            <Form.Label
+              onClick={handleUpload}
+              className="w-100 d-flex justify-content-center"
+            >
+              {preview && (
+                <Image
+                  src={preview}
+                  roundedCircle
+                  className="linkedin-avatar "
+                  alt="preview"
+                  style={{
+                    width: "200px",
+                    height: "200px",
+                    objectFit: "cover",
+                  }}
+                />
+              )}
+            </Form.Label>
+
+            <Form.Control
+              className="bg-transparent text-light border-0 border-bottom  "
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files?.[0]
+                if (!file) return
+
+                setSelectedFile(file)
+
+                setPreview(URL.createObjectURL(file))
+              }}
+            />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer className="bg-dark border-0 d-flex justify-content-between">
+          <Button
+            className="bg-transparent border-0 d-flex flex-column align-items-center text-light"
+            style={{ fontSize: "13px" }}
+            onClick={handleCloseUpPic}
+          >
+            <FaTrashAlt />
+            Elimina
+          </Button>
+          <Button
+            className="bg-transparent border-0 d-flex flex-column align-items-center text-light"
+            style={{ fontSize: "13px" }}
+            onClick={() => {
+              handleUpload()
+              handleCloseUpPic()
+            }}
+          >
+            <FaCamera />
+            Aggiorna
           </Button>
         </Modal.Footer>
       </Modal>
