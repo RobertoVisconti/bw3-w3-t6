@@ -23,14 +23,17 @@ const Login = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg("");
+    const emailValida = "robertovisconti93@gmail.com";
+    const passwordValida = "Epicode2026";
 
-    // Validazione front-end: accettiamo qualsiasi email valida per superare il finto form
-    if (email.includes("@")) {
+    if (email === emailValida && password === passwordValida) {
       console.log("Login effettuato con successo!");
       localStorage.setItem("isLoggedIn", "true");
-      navigate("/"); // Sposta l'utente sulla rotta radice dell'app
+      navigate("/");
     } else {
-      setErrorMsg("Inserisci un indirizzo email valido.");
+      setErrorMsg(
+        "Email o password non valide. Usa l'indirizzo associato al tuo profilo Epicode.",
+      );
     }
   };
 
