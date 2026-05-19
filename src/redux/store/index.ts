@@ -15,6 +15,11 @@ const mainReducer = combineReducers({
 
 export const store = configureStore({
   reducer: mainReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+      immutableCheck: false,    
+    }),
 });
 
 // li prendo da redux/toolkit, servono per dichiarare le azioni

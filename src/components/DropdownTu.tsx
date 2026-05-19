@@ -4,7 +4,7 @@ import type { AppDispatch, RootState } from "../redux/store";
 import { useEffect } from "react";
 import { getMyProfileAsync } from "../redux/actions/profileActions";
 import { GoShieldCheck } from "react-icons/go";
-import { Button, Col } from "react-bootstrap";
+import { Col } from "react-bootstrap";
 import type { FooterLink } from "../components/FooterLinkProfile";
 import ButtonLinkedin from "./ButtonLinkedin";
 

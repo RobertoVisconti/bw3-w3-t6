@@ -2,9 +2,9 @@ import "./App.css";
 import "./Navbar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import type { AppDispatch } from "./redux/store";
@@ -21,14 +21,38 @@ import Login from "./pages/Login";
 
 const AppContent = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    () => localStorage.getItem("isLoggedIn") === "true",
+  );
+
   useEffect(() => {
-    dispatch(getAllProfilesAction());
-  }, [dispatch]);
+    const loggedStatus = localStorage.getItem("isLoggedIn") === "true";
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsLoggedIn(loggedStatus);
+
+    if (!loggedStatus && location.pathname !== "/login") {
+      navigate("/login");
+    }
+  }, [location.pathname, navigate]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(getAllProfilesAction());
+    }
+  }, [dispatch, isLoggedIn]);
+
+  const isLoginPage = location.pathname === "/login";
+
   return (
     <div className="d-flex flex-column min-vh-100">
-      <header>
-        <Navbar />
-      </header>
+      {!isLoginPage && (
+        <header>
+          <Navbar />
+        </header>
+      )}
 
       <main className="flex-grow-1">
         <Routes>
@@ -37,11 +61,13 @@ const AppContent = () => {
           <Route path="/lavoro" element={<Lavoro />} />
           <Route path="/profilo" element={<Profilo />} />
           <Route path="/profilo/:userId" element={<Profilo />} />
+          <Route path="/Rete" element={<Rete />} />
           <Route path="*" element={<PaginaErrore />} />
-          <Route path="/Rete" element={<Rete />}></Route>
         </Routes>
       </main>
-      <ChatBar />
+
+      {/* Mostra la ChatBar solo se l'utente è loggato e fuori dal login */}
+      {!isLoginPage && <ChatBar />}
       <footer></footer>
     </div>
   );

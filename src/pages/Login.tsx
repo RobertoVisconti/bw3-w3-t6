@@ -1,25 +1,21 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Card, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import type { RootState } from "../redux/store";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const navigate = useNavigate();
 
-  const { myProfile } = useSelector((state: RootState) => state.profile);
-
   useEffect(() => {
-    const userHasLogged = localStorage.getItem("isLoggedIn");
-
-    if (userHasLogged === "true") {
+    // Se l'utente risulta già loggato nel localStorage, mandalo direttamente alla Home "/"
+    const userHasLogged = localStorage.getItem("isLoggedIn") === "true";
+    if (userHasLogged) {
       navigate("/");
     }
   }, [navigate]);
@@ -28,16 +24,13 @@ const Login = () => {
     e.preventDefault();
     setErrorMsg("");
 
-    if (myProfile && email.toLowerCase() === myProfile.email.toLowerCase()) {
-      console.log("Primo Login effettuato con successo!");
-
+    // Validazione front-end: accettiamo qualsiasi email valida per superare il finto form
+    if (email.includes("@")) {
+      console.log("Login effettuato con successo!");
       localStorage.setItem("isLoggedIn", "true");
-
-      navigate("/");
+      navigate("/"); // Sposta l'utente sulla rotta radice dell'app
     } else {
-      setErrorMsg(
-        "Email non valida. Usa l'indirizzo associato al tuo profilo Epicode.",
-      );
+      setErrorMsg("Inserisci un indirizzo email valido.");
     }
   };
 
@@ -46,7 +39,6 @@ const Login = () => {
       fluid
       className="vh-100 bg-white bg-sm-light d-flex flex-column p-0"
     >
-      {/* Header*/}
       <header className="p-3 p-sm-5 ms-0 ms-sm-5 text-start">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +51,6 @@ const Login = () => {
         </svg>
       </header>
 
-      {/* Zona Centrale di Login */}
       <main className="d-flex flex-grow-1 align-items-start align-items-sm-center justify-content-center pb-5">
         <div className="w-100 px-3 px-sm-0" style={{ maxWidth: "400px" }}>
           <Card className="border-0 border-sm bg-transparent bg-sm-white rounded-0 rounded-sm-4 shadow-none shadow-sm-sm p-2 p-sm-4">
@@ -70,6 +61,7 @@ const Login = () => {
               <p className="text-muted small mb-4 text-center">
                 Resta aggiornato sul tuo mondo professionale
               </p>
+
               {errorMsg && (
                 <div
                   className="alert alert-danger py-2 small text-start border-0 rounded-3 mb-3"
@@ -79,7 +71,6 @@ const Login = () => {
                 </div>
               )}
 
-              {/* Form Principale */}
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="loginEmail">
                   <Form.Control
@@ -87,7 +78,7 @@ const Login = () => {
                     placeholder="Inserisci email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="py-2.5 border-secondary-subtle text-dark focus-ring focus-ring-primary"
+                    className="py-2.5 border-secondary-subtle text-dark"
                     required
                   />
                 </Form.Group>
@@ -98,7 +89,7 @@ const Login = () => {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="py-2.5 border-secondary-subtle text-dark focus-ring focus-ring-primary"
+                    className="py-2.5 border-secondary-subtle text-dark"
                     required
                   />
                 </Form.Group>
@@ -131,18 +122,16 @@ const Login = () => {
                 <hr className="flex-grow-1 border-secondary-subtle my-0" />
               </div>
 
-              {/* Pulsanti Social */}
               <div className="d-flex flex-column gap-2 mb-4">
                 <Button
                   variant="outline-secondary"
-                  className="w-100 rounded-5 py-2 d-flex align-items-center justify-content-center gap-2 border-secondary-subtle text-dark bg-white hover-bg-light fw-medium"
+                  className="w-100 rounded-5 py-2 d-flex align-items-center justify-content-center gap-2 border-secondary-subtle text-dark bg-white fw-medium"
                 >
                   <FcGoogle size={20} /> Accedi con Google
                 </Button>
-
                 <Button
                   variant="outline-secondary"
-                  className="w-100 rounded-5 py-2 d-flex align-items-center justify-content-center gap-2 border-secondary-subtle text-dark bg-white hover-bg-light fw-medium"
+                  className="w-100 rounded-5 py-2 d-flex align-items-center justify-content-center gap-2 border-secondary-subtle text-dark bg-white fw-medium"
                 >
                   <FaApple size={20} className="text-dark" /> Accedi con Apple
                 </Button>
