@@ -47,15 +47,18 @@ export const commentsReducer = (
         postId: string;
         comments: Comment[];
       };
-      return {
-        ...state,
-        isLoading: false,
-        commentsByPost: {
-          ...state.commentsByPost,
-          [postId]: comments,
-          },
-      };
-    }
+      const existingComments = state.commentsByPost[postId] || [];
+      const finalComments = comments.length === 0 ? existingComments : comments;
+
+       return {
+       ...state,
+       isLoading: false,
+       commentsByPost: {
+        ...state.commentsByPost,
+        [postId]: finalComments,
+      },
+  };
+}
     
     case ADD_COMMENT_SUCCESS: {
       const newComment = action.payload as Comment;

@@ -16,7 +16,7 @@ export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
 export const getComments = (postId: string) => async (dispatch: Dispatch) => {
   dispatch({ type: COMMENTS_LOADING });
   try {
-    const response = await fetch(`${BASE_URL}${postId}`, {
+    const response = await fetch(`https://striveschool-api.herokuapp.com/api/comments/`, {
       method: 'GET',
       headers: {
         'Authorization': TOKEN,
@@ -26,9 +26,13 @@ export const getComments = (postId: string) => async (dispatch: Dispatch) => {
 
     if (!response.ok) throw new Error('Errore nel recupero dei commenti');
 
-    const data: Comment[] = await response.json();
-    dispatch({ type: GET_COMMENTS_SUCCESS, payload: { postId, comments: data } });
-    return data;
+    const allComments: Comment[] = await response.json();
+    
+    // 🌟 FILTRO FRONT-END: Teniamo solo i commenti legati a QUESTO post specifico
+    const filteredComments = allComments.filter(c => c.elementId === postId);
+
+    dispatch({ type: GET_COMMENTS_SUCCESS, payload: { postId, comments: filteredComments } });
+    return filteredComments;
   } catch (err) {
     const msg = err instanceof Error ? err.message : 'Errore sconosciuto';
     dispatch({ type: COMMENTS_ERROR, payload: msg });

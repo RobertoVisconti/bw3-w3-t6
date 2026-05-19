@@ -8,7 +8,11 @@ import {
   PUT_PROFILE_SUCCESS,
   GET_ALL_PROFILES_LOADING,
   GET_ALL_PROFILES_SUCCESS,
-  GET_ALL_PROFILES_ERROR
+  GET_ALL_PROFILES_ERROR,
+  UPLOAD_IMAGE_LOADING,
+  UPLOAD_IMAGE_SUCCESS,
+  UPLOAD_IMAGE_ERROR
+
 } from "../actions/profileActions";
 import type { ProfileActions } from "../actions/profileActions";
 
@@ -92,6 +96,28 @@ export const profileReducer = (state = initialState, action: ProfileActions): Pr
         isLoading: false, 
         error: action.payload 
       };
+    
+    case UPLOAD_IMAGE_LOADING:
+      return {
+        ...state,
+        isUpdating: true,
+        error: null
+      };
+
+    case UPLOAD_IMAGE_SUCCESS:
+      return {
+        ...state,
+        isUpdating: false,
+        myProfile: action.payload
+        };
+    
+    case UPLOAD_IMAGE_ERROR:
+      return {
+        ...state,
+        isUpdating: false,
+        error: action.payload
+      };
+
 
     default:
       return state;
