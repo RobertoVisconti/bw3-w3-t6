@@ -1,5 +1,6 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { ReteSidebar } from "../components/ReteSidebar";
+import { MainRete } from "../components/MainRete";
 
 export const Rete = () => {
   return (
@@ -12,7 +13,9 @@ export const Rete = () => {
         </Col>
 
         {/* main rete */}
-        <Col xs={12} md={8} lg={9}></Col>
+        <Col xs={12} md={8} lg={9}>
+          <MainRete></MainRete>
+        </Col>
       </Row>
     </Container>
   );
