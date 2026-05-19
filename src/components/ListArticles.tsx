@@ -29,25 +29,29 @@ const ListArticle = function () {
     setVisibleCount(5);
   }, [posts]);
 
-  const randomPosts = useMemo(() => {
+  const chronologicalPosts = useMemo(() => {
     if (!posts || posts.length === 0) return [];
-    // eslint-disable-next-line react-hooks/purity
-    return [...posts].sort(() => Math.random() - 0.5);
+
+    return [...posts].sort((a, b) => {
+      const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+      const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+      return dateB - dateA; // così renderizzo l ultimo post creato in cima alla pagina
+    });
   }, [posts]);
 
   const displayedPosts = useMemo(() => {
-    return randomPosts.slice(0, visibleCount);
-  }, [randomPosts, visibleCount]);
+    return chronologicalPosts.slice(0, visibleCount);
+  }, [chronologicalPosts, visibleCount]);
 
   useEffect(() => {
-    if (isLoading || isLocalLoading || randomPosts.length === 0) return;
+    if (isLoading || isLocalLoading || chronologicalPosts.length === 0) return;
 
     const currentRef = observerRef.current;
 
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          if (visibleCount < randomPosts.length) {
+          if (visibleCount < chronologicalPosts.length) {
             setIsLocalLoading(true);
 
             // Ritardo di 1 secondo prima di mostrare i nuovi post
@@ -70,7 +74,7 @@ const ListArticle = function () {
         observer.unobserve(currentRef);
       }
     };
-  }, [isLoading, isLocalLoading, randomPosts.length, visibleCount]);
+  }, [isLoading, isLocalLoading, chronologicalPosts.length, visibleCount]);
 
   return (
     <Col className="my-3 rounded-2 p-0">
@@ -101,12 +105,14 @@ const ListArticle = function () {
           </div>
         )}
 
-        {!isLoading && !isLocalLoading && visibleCount < randomPosts.length && (
-          <div
-            ref={observerRef}
-            style={{ height: "30px", background: "transparent" }}
-          />
-        )}
+        {!isLoading &&
+          !isLocalLoading &&
+          visibleCount < chronologicalPosts.length && (
+            <div
+              ref={observerRef}
+              style={{ height: "30px", background: "transparent" }}
+            />
+          )}
 
         {/* Messaggio se l'array è vuoto */}
         {!isLoading && posts.length === 0 && !error && (

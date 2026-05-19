@@ -1,5 +1,5 @@
 import type { Dispatch } from 'redux';
-import { customFetch } from './apiClient';
+import { customFetch } from '../../api/apiClient';
 import type { Experience } from '../../interfaces/interfaces';
 
 export const EXP_LOADING = 'EXP_LOADING';

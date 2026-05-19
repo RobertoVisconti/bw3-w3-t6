@@ -1,5 +1,5 @@
 import type { Dispatch } from 'redux';
-import { customFetch } from './apiClient';
+import { customFetch } from '../../api/apiClient';
 import type { Post } from '../../interfaces/interfaces';
 
 export const POST_LOADING = 'POST_LOADING';
@@ -30,6 +30,7 @@ export const createPost = (postData: PostInput) => async (dispatch: Dispatch) =>
   try {
     const data = await customFetch<Post>('posts/', 'POST', postData);
     dispatch({ type: CREATE_POST_SUCCESS, payload: data });
+    return data;
   } catch (err) {
     const msg = err instanceof Error ? err.message : 'Errore sconosciuto';
     dispatch({ type: POST_ERROR, payload: msg });

@@ -1,5 +1,5 @@
 import type { Dispatch } from 'redux';
-import { customFetch } from './apiClient'; 
+import { customFetch } from '../../api/apiClient'; 
 import type { Profile, UpdateProfileInput } from '../../interfaces/interfaces';
 
 // Costanti d'azione
