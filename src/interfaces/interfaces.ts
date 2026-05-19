@@ -99,9 +99,9 @@ export interface JobsState {
 export interface Comment {
   _id: string;
   comment: string;
-  rate: string;
+  rate: number;
   elementId: string;
-  commentator: string;
+  author: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -114,6 +114,6 @@ export interface CommentState {
 
 export interface CommentInput {
   comment: string;
-  rate: string;
+  rate: number;
   elementId: string;
 }
