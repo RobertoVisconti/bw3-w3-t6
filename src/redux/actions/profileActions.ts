@@ -12,6 +12,9 @@ export const PUT_PROFILE_ERROR = 'PUT_PROFILE_ERROR';
 export const GET_ALL_PROFILES_LOADING = "GET_ALL_PROFILES_LOADING";
 export const GET_ALL_PROFILES_SUCCESS = "GET_ALL_PROFILES_SUCCESS";
 export const GET_ALL_PROFILES_ERROR = "GET_ALL_PROFILES_ERROR";
+export const UPLOAD_IMAGE_LOADING = 'UPLOAD_IMAGE_LOADING';
+export const UPLOAD_IMAGE_SUCCESS = 'UPLOAD_IMAGE_SUCCESS';
+export const UPLOAD_IMAGE_ERROR = 'UPLOAD_IMAGE_ERROR';
 
 // Interfacce Azioni
 interface GetProfileLoadingAction { type: typeof GET_PROFILE_LOADING }
@@ -20,15 +23,18 @@ interface GetProfileErrorAction { type: typeof GET_PROFILE_ERROR; payload: strin
 interface PutProfileLoadingAction { type: typeof PUT_PROFILE_LOADING }
 interface PutProfileSuccessAction { type: typeof PUT_PROFILE_SUCCESS; payload: Profile }
 interface PutProfileErrorAction { type: typeof PUT_PROFILE_ERROR; payload: string }
-export interface GetAllProfilesLoadingAction { type: typeof GET_ALL_PROFILES_LOADING }
-export interface GetAllProfilesSuccessAction { type: typeof GET_ALL_PROFILES_SUCCESS; payload: Profile[] }
-export interface GetAllProfilesErrorAction { type: typeof GET_ALL_PROFILES_ERROR; payload: string }
+interface GetAllProfilesLoadingAction { type: typeof GET_ALL_PROFILES_LOADING }
+interface GetAllProfilesSuccessAction { type: typeof GET_ALL_PROFILES_SUCCESS; payload: Profile[] }
+interface GetAllProfilesErrorAction { type: typeof GET_ALL_PROFILES_ERROR; payload: string }
+interface UploadImageLoadingAction { type: typeof UPLOAD_IMAGE_LOADING }
+interface UploadImageSuccessAction { type: typeof UPLOAD_IMAGE_SUCCESS; payload: Profile }
+interface UploadImageErrorAction { type: typeof UPLOAD_IMAGE_ERROR; payload: string }
 
 export type ProfileActions =
   | GetProfileLoadingAction | GetProfileSuccessAction | GetProfileErrorAction
   | PutProfileLoadingAction | PutProfileSuccessAction | PutProfileErrorAction
-  | GetAllProfilesLoadingAction | GetAllProfilesSuccessAction | GetAllProfilesErrorAction;
-
+  | GetAllProfilesLoadingAction | GetAllProfilesSuccessAction | GetAllProfilesErrorAction
+  | UploadImageLoadingAction | UploadImageSuccessAction | UploadImageErrorAction;
 
 export const getMyProfileAsync = () => {
   return async (dispatch: Dispatch<ProfileActions>) => {
