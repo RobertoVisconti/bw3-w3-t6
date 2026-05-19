@@ -15,6 +15,7 @@ import Navbar from "./components/Navbar";
 import Lavoro from "./pages/Lavoro";
 import Profilo from "./pages/Profilo";
 import ChatBar from "./components/ChatBar";
+import { PaginaErrore } from "./pages/PaginaErrore";
 
 const AppContent = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -33,6 +34,7 @@ const AppContent = () => {
           <Route path="/lavoro" element={<Lavoro />} />
           <Route path="/profilo" element={<Profilo />} />
           <Route path="/profilo/:userId" element={<Profilo />} />
+          <Route path="*" element={<PaginaErrore />} />
         </Routes>
       </main>
       <ChatBar />

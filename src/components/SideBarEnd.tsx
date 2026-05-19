@@ -4,6 +4,7 @@ import { IoMdInformationCircleOutline } from "react-icons/io"
 import { IoChevronDownOutline, IoChevronForwardOutline } from "react-icons/io5"
 
 import { FooterMiniGenerale } from "./FooterMiniGenerale"
+import EndSidebarEnd from "./endSidebarEnd"
 
 const SideBarEnd = () => {
   const newsData = [
@@ -340,7 +341,9 @@ const SideBarEnd = () => {
           </div>
         </div>
       </Container>
-      <div>
+
+      <div className="position-sticky" style={{ top: "10px" }}>
+        <EndSidebarEnd />
         <FooterMiniGenerale></FooterMiniGenerale>
       </div>
     </>

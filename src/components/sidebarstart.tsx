@@ -17,7 +17,7 @@ const SidebarStart = () => {
   }, [dispatch])
 
   return (
-    <>
+    <div className="position-sticky" style={{ top: "10px" }}>
       {/* section profilo */}
       {/* ! PAGE LAVORO --> la section profilo rimane invariata al cambio tra Home e Lavoro */}
       {isLoading && (
@@ -26,7 +26,7 @@ const SidebarStart = () => {
       {error && <div className="alert alert-danger">{error}</div>}
 
       {myProfile && (
-        <section className="bg-light border border-secondary rounded-3 my-2">
+        <section className="bg-light border border-secondary rounded-3 my-2 ">
           {/* banner */}
           <div
             className="w-100 custom-profile-card rounded-top-2 position-relative"
@@ -72,7 +72,7 @@ const SidebarStart = () => {
         {/* ! PAGE LAVORO! */}
         {/* <SidebarStartLavoro /> */}
       </div>
-    </>
+    </div>
   )
 }
 

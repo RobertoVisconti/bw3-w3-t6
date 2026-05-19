@@ -95,3 +95,25 @@ export interface JobsState {
   isLoading: boolean;
   error: string | null;
 }
+// interfaccia commenti
+export interface Comment {
+  _id: string;
+  comment: string;
+  rate: string;
+  elementId: string;
+  commentator: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CommentState {
+  commentsByPost: Record<string, Comment[]>;
+  isLoading: boolean;
+  error: string | null;
+}
+
+export interface CommentInput {
+  comment: string;
+  rate: string;
+  elementId: string;
+}

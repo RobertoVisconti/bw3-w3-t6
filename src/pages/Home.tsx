@@ -1,19 +1,19 @@
-import SidebarStart from "../components/sidebarstart";
-import { Col, Container, Row } from "react-bootstrap";
-import MainCenter from "../components/MainCenter";
+import SidebarStart from "../components/sidebarstart"
+import { Col, Container, Row } from "react-bootstrap"
+import MainCenter from "../components/MainCenter"
 
-import SideBarEnd from "../components/SideBarEnd";
+import SideBarEnd from "../components/SideBarEnd"
 
 const Home = () => {
   return (
-    <Container fluid>
+    <Container>
       <Row>
         {/* colonna sinistra */}
         <Col md={3}>
           <SidebarStart />
         </Col>
         {/* colonna centrale */}
-        <Col md={6} style={{ height: "100vh" }}>
+        <Col md={6} style={{ minHeight: "100vh" }}>
           <MainCenter />
         </Col>
         {/* colonna destra */}
@@ -22,7 +22,7 @@ const Home = () => {
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
