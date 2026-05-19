@@ -43,7 +43,7 @@ const LavoroMain = function () {
                   .filter((job) => job.company_logo_url)
                   .slice(0, visualizzati)
                   .map((job: Job) => {
-                    return <SingleLavoro job={job} />;
+                    return <SingleLavoro job={job} key={job._id} />;
                   })}
               </Col>
             </Row>
@@ -89,7 +89,7 @@ const LavoroMain = function () {
                   .filter((job) => job.company_logo_url)
                   .slice(0, visualizzatiRandom)
                   .map((job: job) => {
-                    return <SingleLavoro job={job} />;
+                    return <SingleLavoro job={job} key={job._id} />;
                   })}
               </Col>
             </Row>
