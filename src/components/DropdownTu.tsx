@@ -57,7 +57,11 @@ const DropDownTu = () => {
                 <p className="m-0 text-muted text-wrap">{myProfile.title}</p>
               </div>
             </div>
-            <ButtonLinkedin text="Visualizza profilo" />
+            <ButtonLinkedin
+              text="Visualizza profilo"
+              className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2 "
+              to="/profilo"
+            />
 
             {links.slice(0, 5).map((link, i) => {
               return (
