@@ -1,4 +1,5 @@
-import { Button } from "react-bootstrap";
+// import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { FooterMiniGenerale } from "./FooterMiniGenerale";
 
 interface LinkFormat {
@@ -42,6 +43,7 @@ export const ReteSidebar = () => {
 
   return (
     <section className="">
+      {/* Box con i ling della sidebar */}
       <article className="bg-light border border-secondary my-2 pb-2 rounded-2">
         <h6 className="mx-n4 w-auto border-bottom border-secondary-subtle py-3 px-4">
           Gestsci la tua rete
@@ -60,7 +62,9 @@ export const ReteSidebar = () => {
           ))}
         </div>
       </article>
-      <article className="border border-secondary">
+      {/* Box annunci pubblicitari */}
+      {/* <article className="border border-secondary">
+     
         <div className="position-relative">
           {" "}
           <img
@@ -76,6 +80,7 @@ export const ReteSidebar = () => {
             Promosso <i className="fas fa-ellipsis-h"></i>
           </Button>
         </div>
+     
         <div
           className="justify-content-center gap-3 d-flex position-relative"
           style={{ marginTop: "-10px", zIndex: "3" }}
@@ -96,6 +101,15 @@ export const ReteSidebar = () => {
             Segui
           </Button>
         </div>
+      </article> */}
+      <article>
+        <Link to="/Lavoro">
+          <img
+            src="/JobImg.png"
+            alt="Job Advertisement"
+            className="w-100 h-auto my-2"
+          />
+        </Link>
       </article>
       <FooterMiniGenerale />
     </section>
