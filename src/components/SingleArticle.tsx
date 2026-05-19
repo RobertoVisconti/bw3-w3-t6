@@ -51,7 +51,7 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
 
     const commentPayload = {
       comment: newCommentText,
-      rate: "3",
+      rate: 3,
       elementId: post._id,
     };
 
@@ -263,7 +263,7 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
                 <div className="flex-grow-1 position-relative">
                   <div className="d-flex flex-column bg-white p-2 rounded-3 border border-light shadow-xs">
                     <span className="fw-bold small text-dark">
-                      {commento.commentator}
+                      {commento.author}
                     </span>
                     <span
                       className="text-secondary"
@@ -280,10 +280,10 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
                   </div>
 
                   {/* Cestino visibile solo se l'utente loggato è l'autore effettivo del commento */}
-                  {myProfile && commento.commentator === myProfile.email && (
+                  {myProfile && commento.author === myProfile.email && (
                     <button
                       onClick={() => handleDeleteComment(commento._id)}
-                      className="btn btn-link text-danger position-absolute end-0 top-0 m-1 p-1 hover-opacity border-0"
+                      className="btn btn-link text-danger position-absolute end-0 top-0 m-1 p-1 border-0"
                     >
                       <FaTrashAlt size={14} />
                     </button>
