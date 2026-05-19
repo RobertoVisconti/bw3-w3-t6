@@ -24,7 +24,10 @@ export interface ProfileState {
 }
 
 // qui ci sono i dati per l'aggiornamento profilo
-export type UpdateProfileInput = Omit<Profile, '_id' | 'username' | 'createdAt' | 'updatedAt' | 'image'>;
+export type UpdateProfileInput = Omit<
+  Profile,
+  "_id" | "username" | "createdAt" | "updatedAt" | "image"
+>;
 
 // interfaccia esperienze
 export interface Experience {
@@ -60,6 +63,35 @@ export interface Post {
 
 export interface PostState {
   posts: Post[];
+  isLoading: boolean;
+  error: string | null;
+}
+
+// INTERFACCIE PAGINA LAVORI
+
+// interfaccia job
+export interface Job {
+  _id: string;
+  url: string;
+  title: string;
+  company_name: string;
+  category: string;
+  job_type: string;
+  publication_date: string;
+  candidate_required_location: string;
+  salary: string;
+  description: string;
+  company_logo_url?: string;
+}
+
+// interfaccia risposta API jobs
+export interface JobsResponse {
+  data: Job[];
+}
+
+// interfaccia state jobs
+export interface JobsState {
+  jobs: Job[];
   isLoading: boolean;
   error: string | null;
 }
