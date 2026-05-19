@@ -4,13 +4,15 @@ import { useEffect, useState } from "react"
 import { getMyProfileAsync } from "../redux/actions/profileActions"
 import { GoShieldCheck } from "react-icons/go"
 import ButtonLinkedin from "./ButtonLinkedin"
-import { IoEyeSharp, IoPencil } from "react-icons/io5"
+import { IoEyeSharp } from "react-icons/io5"
 import ModalePresentazione from "./ModalePresentazione"
-import ProfilePicModal from "./PRofilePicModal"
-import { Button, Modal } from "react-bootstrap"
+
+import { Button, Dropdown, Modal } from "react-bootstrap"
 import { HiOutlinePencil } from "react-icons/hi"
-import { FaCamera, FaTrashAlt } from "react-icons/fa"
+import { FaCamera, FaPen, FaTrashAlt } from "react-icons/fa"
 import { SlPicture } from "react-icons/sl"
+import { AiOutlinePicture } from "react-icons/ai"
+import { IoMdPhotos } from "react-icons/io"
 
 const MainProfile = () => {
   // funzioni modal e presentazioni
@@ -25,6 +27,13 @@ const MainProfile = () => {
 
   const handleCloseImg = () => setShowImg(false)
   const handleShowImg = () => setShowImg(true)
+
+  // funzione modale cover
+
+  const [showCover, setShowCover] = useState(false)
+
+  const handleCloseCover = () => setShowCover(false)
+  const handleShowCover = () => setShowCover(true)
 
   const dispatch = useDispatch<AppDispatch>()
   const { myProfile, isLoading, error } = useSelector(
@@ -52,6 +61,44 @@ const MainProfile = () => {
               backgroundImage: 'url("https://placebear.com/1000/1000")',
             }}
           >
+            {/* dropdown modifica copertina */}
+            <div className="text-end">
+              <Dropdown>
+                <Dropdown.Toggle
+                  id="dropdown-basic"
+                  className="rounded-circle dropdown-toggle-no-arrow mt-3 me-3 bg-light text-black border-0 "
+                >
+                  <FaPen size={17} />
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={handleShowCover}>
+                    <p className="fw-bold">
+                      {" "}
+                      <AiOutlinePicture size={25} className="me-2" />
+                      Modifica immagine di copertina
+                    </p>
+                  </Dropdown.Item>
+                  <Dropdown.Item className="d-flex align-items-center ">
+                    <IoMdPhotos size={17} className="me-2" />
+                    <div className="d-flex flex-column">
+                      <p className="m-0">
+                        <b>Crea una presentazione</b>
+                      </p>
+                      <p
+                        className="fw-light m-0"
+                        style={{
+                          fontSize: "13px",
+                        }}
+                      >
+                        Fai un'ottima prima impressione usando fiono a 5
+                        immagini
+                      </p>
+                    </div>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
             <img
               src={myProfile.image || "https://placehold.co/30x30"}
               alt="foto profilo"
@@ -68,7 +115,7 @@ const MainProfile = () => {
                 </h1>
                 <GoShieldCheck />
               </div>
-              <IoPencil onClick={handleShowMod} />
+              <FaPen size={17} onClick={handleShowMod} />
               <ModalePresentazione
                 showMod={showMod}
                 handleCloseMod={handleCloseMod}
@@ -126,6 +173,10 @@ const MainProfile = () => {
       )}
 
       {/* modale pic */}
+      {/* modale pic */}
+      {/* modale pic */}
+      {/* modale pic */}
+      {/* modale pic */}
       <Modal show={showImg} onHide={handleCloseImg}>
         <Modal.Header closeButton className="bg-dark border-0">
           <Modal.Title className="text-light">Foto del profilo</Modal.Title>
@@ -178,6 +229,38 @@ const MainProfile = () => {
             style={{ fontSize: "13px" }}
           >
             <FaTrashAlt />
+            Elimina
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* modale Cover */}
+      {/* modale Cover */}
+      {/* modale Cover */}
+      {/* modale Cover */}
+      <Modal show={showCover} onHide={handleCloseCover}>
+        <Modal.Header closeButton>
+          <Modal.Title>Foto di copertina</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="m-0 p-0">
+          <img
+            src={myProfile?.image}
+            alt="foto-copertina"
+            style={{ width: "100%", height: "100px", objectFit: "cover" }}
+          />
+        </Modal.Body>
+        <Modal.Footer className="d-flex justify-content-around">
+          <Button className="bg-transparent border-0 d-flex flex-column align-items-center text-black">
+            {" "}
+            <HiOutlinePencil className="text-primary" size={20} />
+            Modifica
+          </Button>
+          <Button className="bg-transparent border-0 d-flex flex-column align-items-center text-black">
+            <FaCamera className="text-primary" size={20} />
+            Cambia foto
+          </Button>
+          <Button className="bg-transparent border-0 d-flex flex-column align-items-center text-black">
+            <FaTrashAlt className="text-primary" size={20} />
             Elimina
           </Button>
         </Modal.Footer>

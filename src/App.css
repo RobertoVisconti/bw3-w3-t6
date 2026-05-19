@@ -30,3 +30,7 @@
   width: fit-content;
   height: fit-content;
 }
+
+.dropdown-toggle-no-arrow::after {
+  display: none !important;
+}
