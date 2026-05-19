@@ -81,7 +81,7 @@ const ModalePresentazione = ({
             <div className="w-75">
               <ButtonLinkedin
                 text={`+ Aggiungi una nuova posizione lavorativa`}
-                className=""
+                className="text-primary bg-transparent"
                 style={{ fontSize: "15px" }}
                 to="#"
               />
@@ -121,7 +121,7 @@ const ModalePresentazione = ({
             <div className="w-75">
               <ButtonLinkedin
                 text={`+ Aggiungi un nuovo grado di formazione`}
-                className=""
+                className="text-primary bg-transparent"
                 style={{ fontSize: "15px" }}
                 to="#"
               />

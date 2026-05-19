@@ -7,7 +7,7 @@ import ButtonLinkedin from "./ButtonLinkedin"
 import { IoEyeSharp } from "react-icons/io5"
 import ModalePresentazione from "./ModalePresentazione"
 
-import { Button, Dropdown, Modal } from "react-bootstrap"
+import { Button, Dropdown, Form, FormCheck, Modal } from "react-bootstrap"
 import { HiOutlinePencil } from "react-icons/hi"
 import { FaCamera, FaPen, FaTrashAlt } from "react-icons/fa"
 import { SlPicture } from "react-icons/sl"
@@ -34,6 +34,13 @@ const MainProfile = () => {
 
   const handleCloseCover = () => setShowCover(false)
   const handleShowCover = () => setShowCover(true)
+
+  // funzione modale preferenze offerte di lavoro
+
+  const [showPref, setShowPref] = useState(false)
+
+  const handleClosePref = () => setShowPref(false)
+  const handleShowPref = () => setShowPref(true)
 
   const dispatch = useDispatch<AppDispatch>()
   const { myProfile, isLoading, error } = useSelector(
@@ -159,11 +166,21 @@ const MainProfile = () => {
               />
             </div>
 
-            <div className="d-flex align-items-start rounded-2 flex-column  mt-3">
-              <p className="p-0 m-0">
-                <b>Disponibile a lavorare</b>
+            <div
+              className="d-flex align-items-start rounded-2 flex-column  mt-3 p-3 w-50"
+              style={{
+                backgroundColor: "#DDE7F1",
+              }}
+            >
+              <div className="d-flex align-items-center w-100 justify-content-between">
+                <p className="p-0 m-0 ">
+                  <b>Disponibile a lavorare</b>
+                </p>
+                <FaPen size={17} onClick={handleShowPref} />
+              </div>
+              <p style={{ fontSize: "13px" }}>
+                {myProfile.area} | in sede . Ibrido
               </p>
-              <p>{myProfile.area} | in sede . Ibrido</p>
               <a href="#" className="text-decoration-none fw-bold">
                 Mostra dettagli
               </a>
@@ -262,6 +279,185 @@ const MainProfile = () => {
           <Button className="bg-transparent border-0 d-flex flex-column align-items-center text-black">
             <FaTrashAlt className="text-primary" size={20} />
             Elimina
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* modale preferenze offerte di lavoro */}
+      {/* modale preferenze offerte di lavoro */}
+      {/* modale preferenze offerte di lavoro */}
+      {/* modale preferenze offerte di lavoro */}
+      <Modal show={showPref} onHide={handleClosePref} scrollable>
+        <Modal.Header closeButton>
+          <Modal.Title className="fs-5">
+            Modifica preferenze per le offerte di lavoro
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className="fw-light" style={{ fontSize: "10px" }}>
+            * indica che è obbligatorio
+          </p>
+          <div>
+            {/* form qualifiche */}
+            <p className="p-0 m-0">Qualifiche*</p>
+            <div className="d-flex">
+              <div className="me-2">
+                <ButtonLinkedin
+                  to="#"
+                  text="Dipendente "
+                  className="bg-success border-0"
+                />
+              </div>
+              <div className="me-2">
+                <ButtonLinkedin
+                  to="#"
+                  text="Studente"
+                  className="bg-success border-0 "
+                />
+              </div>
+            </div>
+            <div className="w-50">
+              <ButtonLinkedin
+                to="#"
+                className="text-primary bg-transparent"
+                text="+ Aggiungi qualifica"
+              />
+            </div>
+            {/* form tipi di località */}
+            <p className="m-0 mt-5">Tipi di località*</p>
+            <div className="d-flex">
+              <div className="me-2">
+                <ButtonLinkedin
+                  to="#"
+                  text="In sede"
+                  className="bg-success border-0"
+                />
+              </div>
+              <div className="me-2">
+                <ButtonLinkedin
+                  to="#"
+                  text="ibrido"
+                  className="bg-success border-0 "
+                />
+              </div>
+              <ButtonLinkedin
+                to="#"
+                className="text-secondary bg-transparent border-secondary"
+                text="Da remoto +"
+              />
+            </div>
+
+            {/* form località in sede*/}
+            <p className="m-0 mt-5">Località (in sede)*</p>
+            <div className="d-flex">
+              <div className="me-2">
+                <ButtonLinkedin
+                  to="#"
+                  text={myProfile?.area}
+                  className="bg-success border-0"
+                />
+              </div>
+            </div>
+            <div className="w-50">
+              <ButtonLinkedin
+                to="#"
+                className="text-primary bg-transparent"
+                text="+ Aggiungi località"
+              />
+            </div>
+
+            {/* form Data di inizio */}
+            <p className="m-0 p-0 mt-5">Data di inizio</p>
+            <Form className="mt-3">
+              <FormCheck
+                type="radio"
+                name="group1"
+                label="Immediatamente, sto attivamente cercando lavoro"
+                id="available"
+              />
+
+              <FormCheck
+                type="radio"
+                name="group1"
+                label="Flessibile, do occasionalmente un'occhiata"
+                id="flexible"
+              />
+            </Form>
+
+            {/* form tipi di impiego */}
+            <p className="m-0 mt-5">Tipi di impiego*</p>
+            <div className="d-flex flex-wrap">
+              <div className="me-2">
+                <ButtonLinkedin
+                  to="#"
+                  text="A tempo pieno"
+                  className="bg-success border-0"
+                />
+              </div>
+              <div className="me-2">
+                <ButtonLinkedin
+                  to="#"
+                  className="text-secondary bg-transparent border-secondary"
+                  text="Part-time +"
+                />
+              </div>
+              <div className="me-2">
+                <ButtonLinkedin
+                  to="#"
+                  className="text-secondary bg-transparent border-secondary"
+                  text="Contratto +"
+                />
+              </div>
+              <div className="me-2">
+                <ButtonLinkedin
+                  to="#"
+                  className="text-secondary bg-transparent border-secondary"
+                  text="Stage +"
+                />
+              </div>
+              <div className="me-2">
+                <ButtonLinkedin
+                  to="#"
+                  className="text-secondary bg-transparent border-secondary"
+                  text="Temporaneo +"
+                />
+              </div>
+            </div>
+            {/* form Visibilità */}
+            <p className="m-0 p-0 mt-5">
+              Visibilità (chi può vedere che sei disponibile a lavorare){" "}
+            </p>
+            <Form className="mt-3">
+              <FormCheck
+                type="radio"
+                name="group1"
+                label="Solo recruiter"
+                id="available"
+              />
+
+              <FormCheck
+                type="radio"
+                name="group1"
+                label="Tutti gli utenti LinkedIn"
+                id="flexible"
+              />
+            </Form>
+          </div>
+        </Modal.Body>
+        <Modal.Footer className="d-flex justify-content-between">
+          <Button
+            variant="light"
+            onClick={handleClosePref}
+            className="rounded-pill m-0 py-0"
+          >
+            Elimina
+          </Button>
+          <Button
+            variant="primary"
+            onClick={handleCloseMod}
+            className="rounded-pill m-0 py-0 "
+          >
+            Salva
           </Button>
         </Modal.Footer>
       </Modal>
