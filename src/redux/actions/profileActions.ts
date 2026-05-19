@@ -78,3 +78,38 @@ export const updateProfileAsync = (profileData: UpdateProfileInput) => {
     }
   };
 };
+
+
+// carico l immagine profilo
+export const uploadProfileImage = (userId: string, file: File) => {
+  return async (dispatch: Dispatch<ProfileActions>) => {
+    dispatch({ type: UPLOAD_IMAGE_LOADING });
+    try {
+      const formData = new FormData();
+      formData.append('profile', file);
+      const data = await customFetch<Profile>(`profile/${userId}/picture`, 'POST', formData);
+      dispatch({ type: UPLOAD_IMAGE_SUCCESS, payload: data });
+      return data;
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Errore nel caricamento della foto';
+      dispatch({ type: UPLOAD_IMAGE_ERROR, payload: errorMessage });
+      return null;
+    }
+  };
+};
+
+
+// elimino l immagine profilo
+export const deleteProfileImage = () => {
+  return async (dispatch: Dispatch<ProfileActions>) => {
+    dispatch({ type: PUT_PROFILE_LOADING });
+    try {const data = await customFetch<Profile>('profile/', 'PUT', { image: "" });
+      dispatch({ type: PUT_PROFILE_SUCCESS, payload: data });
+      return data;
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Errore nella rimozione della foto';
+      dispatch({ type: PUT_PROFILE_ERROR, payload: errorMessage });
+      return null;
+    }
+  };
+};
