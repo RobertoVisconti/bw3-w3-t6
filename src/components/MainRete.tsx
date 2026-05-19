@@ -1,11 +1,12 @@
 import { Button } from "react-bootstrap";
-import { CardsRete } from "./CardsRete";
+
+import { CardsCollegati } from "./CardsCollegati";
 
 export const MainRete = () => {
   return (
     <section className="d-flex flex-column gap-3 mt-2">
       <article className="border rounded-2 border-secondary p-2">
-        <div className="d-flex ">
+        <div className="d-flex justify-content-between">
           <div className="d-flex flex-column">
             <h5>Fai decollare la tua rete con le persone che conosci</h5>
             <p className="small text-muted">
@@ -22,21 +23,48 @@ export const MainRete = () => {
               Importa contatti Gmail
             </Button>
           </div>
-          <img src="https://placecats.com/100/50" alt="" />
+          <div>
+            <img src="https://placecats.com/100/100" alt="" />
+          </div>
         </div>
       </article>
       <article className=" d-flex justify-content-between border rounded-2 border-secondary p-2">
         <h6>Nessun invito in sospeso</h6>
         <span>Gestisci</span>
       </article>
-      <article className="border rounded-2 border-secondary p-2">
-        <div className="d-flex justify-content-between">
+      <article className="border rounded-2 border-secondary p-3 bg-light">
+        <div className="d-flex justify-content-between align-items-center mb-3">
           <h6>
             Persone che potresti conoscere in base alla tua attività recente
           </h6>
-          <span>Mostra tutto</span>
+          <a
+            href="#"
+            className="text-decoration-none text-secondary text-nowrap"
+          >
+            Mostra tutto
+          </a>
         </div>
-        <CardsRete></CardsRete>
+        <CardsCollegati />
+      </article>
+      <article className="border rounded-2 border-secondary p-2">
+        <div className="d-flex justify-content-between">
+          <h6>Popolare su Linkedin</h6>
+          <a
+            href="#"
+            className="text-decoration-none text-secondary text-nowrap"
+          >
+            Mostra tutto
+          </a>
+        </div>
+        <CardsCollegati collegati={false} />
+      </article>
+      <article className="border rounded-2 border-secondary p-2">
+        <h6>Suggeriti per te</h6>
+        <CardsCollegati
+          name="Gatto Silvestro"
+          title="Security Manager"
+          collegati={true}
+        />
       </article>
     </section>
   );
