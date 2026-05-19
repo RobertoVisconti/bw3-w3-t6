@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Navbar as BsNavbar,
   Container,
@@ -35,6 +35,7 @@ import DropDownTu from "./DropdownTu";
 const Navbar = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -190,8 +191,15 @@ const Navbar = () => {
                 <FaUserFriends />
                 <span>La mia rete</span>
               </Link>
-
-              <Link to="/lavoro" className="linkedin-item active">
+              <Link
+                to="/lavoro"
+                className={
+                  location.pathname.includes("/lavoro") ||
+                  location.pathname.includes("/dettaglio-lavoro")
+                    ? "linkedin-item text-black"
+                    : "linkedin-item"
+                }
+              >
                 <FaBriefcase />
                 <span>Lavoro</span>
               </Link>

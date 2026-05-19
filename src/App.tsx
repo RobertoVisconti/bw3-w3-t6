@@ -17,6 +17,7 @@ import Profilo from "./pages/Profilo";
 import ChatBar from "./components/ChatBar";
 import { PaginaErrore } from "./pages/PaginaErrore";
 import { Rete } from "./pages/Rete";
+import DetailsJob from "./components/DetailsJob";
 
 const AppContent = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -37,6 +38,7 @@ const AppContent = () => {
           <Route path="/profilo/:userId" element={<Profilo />} />
           <Route path="*" element={<PaginaErrore />} />
           <Route path="/Rete" element={<Rete />}></Route>
+          <Route path="/dettaglio-lavoro/:id" element={<DetailsJob />} />
         </Routes>
       </main>
       <ChatBar />
