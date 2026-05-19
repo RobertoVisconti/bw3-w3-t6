@@ -1,5 +1,5 @@
 import type { Dispatch } from 'redux';
-import { customFetch } from './apiClient';
+import { customFetch } from '../../api/apiClient';
 import type { Post } from '../../interfaces/interfaces';
 
 export const POST_LOADING = 'POST_LOADING';
