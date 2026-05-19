@@ -17,6 +17,7 @@ import Profilo from "./pages/Profilo";
 import ChatBar from "./components/ChatBar";
 import { PaginaErrore } from "./pages/PaginaErrore";
 import { Rete } from "./pages/Rete";
+import Login from "./pages/Login";
 
 const AppContent = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,6 +33,7 @@ const AppContent = () => {
       <main className="flex-grow-1">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/lavoro" element={<Lavoro />} />
           <Route path="/profilo" element={<Profilo />} />
           <Route path="/profilo/:userId" element={<Profilo />} />

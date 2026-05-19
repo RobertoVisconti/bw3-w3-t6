@@ -1,22 +1,31 @@
-import { useDispatch, useSelector } from "react-redux"
-import type { AppDispatch, RootState } from "../redux/store"
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../redux/store";
 
-import { useEffect } from "react"
-import { getMyProfileAsync } from "../redux/actions/profileActions"
-import { GoShieldCheck } from "react-icons/go"
-import { Button, Col } from "react-bootstrap"
-import type { FooterLink } from "../components/FooterLinkProfile"
-import ButtonLinkedin from "./ButtonLinkedin"
+import { useEffect } from "react";
+import { getMyProfileAsync } from "../redux/actions/profileActions";
+import { GoShieldCheck } from "react-icons/go";
+import { Button, Col } from "react-bootstrap";
+import type { FooterLink } from "../components/FooterLinkProfile";
+import ButtonLinkedin from "./ButtonLinkedin";
 
 const DropDownTu = () => {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
   const { myProfile, isLoading, error } = useSelector(
     (state: RootState) => state.profile,
-  )
+  );
 
   useEffect(() => {
-    dispatch(getMyProfileAsync())
-  }, [dispatch])
+    dispatch(getMyProfileAsync());
+  }, [dispatch]);
+
+  // Funzione per gestire la disconnessione reale
+  const handleLogout = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    localStorage.removeItem("isLoggedIn");
+
+    window.location.href = "/login";
+  };
 
   const links: FooterLink[] = [
     { label: "Account", url: "#" },
@@ -28,7 +37,7 @@ const DropDownTu = () => {
     { label: "Post e attività", url: "#" },
     { label: "Account per la pubblicazione di offerte di lavoro", url: "#" },
     { label: "Esci", url: "#" },
-  ]
+  ];
 
   return (
     <>
@@ -65,52 +74,51 @@ const DropDownTu = () => {
 
             {links.slice(0, 5).map((link, i) => {
               return (
-                <Col xs={12} className={i === 0 ? "bold-link" : ""}>
+                <Col xs={12} key={i} className={i === 0 ? "bold-link" : ""}>
                   {" "}
                   <a
-                    key={i}
                     href={link.url}
                     className="text-decoration-none text-muted small d-inline-block mb-2  "
                   >
                     {link.label}
                   </a>
                 </Col>
-              )
+              );
             })}
             <hr />
             {links.slice(5, 8).map((link, i) => {
               return (
-                <Col xs={12} className={i === 0 ? "bold-link" : ""}>
+                <Col xs={12} key={i} className={i === 0 ? "bold-link" : ""}>
                   {" "}
                   <a
-                    key={i}
                     href={link.url}
                     className="text-decoration-none text-muted small d-inline-block mb-2  "
                   >
                     {link.label}
                   </a>
                 </Col>
-              )
+              );
             })}
+
             {links.slice(8, 9).map((link, i) => {
               return (
-                <Col xs={12} className={i === 0 ? "bold-link" : ""}>
+                <Col xs={12} key={i} className="bold-link">
                   {" "}
                   <a
-                    key={i}
                     href={link.url}
-                    className="text-decoration-none text-muted small d-inline-block mb-2"
+                    onClick={handleLogout}
+                    className="text-decoration-none text-danger fw-semibold small d-inline-block mb-2"
                   >
                     {link.label}
                   </a>
                 </Col>
-              )
+              );
             })}
           </section>
         </>
       )}
     </>
-  )
-}
+  );
+};
 
-export default DropDownTu
+export default DropDownTu;

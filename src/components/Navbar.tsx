@@ -40,13 +40,22 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // 1. Leggiamo lo stato di autenticazione direttamente dal localStorage
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
   const { myProfile, allProfiles, isLoading, error } = useSelector(
     (state: RootState) => state.profile,
   );
 
+  // 2. CONTROLLO ACCESSO: Se non è loggato, lo rimandiamo al login e blocchiamo la fetch
   useEffect(() => {
-    dispatch(getMyProfileAsync());
-  }, [dispatch]);
+    if (!isLoggedIn) {
+      navigate("/login");
+    } else {
+      // Carica il profilo solo ed esclusivamente se l'utente è loggato con successo
+      dispatch(getMyProfileAsync());
+    }
+  }, [dispatch, isLoggedIn, navigate]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -66,6 +75,11 @@ const Navbar = () => {
       .toLowerCase()
       .includes(searchQuery.toLowerCase()),
   );
+
+  // 3. SICUREZZA: Se non è loggato, non renderizziamo assolutamente nulla della Navbar
+  if (!isLoggedIn) {
+    return null;
+  }
 
   return (
     <>
