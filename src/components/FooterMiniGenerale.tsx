@@ -117,15 +117,15 @@ export const FooterMiniGenerale = () => {
             )}
           </React.Fragment>
         ))}
-        <p>
-          {" "}
-          <span className="text-primary fw-medium">
-            Linked<i className="fab fa-linkedin"></i>
-          </span>{" "}
-          <span className="ms-1 small">
-            <CurrentYear></CurrentYear>
-          </span>
-        </p>
+        <p> </p>
+      </div>{" "}
+      <div className="text-center">
+        <span className="text-primary fw-medium">
+          Linked<i className="fab fa-linkedin"></i>
+        </span>{" "}
+        <span className="ms-1 small">
+          <CurrentYear></CurrentYear>
+        </span>
       </div>
     </Container>
   );
