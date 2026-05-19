@@ -4,7 +4,6 @@ import type { AppDispatch, RootState } from "../redux/store"
 import { useEffect } from "react"
 import { getMyProfileAsync } from "../redux/actions/profileActions"
 import ButtonLinkedin from "./ButtonLinkedin"
-import { FaPlus } from "react-icons/fa"
 
 export interface ModalePresentazioneProps {
   showMod: boolean

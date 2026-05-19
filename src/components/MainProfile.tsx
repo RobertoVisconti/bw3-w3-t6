@@ -75,21 +75,26 @@ const MainProfile = () => {
                 text="Disponibile per"
                 className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2"
                 style={{ fontSize: "10px" }}
+                to="#"
               />
               <ButtonLinkedin
                 text="Aggiungi sezione"
                 className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2"
                 style={{ fontSize: "10px" }}
+                to="#"
               />
               <ButtonLinkedin
                 text="Migliore profilo"
                 className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2"
                 style={{ fontSize: "10px" }}
+                to="#"
               />
+
               <ButtonLinkedin
                 text="..."
                 className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2 "
                 style={{ fontSize: "10px" }}
+                to="#"
               />
             </div>
 
