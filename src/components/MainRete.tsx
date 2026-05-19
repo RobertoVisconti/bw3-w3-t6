@@ -32,25 +32,39 @@ export const MainRete = () => {
         <h6>Nessun invito in sospeso</h6>
         <span>Gestisci</span>
       </article>
-      <article className="border rounded-2 border-secondary p-2">
-        <div className="d-flex justify-content-between">
+      <article className="border rounded-2 border-secondary p-3 bg-light">
+        <div className="d-flex justify-content-between align-items-center mb-3">
           <h6>
             Persone che potresti conoscere in base alla tua attività recente
           </h6>
-          <span>Mostra tutto</span>
+          <a
+            href="#"
+            className="text-decoration-none text-secondary text-nowrap"
+          >
+            Mostra tutto
+          </a>
         </div>
         <CardsCollegati />
       </article>
       <article className="border rounded-2 border-secondary p-2">
         <div className="d-flex justify-content-between">
           <h6>Popolare su Linkedin</h6>
-          <span>Mostra tutto</span>
+          <a
+            href="#"
+            className="text-decoration-none text-secondary text-nowrap"
+          >
+            Mostra tutto
+          </a>
         </div>
-        <CardsCollegati />
+        <CardsCollegati collegati={false} />
       </article>
       <article className="border rounded-2 border-secondary p-2">
         <h6>Suggeriti per te</h6>
-        <CardsCollegati />
+        <CardsCollegati
+          name="Gatto Silvestro"
+          title="Security Manager"
+          collegati={true}
+        />
       </article>
     </section>
   );

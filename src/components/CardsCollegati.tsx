@@ -1,24 +1,20 @@
 import { Card, Button, Row, Col, Container } from "react-bootstrap";
+import type { Profile } from "../interfaces/interfaces";
 
-interface infoCard {
-  bgImg?: string;
-  img?: string;
-  name: string;
-  quality?: string;
-  affiliato?: boolean;
-  affiliazione?: string;
+interface CardsCollegati extends Profile {
   collegati: boolean;
+  affiliato?: boolean;
 }
 
 export const CardsCollegati = ({
-  name = "Gattino Panettiere",
-  quality = "Panettiere professionale",
-  affiliato = true,
-  affiliazione = "Kitty Institute",
+  image,
+  name,
+  surname,
+  title,
+  area,
   collegati = true,
-  bgImg = "https://placehold.net/400x100.png",
-  img = "https://placecats.com/300/300",
-}: infoCard) => {
+  affiliato = true,
+}: CardsCollegati) => {
   return (
     <Container>
       <Row>
@@ -27,7 +23,7 @@ export const CardsCollegati = ({
             <Card.Img
               style={{ height: "60px" }}
               variant="top"
-              src={bgImg}
+              src={image}
             ></Card.Img>
             <Card.Img
               style={{
@@ -38,16 +34,17 @@ export const CardsCollegati = ({
                 objectFit: "cover",
               }}
               className="rounded-circle mx-auto"
-              src={img}
+              src={image}
             />
-            <Card.Body>
-              <Card.Title>{name}</Card.Title>
+            <Card.Body className="pb-0">
+              <Card.Title>
+                {name}
+                {surname}
+              </Card.Title>
               <Card.Text>
-                <span className="small text-muted">{quality}</span>
+                <span className="small text-muted">{title}</span>
                 {affiliato && (
-                  <span className="small text-muted d-block">
-                    {affiliazione}
-                  </span>
+                  <span className="small text-muted d-block">{area}</span>
                 )}
               </Card.Text>
               <Button
