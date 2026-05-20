@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { FormControl } from "react-bootstrap";
 import {
   PiCaretUpBold,
@@ -10,6 +10,7 @@ import {
 } from "react-icons/pi";
 import { useSelector } from "react-redux";
 import type { RootState } from "../redux/store";
+import EmojiPickerButton from "./emojiButton";
 
 interface Message {
   id: string;
@@ -27,6 +28,8 @@ interface UserProfile {
 }
 
 const ChatBar = () => {
+  const chatInputRef = useRef<HTMLInputElement>(null);
+
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -289,12 +292,18 @@ const ChatBar = () => {
                   style={{ height: "52px" }}
                 >
                   <input
+                    ref={chatInputRef}
                     type="text"
                     placeholder="Invia un messaggio..."
                     className="form-control form-control-sm border-0 bg-light py-1.5 px-3"
                     style={{ fontSize: "0.85rem", borderRadius: "20px" }}
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
+                  />
+                  <EmojiPickerButton
+                    text={newMessage}
+                    setText={setNewMessage}
+                    inputRef={chatInputRef}
                   />
                   <button
                     type="submit"

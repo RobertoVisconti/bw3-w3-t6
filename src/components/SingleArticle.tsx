@@ -1,12 +1,11 @@
-import { useState, useEffect, type SyntheticEvent } from "react";
+import { useState, useEffect, useRef, type SyntheticEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../redux/store";
 import { SlOptions } from "react-icons/sl";
-import { IoMdAdd } from "react-icons/io";
 import { PiPlanetBold } from "react-icons/pi";
 import { Button, Form, OverlayTrigger, Popover } from "react-bootstrap";
 import type { Post, Comment } from "../interfaces/interfaces";
-import { FaRegThumbsUp, FaTrashAlt, FaEdit } from "react-icons/fa";
+import { FaRegThumbsUp, FaThumbsUp, FaTrashAlt, FaEdit } from "react-icons/fa";
 import {
   IoCloseSharp,
   IoPaperPlaneOutline,
@@ -20,6 +19,10 @@ import {
   COMMENTS_ERROR,
 } from "../redux/actions/commentsActions";
 
+// Importiamo l'action creator dal tuo file delle azioni dei post
+import { deletePost } from "../redux/actions/postActions";
+import EmojiPickerButton from "./emojiButton";
+
 interface SingleArticleProps {
   post: Post;
 }
@@ -28,12 +31,22 @@ const loggedEmail = localStorage.getItem("userEmail");
 const EMPTY_ARRAY: Comment[] = [];
 
 const SingleArticle = ({ post }: SingleArticleProps) => {
+  // per l emoji
+  const commentInputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch<AppDispatch>();
+
+  // Stato locale per nascondere il post se appartiene ad un altro utente
+  const [isHidden, setIsHidden] = useState(false);
 
   const [showComments, setShowComments] = useState(false);
   const [newCommentText, setNewCommentText] = useState("");
 
-  // --- STATI PER LA MODIFICA ---
+  // Stati per il "Consiglia" (Like)
+  const [isLiked, setIsLiked] = useState(false);
+  const baseLikes = 14;
+  const totalLikes = isLiked ? baseLikes + 1 : baseLikes;
+
+  // Stati per la modifica dei commenti
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
   const [editText, setEditText] = useState("");
 
@@ -43,15 +56,21 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
   );
   const { myProfile } = useSelector((state: RootState) => state.profile);
 
+  // Controllo per verificare se il post è stato creato dall'utente loggato
+  const isMyPost = post.user?._id === myProfile?._id;
+
   useEffect(() => {
-    if (showComments) {
-      dispatch(getComments(post._id));
-    }
-  }, [dispatch, showComments, post._id]);
+    dispatch(getComments(post._id));
+  }, [dispatch, post._id]);
 
   const postDate = post.createdAt
     ? new Date(post.createdAt).toLocaleDateString()
     : "Qualche giorno fa";
+
+  // Richiama la funzione deletePost corretta del tuo file azioni
+  const handleDeletePostClick = () => {
+    dispatch(deletePost(post._id));
+  };
 
   const handleCommentSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -67,7 +86,6 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
     setNewCommentText("");
   };
 
-  // --- FUNZIONE PER SALVARE LA MODIFICA (PUT) ---
   const handleUpdateComment = async (commentId: string) => {
     if (!editText.trim()) return;
 
@@ -92,13 +110,10 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
 
       if (response.ok) {
         const updatedComment = await response.json();
-
         dispatch({
           type: "UPDATE_COMMENT_SUCCESS",
           payload: { postId: post._id, comment: updatedComment },
         });
-
-        // Resettiamo gli stati di editing
         setEditingCommentId(null);
         setEditText("");
       } else {
@@ -138,6 +153,12 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
     }
   };
 
+  const handleSharePost = () => alert("Post diffuso con successo!");
+  const handleSendPost = () => alert("Post inviato ai tuoi collegamenti!");
+
+  // Se l'utente decide di nascondere il post (non suo), non viene renderizzato nulla
+  if (isHidden) return null;
+
   return (
     <div className="bg-white rounded-3 p-3 my-3 border border-light shadow-sm">
       {/* Intestazione del post */}
@@ -156,13 +177,71 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
             ha diffuso questo post
           </p>
         </div>
-        <div className="text-black d-flex gap-2 fs-5">
-          <a href="#options" className="text-black">
-            <SlOptions />
+        <div className="text-black d-flex gap-2 fs-5 align-items-center">
+          <a href="#options" className="text-black d-flex align-items-center">
+            <SlOptions size={16} />
           </a>
-          <a href="#close" className="text-black">
-            <IoCloseSharp />
-          </a>
+
+          {/* Gestione dinamica del tasto X */}
+          {isMyPost ? (
+            <OverlayTrigger
+              trigger="click"
+              rootClose
+              placement="left"
+              overlay={
+                <Popover
+                  id={`popover-delete-post-${post._id}`}
+                  className="shadow-sm border-secondary-subtle"
+                >
+                  <Popover.Body
+                    className="p-2 text-center"
+                    style={{ minWidth: "150px" }}
+                  >
+                    <p className="m-0 mb-2 small fw-semibold text-dark">
+                      Eliminare il post?
+                    </p>
+                    <div className="d-flex gap-2 justify-content-center">
+                      <Button
+                        size="sm"
+                        variant="danger"
+                        className="py-0 px-2 small"
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          handleDeletePostClick();
+                          document.body.click(); // Chiude il popover di Bootstrap immediatamente
+                        }}
+                      >
+                        Sì
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="light"
+                        className="py-0 px-2 small border"
+                        onClick={() => document.body.click()}
+                      >
+                        No
+                      </Button>
+                    </div>
+                  </Popover.Body>
+                </Popover>
+              }
+            >
+              <button
+                className="btn btn-link text-black p-0 border-0 d-flex align-items-center"
+                title="Elimina definitivamente il tuo post"
+              >
+                <IoCloseSharp />
+              </button>
+            </OverlayTrigger>
+          ) : (
+            <button
+              className="btn btn-link text-black p-0 border-0 d-flex align-items-center"
+              title="Nascondi post"
+              onClick={() => setIsHidden(true)}
+            >
+              <IoCloseSharp />
+            </button>
+          )}
         </div>
       </div>
 
@@ -190,14 +269,7 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
             </span>
           </div>
         </div>
-        <div>
-          <Button
-            variant="outline-primary"
-            className="rounded-5 btn-sm fw-bold"
-          >
-            <IoMdAdd className="me-1" /> Segui
-          </Button>
-        </div>
+        {/* Il bottone segui è stato rimosso con successo */}
       </div>
 
       {/* Contenuto del Post */}
@@ -227,11 +299,12 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
           >
             <FaRegThumbsUp size={10} className="text-white" />
           </span>
-          <span>14 Consiglia</span>
+          <span>{totalLikes} Consiglia</span>
         </div>
         <div
           style={{ cursor: "pointer" }}
           onClick={() => setShowComments(!showComments)}
+          className="hover-underline"
         >
           <span>
             {commentsForPost.length}{" "}
@@ -242,10 +315,14 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
 
       {/* Pulsanti di Interazione */}
       <div className="d-flex justify-content-between py-1 border-bottom">
-        <button className="btn btn-light btn-sm flex-fill text-secondary d-flex align-items-center justify-content-center gap-2 border-0 bg-transparent py-2 custom-action-btn">
-          <FaRegThumbsUp size={18} />{" "}
+        <button
+          onClick={() => setIsLiked(!isLiked)}
+          className={`btn btn-light btn-sm flex-fill d-flex align-items-center justify-content-center gap-2 border-0 bg-transparent py-2 custom-action-btn ${isLiked ? "text-primary" : "text-secondary"}`}
+        >
+          {isLiked ? <FaThumbsUp size={18} /> : <FaRegThumbsUp size={18} />}
           <span className="fw-semibold">Consiglia</span>
         </button>
+
         <button
           onClick={() => setShowComments(!showComments)}
           className={`btn btn-light btn-sm flex-fill d-flex align-items-center justify-content-center gap-2 border-0 bg-transparent py-2 custom-action-btn ${showComments ? "text-primary" : "text-secondary"}`}
@@ -253,11 +330,19 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
           <BiMessageIcon size={18} />{" "}
           <span className="fw-semibold">Commenta</span>
         </button>
-        <button className="btn btn-light btn-sm flex-fill text-secondary d-flex align-items-center justify-content-center gap-2 border-0 bg-transparent py-2 custom-action-btn">
+
+        <button
+          onClick={handleSharePost}
+          className="btn btn-light btn-sm flex-fill text-secondary d-flex align-items-center justify-content-center gap-2 border-0 bg-transparent py-2 custom-action-btn"
+        >
           <IoRepeatSharp size={18} />{" "}
           <span className="fw-semibold">Diffondi</span>
         </button>
-        <button className="btn btn-light btn-sm flex-fill text-secondary d-flex align-items-center justify-content-center gap-2 border-0 bg-transparent py-2 custom-action-btn">
+
+        <button
+          onClick={handleSendPost}
+          className="btn btn-light btn-sm flex-fill text-secondary d-flex align-items-center justify-content-center gap-2 border-0 bg-transparent py-2 custom-action-btn"
+        >
           <IoPaperPlaneOutline size={18} />{" "}
           <span className="fw-semibold">Invia</span>
         </button>
@@ -266,7 +351,6 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
       {/* Sezione Commenti */}
       {showComments && (
         <div className="comments-section mt-3 pt-2">
-          {/* Input Nuovo Commento */}
           <div className="d-flex gap-2 mb-3 align-items-start">
             <img
               src={myProfile?.image || "https://placecats.com/35/35"}
@@ -276,28 +360,35 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
             />
             <Form
               onSubmit={handleCommentSubmit}
-              className="flex-grow-1 position-relative"
+              className="flex-grow-1 d-flex align-items-center gap-1 bg-light rounded-4 px-3 py-1 border border-secondary-subtle"
             >
               <Form.Control
+                ref={commentInputRef}
                 type="text"
                 placeholder="Aggiungi un commento..."
                 value={newCommentText}
                 onChange={(e) => setNewCommentText(e.target.value)}
-                className="rounded-4 bg-light border-secondary-subtle pe-5 py-2 text-dark"
+                className="border-0 bg-transparent p-1 text-dark shadow-none flex-grow-1"
                 style={{ fontSize: "0.9rem" }}
               />
+
+              <EmojiPickerButton
+                text={newCommentText}
+                setText={setNewCommentText}
+                inputRef={commentInputRef}
+              />
+
               <Button
                 type="submit"
                 variant="transparent"
                 disabled={!newCommentText.trim()}
-                className="position-absolute end-0 top-50 translate-middle-y border-0 text-primary p-2 d-flex align-items-center"
+                className="border-0 text-primary p-1 d-flex align-items-center"
               >
                 <IoPaperPlaneOutline size={16} />
               </Button>
             </Form>
           </div>
 
-          {/* Rendering della lista dei commenti */}
           <div className="comments-list d-flex flex-column gap-2">
             {commentsForPost.map((commento: Comment) => {
               const isMyComment =
@@ -343,10 +434,8 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
                         {new Date(commento.createdAt).toLocaleDateString()}
                       </span>
 
-                      {/* INPUT DI MODIFICA O TESTO STATICO */}
                       {isEditing ? (
                         <div className="mt-2">
-                          {/* Input arrotondato (rounded-4), con sfondo leggero e un po' di padding */}
                           <Form.Control
                             type="text"
                             value={editText}
@@ -355,15 +444,12 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
                             style={{ fontSize: "0.9rem" }}
                             autoFocus
                           />
-                          {/* Contenitore dei bottoni con margine superiore (mt-2 o gestito dal mb-2 sopra) */}
                           <div className="d-flex gap-2 justify-content-end align-items-center">
                             <Button
                               size="sm"
                               variant="success"
                               className="rounded-5 px-3 fw-semibold py-1"
-                              style={{
-                                fontSize: "0.8rem",
-                              }}
+                              style={{ fontSize: "0.8rem" }}
                               onClick={() => handleUpdateComment(commento._id)}
                             >
                               Salva
@@ -372,9 +458,7 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
                               size="sm"
                               variant="secondary"
                               className="rounded-5 px-3 fw-semibold py-1"
-                              style={{
-                                fontSize: "0.8rem",
-                              }}
+                              style={{ fontSize: "0.8rem" }}
                               onClick={() => setEditingCommentId(null)}
                             >
                               Annulla
@@ -391,10 +475,8 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
                       )}
                     </div>
 
-                    {/* PULSANTI TRASH E EDIT ACCANTO SE È IL MIO COMMENTO */}
                     {isMyComment && !isEditing && (
                       <div className="position-absolute end-0 top-0 m-1 d-flex gap-1">
-                        {/* Tasto Modifica */}
                         <button
                           className="btn btn-link text-secondary p-1 border-0"
                           onClick={() => {
@@ -406,7 +488,6 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
                           <FaEdit size={14} />
                         </button>
 
-                        {/* Tasto Elimina (Popover originale) */}
                         <OverlayTrigger
                           trigger="click"
                           rootClose
