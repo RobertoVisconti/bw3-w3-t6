@@ -1,28 +1,15 @@
 import { Container, Dropdown } from "react-bootstrap";
 import React from "react";
 import { CurrentYear } from "./CurrentYear";
+import { useSelector } from "react-redux";
+import type { RootState } from "../redux/store";
 
 // Mini footer da mettere nel aside
 
-interface FooterLink {
-  label: string;
-  url: string;
-  isDropdown?: boolean;
-  isDropdownDue?: boolean;
-}
-
 export const FooterMiniGenerale = () => {
-  const links: FooterLink[] = [
-    { label: "Informazioni", url: "#" },
-    { label: "Accessibilità", url: "#" },
-    { label: "Centro assistenza", url: "#" },
-    { label: "Privacy e condizioni", url: "#", isDropdown: true },
-    { label: "Opzioni per gli annunci pubblicitari", url: "#" },
-    { label: "Pubblicità", url: "#" },
-    { label: "Servizi alle aziende", url: "#", isDropdownDue: true },
-    { label: "Scarica l'app Linkedin", url: "#" },
-    { label: "Altro", url: "#" },
-  ];
+  const { links, dropDownPrivacy, aziendeDropdown } = useSelector(
+    (state: RootState) => state.footer,
+  );
 
   return (
     <Container>
@@ -41,19 +28,11 @@ export const FooterMiniGenerale = () => {
                     {link.label}
                   </Dropdown.Toggle>
                   <Dropdown.Menu className="border-0 small shadow-sm">
-                    <Dropdown.Item href="#">
-                      Informativa sulla privacy
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#">Contratto di licenza</Dropdown.Item>
-                    <Dropdown.Item href="#">
-                      Termini e condizioni delle pagine
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#">
-                      Informativa sui cookie
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#">
-                      Informativa sul copyright
-                    </Dropdown.Item>
+                    {dropDownPrivacy.map((dropDownPrivacy, i) => (
+                      <Dropdown.Item href={dropDownPrivacy.url} key={i}>
+                        {dropDownPrivacy.label}
+                      </Dropdown.Item>
+                    ))}
                   </Dropdown.Menu>
                 </Dropdown>
               </div>
@@ -68,42 +47,17 @@ export const FooterMiniGenerale = () => {
                   {link.label}
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="border-0 shadow-sm">
-                  <Dropdown.Item href="#" className="small">
-                    <span className="medium">Assumi su Linkedin</span>
-                    <br />
-                    <span className="small">Trova, attrai e assumi</span>
-                  </Dropdown.Item>
-                  <Dropdown.Item href="#" className="small">
-                    <span className="medium">Vendi con Linkedin</span>
-                    <br />
-                    <span className="small">
-                      Sblocca nuove opportunità di vendita
-                    </span>
-                  </Dropdown.Item>
-                  <Dropdown.Item href="#" className="small">
-                    <span className="medium">Inizia con il premium</span>
-                    <br />
-                    <span className="small">Amplia e sfrutta la tua rete</span>
-                  </Dropdown.Item>
-                  <Dropdown.Item href="#" className="small">
-                    <span className="medium">Impara con Linkedin</span>
-                    <br />
-                    <span className="small">
-                      Corsi per formare i tuoi dipendenti
-                    </span>
-                  </Dropdown.Item>
-                  <Dropdown.Item href="#" className="small">
-                    <span className="medium">Admin Center</span>
-                    <br />
-                    <span className="small">
-                      Gestisci i dettagli di fatturazione e account
-                    </span>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <span className="medium">
-                      Crea una pagina aziendale <i className="fas fa-plus"></i>
-                    </span>
-                  </Dropdown.Item>
+                  {aziendeDropdown.map((aziendeDropdown, i) => (
+                    <Dropdown.Item
+                      href={aziendeDropdown.url}
+                      key={i}
+                      className="small"
+                    >
+                      <span className="medium">{aziendeDropdown.label}</span>
+                      <br />
+                      <span className="small">{aziendeDropdown.desc}</span>
+                    </Dropdown.Item>
+                  ))}
                 </Dropdown.Menu>
               </Dropdown>
             ) : (

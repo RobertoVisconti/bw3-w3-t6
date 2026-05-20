@@ -4,6 +4,7 @@ import { experienceReducer } from "../reducers/experienceReducer";
 import { postReducer } from "../reducers/postReducer";
 import jobsReducer from "../reducers/jobsReducer";
 import { commentsReducer } from "../reducers/commentsReducer";
+import { footerReducer } from "../reducers/FooterReducer";
 
 const mainReducer = combineReducers({
   profile: profileReducer,
@@ -11,6 +12,7 @@ const mainReducer = combineReducers({
   post: postReducer,
   jobs: jobsReducer,
   comments: commentsReducer,
+  footer: footerReducer,
 });
 
 export const store = configureStore({
@@ -18,7 +20,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-      immutableCheck: false,    
+      immutableCheck: false,
     }),
 });
 
