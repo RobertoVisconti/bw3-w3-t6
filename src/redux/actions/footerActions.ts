@@ -1,0 +1,1 @@
+export const SET_FOOTER_LINKS = "SET_FOOTER_LINKS";
