@@ -34,3 +34,14 @@
 .dropdown-toggle-no-arrow::after {
   display: none !important;
 }
+
+/* effetto hover per link in mia rete */
+.custom-hover-effect {
+  transition:
+    transform 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+}
+
+.custom-hover-effect:hover {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}

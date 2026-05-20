@@ -1,95 +1,97 @@
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../redux/store";
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux"
+import type { AppDispatch, RootState } from "../redux/store"
+import { useEffect, useState } from "react"
+import { useParams, useNavigate } from "react-router-dom"
 import {
   getMyProfileAsync,
   uploadProfileImage,
-} from "../redux/actions/profileActions";
-import { GoShieldCheck } from "react-icons/go";
-import ButtonLinkedin from "./ButtonLinkedin";
-import ModalePresentazione from "../components/ModalePresentazione";
-import ProfileModals from "../components/ProfileModals";
-import { Button, Dropdown } from "react-bootstrap";
-import { FaPen, FaUserPlus, FaEnvelope, FaBriefcase } from "react-icons/fa";
-import { AiOutlinePicture } from "react-icons/ai";
-import { IoMdPhotos } from "react-icons/io";
+} from "../redux/actions/profileActions"
+import { GoShieldCheck } from "react-icons/go"
+import ButtonLinkedin from "./ButtonLinkedin"
+import ModalePresentazione from "../components/ModalePresentazione"
+import ProfileModals from "../components/ProfileModals"
+import { Button, Dropdown } from "react-bootstrap"
+import { FaPen, FaUserPlus, FaEnvelope, FaBriefcase } from "react-icons/fa"
+import { AiOutlinePicture } from "react-icons/ai"
+import { IoMdPhotos } from "react-icons/io"
+import { CiCirclePlus } from "react-icons/ci"
+import { FiPlus } from "react-icons/fi"
 
 const MainProfile = () => {
-  const { userId } = useParams<{ userId: string }>();
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
+  const { userId } = useParams<{ userId: string }>()
+  const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>()
 
   // Stato per il profilo visualizzato
-  const [displayedProfile, setDisplayedProfile] = useState<any>(null);
-  const [isOwnProfile, setIsOwnProfile] = useState(true);
+  const [displayedProfile, setDisplayedProfile] = useState<any>(null)
+  const [isOwnProfile, setIsOwnProfile] = useState(true)
 
   // Variabili di stato per i modali
-  const [showUpPic, setShowUpPic] = useState(false);
-  const [showMod, setShowMod] = useState(false);
-  const [showImg, setShowImg] = useState(false);
-  const [showCover, setShowCover] = useState(false);
-  const [showPref, setShowPref] = useState(false);
+  const [showUpPic, setShowUpPic] = useState(false)
+  const [showMod, setShowMod] = useState(false)
+  const [showImg, setShowImg] = useState(false)
+  const [showCover, setShowCover] = useState(false)
+  const [showPref, setShowPref] = useState(false)
 
   // Variabili per l'upload dell'immagine
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [preview, setPreview] = useState<string | null>(null)
 
   // Funzioni di chiusura/apertura modali
-  const handleCloseUpPic = () => setShowUpPic(false);
-  const handleShowUpPic = () => setShowUpPic(true);
-  const handleCloseMod = () => setShowMod(false);
-  const handleShowMod = () => setShowMod(true);
-  const handleCloseImg = () => setShowImg(false);
-  const handleShowImg = () => setShowImg(true);
-  const handleCloseCover = () => setShowCover(false);
-  const handleShowCover = () => setShowCover(true);
-  const handleClosePref = () => setShowPref(false);
-  const handleShowPref = () => setShowPref(true);
+  const handleCloseUpPic = () => setShowUpPic(false)
+  const handleShowUpPic = () => setShowUpPic(true)
+  const handleCloseMod = () => setShowMod(false)
+  const handleShowMod = () => setShowMod(true)
+  const handleCloseImg = () => setShowImg(false)
+  const handleShowImg = () => setShowImg(true)
+  const handleCloseCover = () => setShowCover(false)
+  const handleShowCover = () => setShowCover(true)
+  const handleClosePref = () => setShowPref(false)
+  const handleShowPref = () => setShowPref(true)
 
   // Selettori Redux
   const { myProfile, allProfiles, isLoading, error } = useSelector(
     (state: RootState) => state.profile,
-  );
+  )
 
   // Funzione per l'upload dell'immagine del profilo
   const handleUpload = async () => {
-    if (!selectedFile || !displayedProfile?._id) return;
+    if (!selectedFile || !displayedProfile?._id) return
 
-    await dispatch(uploadProfileImage(displayedProfile._id, selectedFile));
+    await dispatch(uploadProfileImage(displayedProfile._id, selectedFile))
 
-    setSelectedFile(null);
-    setPreview(null);
-    handleCloseImg();
-  };
+    setSelectedFile(null)
+    setPreview(null)
+    handleCloseImg()
+  }
 
   // Carico il mio profilo al mount
   useEffect(() => {
-    dispatch(getMyProfileAsync());
-  }, [dispatch]);
+    dispatch(getMyProfileAsync())
+  }, [dispatch])
 
   // Logica per determinare quale profilo mostrare
   useEffect(() => {
     if (userId) {
-      const foundProfile = allProfiles?.find((p) => p._id === userId);
+      const foundProfile = allProfiles?.find((p) => p._id === userId)
       if (foundProfile) {
-        setDisplayedProfile(foundProfile);
-        setIsOwnProfile(foundProfile._id === myProfile?._id);
+        setDisplayedProfile(foundProfile)
+        setIsOwnProfile(foundProfile._id === myProfile?._id)
       }
     } else {
       if (myProfile) {
-        setDisplayedProfile(myProfile);
-        setIsOwnProfile(true);
+        setDisplayedProfile(myProfile)
+        setIsOwnProfile(true)
       }
     }
-  }, [userId, myProfile, allProfiles]);
+  }, [userId, myProfile, allProfiles])
 
   // Funzione per tornare al proprio profilo
   const goToMyProfile = () => {
-    navigate("/profilo");
-    setDisplayedProfile(myProfile);
-    setIsOwnProfile(true);
-  };
+    navigate("/profilo")
+    setDisplayedProfile(myProfile)
+    setIsOwnProfile(true)
+  }
 
   return (
     <>
@@ -158,10 +160,13 @@ const MainProfile = () => {
             <div className="p-3 pt-5">
               <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center">
-                  <h1 className="fs-3 m-0 me-2">
-                    {displayedProfile.surname} {displayedProfile.name}
-                  </h1>
-                  <GoShieldCheck />
+                  <div>
+                    <h1 className="fs-3 m-0 me-2">
+                      {displayedProfile.surname} {displayedProfile.name}
+                    </h1>
+                    <h6>{displayedProfile.username}</h6>
+                    <GoShieldCheck />
+                  </div>
                 </div>
                 {/* Pulsante edit visibile solo per il proprio profilo */}
                 {isOwnProfile && <FaPen size={17} onClick={handleShowMod} />}
@@ -299,12 +304,22 @@ const MainProfile = () => {
             <div className="d-flex align-items-center justify-content-between mb-3">
               <h2 className="fs-4 fw-bold m-0">Esperienza</h2>
               {isOwnProfile && (
-                <Button
-                  variant="outline-primary"
-                  className="rounded-pill btn-sm fw-bold"
-                >
-                  + Aggiungi
-                </Button>
+                <div className="d-flex ">
+                  <Button
+                    variant=""
+                    className=""
+                    onClick={() => navigate("/Esperienze")}
+                  >
+                    <FiPlus className="m-0 p-0" />
+                  </Button>
+                  <Button
+                    variant=""
+                    className=""
+                    onClick={() => navigate("/Esperienze")}
+                  >
+                    <FaPen size={17} />
+                  </Button>
+                </div>
               )}
             </div>
 
@@ -384,7 +399,7 @@ const MainProfile = () => {
         setPreview={setPreview}
       />
     </>
-  );
-};
+  )
+}
 
-export default MainProfile;
+export default MainProfile

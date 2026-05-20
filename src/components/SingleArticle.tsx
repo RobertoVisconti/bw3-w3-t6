@@ -83,7 +83,7 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
       });
 
       if (response.ok) {
-        // INVECE di getComments, rimuoviamo il commento dallo stato locale di Redux all'istante!
+        // Rimuoviamo il commento dallo stato locale di Redux all'istante
         dispatch({
           type: "DELETE_COMMENT_SUCCESS",
           payload: { postId: post._id, commentId: commentId },
@@ -258,94 +258,111 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
 
           {/* Rendering della lista dei commenti */}
           <div className="comments-list d-flex flex-column gap-2">
-            {commentsForPost.map((commento: Comment) => (
-              <div
-                key={commento._id}
-                className="d-flex gap-2 align-items-start p-2 rounded-3 bg-light"
-              >
-                <img
-                  src={myProfile?.image || "https://placecats.com/60/60"}
-                  alt="Avatar commentatore"
-                  className="rounded-circle"
-                  style={{ width: "32px", height: "32px", objectFit: "cover" }}
-                />
-                <div className="flex-grow-1 position-relative">
-                  <div className="d-flex flex-column bg-white p-2 rounded-3 border border-light shadow-xs">
-                    <span className="fw-bold small text-dark">
-                      {commento.author.replace(
-                        "robertovisconti93+epicode@gmail.com",
-                        "Roberto Visconti",
-                      )}
-                    </span>
-                    <span
-                      className="text-secondary"
-                      style={{ fontSize: "0.75rem" }}
-                    >
-                      {new Date(commento.createdAt).toLocaleDateString()}
-                    </span>
-                    <p
-                      className="m-0 mt-1 text-dark small"
-                      style={{ wordBreak: "break-word" }}
-                    >
-                      {commento.comment}
-                    </p>
-                  </div>
-                  {((myProfile && commento.author === myProfile.email) ||
-                    commento.author === loggedEmail ||
-                    commento.author ===
-                      "robertovisconti93+epicode@gmail.com") && (
-                    <OverlayTrigger
-                      trigger="click"
-                      rootClose
-                      placement="left"
-                      overlay={
-                        <Popover
-                          id={`popover-delete-${commento._id}`}
-                          className="shadow-sm border-secondary-subtle"
-                        >
-                          <Popover.Body
-                            className="p-2 text-center"
-                            style={{ minWidth: "140px" }}
-                          >
-                            <p className="m-0 mb-2 small fw-semibold text-dark">
-                              Eliminare?
-                            </p>
-                            <div className="d-flex gap-2 justify-content-center">
-                              <Button
-                                size="sm"
-                                variant="danger"
-                                className="py-0 px-2 small backend-del-btn"
-                                onClick={() => {
-                                  handleDeleteComment(commento._id);
-                                  document.body.click();
-                                }}
-                              >
-                                Sì
-                              </Button>
-                              <Button
-                                size="sm"
-                                variant="light"
-                                className="py-0 px-2 small border"
-                                onClick={() => document.body.click()}
-                              >
-                                No
-                              </Button>
-                            </div>
-                          </Popover.Body>
-                        </Popover>
-                      }
-                    >
-                      <button
-                        className="btn btn-link text-danger position-absolute end-0 top-0 m-1 p-1 border-0 custom-trash-btn"
-                        style={{ cursor: "pointer" }}
+            {commentsForPost.map((commento: Comment) => {
+              // Controlliamo se il commento è stato scritto dall'utente loggato
+              const isMyComment =
+                commento.author === myProfile?.email ||
+                commento.author === loggedEmail ||
+                commento.author === "robertovisconti93+epicode@gmail.com";
+
+              return (
+                <div
+                  key={commento._id}
+                  className="d-flex gap-2 align-items-start p-2 rounded-3 bg-light"
+                >
+                  <img
+                    /* Logica Immagine: se è il mio commento mostra la mia foto da Redux, altrimenti un gattino/avatar di fallback */
+                    src={
+                      isMyComment
+                        ? myProfile?.image || "https://placecats.com/60/60"
+                        : "https://placecats.com/60/60"
+                    }
+                    alt="Avatar commentatore"
+                    className="rounded-circle"
+                    style={{
+                      width: "32px",
+                      height: "32px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <div className="flex-grow-1 position-relative">
+                    <div className="d-flex flex-column bg-white p-2 rounded-3 border border-light shadow-xs">
+                      <span className="fw-bold small text-dark">
+                        {commento.author
+                          ? commento.author.replace(
+                              "robertovisconti93+epicode@gmail.com",
+                              "Roberto Visconti",
+                            )
+                          : "Utente Anonimo"}
+                      </span>
+                      <span
+                        className="text-secondary"
+                        style={{ fontSize: "0.75rem" }}
                       >
-                        <FaTrashAlt size={14} />
-                      </button>
-                    </OverlayTrigger>
-                  )}
+                        {new Date(commento.createdAt).toLocaleDateString()}
+                      </span>
+                      <p
+                        className="m-0 mt-1 text-dark small"
+                        style={{ wordBreak: "break-word" }}
+                      >
+                        {commento.comment}
+                      </p>
+                    </div>
+
+                    {isMyComment && (
+                      <OverlayTrigger
+                        trigger="click"
+                        rootClose
+                        placement="left"
+                        overlay={
+                          <Popover
+                            id={`popover-delete-${commento._id}`}
+                            className="shadow-sm border-secondary-subtle"
+                          >
+                            <Popover.Body
+                              className="p-2 text-center"
+                              style={{ minWidth: "140px" }}
+                            >
+                              <p className="m-0 mb-2 small fw-semibold text-dark">
+                                Eliminare?
+                              </p>
+                              <div className="d-flex gap-2 justify-content-center">
+                                <Button
+                                  size="sm"
+                                  variant="danger"
+                                  className="py-0 px-2 small backend-del-btn"
+                                  onClick={() => {
+                                    handleDeleteComment(commento._id);
+                                    document.body.click();
+                                  }}
+                                >
+                                  Sì
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="light"
+                                  className="py-0 px-2 small border"
+                                  onClick={() => document.body.click()}
+                                >
+                                  No
+                                </Button>
+                              </div>
+                            </Popover.Body>
+                          </Popover>
+                        }
+                      >
+                        <button
+                          className="btn btn-link text-danger position-absolute end-0 top-0 m-1 p-1 border-0 custom-trash-btn"
+                          style={{ cursor: "pointer" }}
+                        >
+                          <FaTrashAlt size={14} />
+                        </button>
+                      </OverlayTrigger>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}

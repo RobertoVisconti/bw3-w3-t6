@@ -1,24 +1,24 @@
-import { Button, Form, Modal } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../redux/store";
-import { useEffect, useState } from "react";
+import { Button, Form, Modal } from "react-bootstrap"
+import { useDispatch, useSelector } from "react-redux"
+import type { AppDispatch, RootState } from "../redux/store"
+import { useEffect, useState } from "react"
 import {
   getMyProfileAsync,
   updateProfileAsync,
-} from "../redux/actions/profileActions";
-import ButtonLinkedin from "./ButtonLinkedin";
+} from "../redux/actions/profileActions"
+import ButtonLinkedin from "./ButtonLinkedin"
 
 export interface ModalePresentazioneProps {
-  showMod: boolean;
-  handleCloseMod: () => void;
+  showMod: boolean
+  handleCloseMod: () => void
 }
 
 const ModalePresentazione = ({
   showMod,
   handleCloseMod,
 }: ModalePresentazioneProps) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { myProfile } = useSelector((state: RootState) => state.profile);
+  const dispatch = useDispatch<AppDispatch>()
+  const { myProfile } = useSelector((state: RootState) => state.profile)
 
   const [formData, setFormData] = useState({
     name: "",
@@ -26,11 +26,12 @@ const ModalePresentazione = ({
     bio: "",
     title: "",
     area: "",
-  });
+    username: "",
+  })
 
   useEffect(() => {
-    dispatch(getMyProfileAsync());
-  }, [dispatch]);
+    dispatch(getMyProfileAsync())
+  }, [dispatch])
 
   useEffect(() => {
     if (myProfile) {
@@ -40,25 +41,26 @@ const ModalePresentazione = ({
         bio: myProfile.bio || "",
         title: myProfile.title || "",
         area: myProfile.area || "",
-      });
+        username: myProfile.username || "",
+      })
     }
-  }, [myProfile]);
+  }, [myProfile])
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
 
     setFormData({
       ...formData,
       [name]: value,
-    });
-  };
+    })
+  }
 
   const handleSave = async () => {
-    await dispatch(updateProfileAsync(formData));
-    handleCloseMod();
-  };
+    await dispatch(updateProfileAsync(formData))
+    handleCloseMod()
+  }
 
   return (
     <Modal show={showMod} onHide={handleCloseMod} scrollable>
@@ -99,7 +101,12 @@ const ModalePresentazione = ({
           <Form.Group className="mb-3" controlId="formBasicPassword">
             {/* nome aggiuntivo */}
             <Form.Label>Nome aggiuntivo</Form.Label>
-            <Form.Control type="text" value="" />
+            <Form.Control
+              name="username"
+              type="text"
+              value={formData.username}
+              onChange={handleChange}
+            />
           </Form.Group>
           {/* pronomi */}
           <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -219,7 +226,7 @@ const ModalePresentazione = ({
         </Button>
       </Modal.Footer>
     </Modal>
-  );
-};
+  )
+}
 
-export default ModalePresentazione;
+export default ModalePresentazione
