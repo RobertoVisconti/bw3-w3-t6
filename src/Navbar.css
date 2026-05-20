@@ -67,6 +67,11 @@
   margin-left: 5px;
 }
 
+.home-shift {
+  position: relative;
+  left: 25px !important;
+}
+
 .linkedin-avatar {
   width: 29px;
   height: 29px;
