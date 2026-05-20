@@ -19,6 +19,7 @@ import { PaginaErrore } from "./pages/PaginaErrore";
 import { Rete } from "./pages/Rete";
 import DetailsJob from "./components/DetailsJob";
 import Login from "./pages/Login";
+import ChatExpand from "./pages/ChatExpand";
 
 const AppContent = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -66,6 +67,7 @@ const AppContent = () => {
           <Route path="*" element={<PaginaErrore />} />
           <Route path="/Rete" element={<Rete />}></Route>
           <Route path="/dettaglio-lavoro/:id" element={<DetailsJob />} />
+          <Route path="/messaggistica" element={<ChatExpand />} />
         </Routes>
       </main>
 
