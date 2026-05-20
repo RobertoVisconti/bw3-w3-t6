@@ -22,6 +22,7 @@ const MainExperience = () => {
     description: "",
     area: "",
     _id: "",
+    image: "",
   })
 
   const handleChangeExp = (
@@ -48,6 +49,7 @@ const MainExperience = () => {
       description: "",
       area: "",
       _id: "",
+      image: "",
     })
 
     handleCloseCreateExp()
