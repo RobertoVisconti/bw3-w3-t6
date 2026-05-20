@@ -8,29 +8,61 @@ import { useEffect, useState } from "react"
 import Form from "react-bootstrap/Form"
 import ButtonLinkedin from "./ButtonLinkedin"
 import { createExperience } from "../redux/actions/experienceActions"
+import MapExp from "./MapExp"
 
 const MainExperience = () => {
   const { myProfile } = useSelector((state: RootState) => state.profile)
+
   const dispatch = useDispatch<AppDispatch>()
-  const [formData, setFormData] = useState({
+  const [formExpData, setFormExpData] = useState({
     role: "",
     company: "",
     startDate: "",
     endDate: "",
     description: "",
     area: "",
-    username: "", // SERVER GENERATED
-    createdAt: "", // SERVER GENERATED
-    updatedAt: "", // SERVER GENERATED
-    __v: Number, // SERVER GENERATED
-    _id: "", // SERVER GENERATED
   })
 
+  const handleChangeExp = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target
+
+    setFormExpData({
+      ...formExpData,
+      [name]: value,
+    })
+  }
+
+  const handleSubmit = async () => {
+    if (!myProfile?._id) return
+
+    await dispatch(createExperience(myProfile._id, formExpData))
+
+    setFormExpData({
+      role: "",
+      company: "",
+      startDate: "",
+      endDate: "",
+      description: "",
+      area: "",
+    })
+
+    handleCloseCreateExp()
+  }
+
   useEffect(() => {
-    if (myProfile?._id) {
-      dispatch(createExperience(myProfile?._id, formData))
+    if (myProfile) {
+      setFormExpData({
+        name: myProfile.name || "",
+        surname: myProfile.surname || "",
+        bio: myProfile.bio || "",
+        title: myProfile.title || "",
+        area: myProfile.area || "",
+        username: myProfile.username || "",
+      })
     }
-  }, [dispatch, myProfile, formData])
+  }, [myProfile])
 
   //   modale create experience
   const [showCreateExp, setShowCreateExp] = useState(false)
@@ -72,31 +104,7 @@ const MainExperience = () => {
             </div>
             <FaPlus onClick={handleShowCreateExp} />
           </div>
-          <div className="d-flex justify-content-between align-items-start">
-            <div className="d-flex align-items-start">
-              {/* logo lavoro */}
-              <img
-                src="https://placehold.co/40x30"
-                alt="logo-lavoro"
-                className=""
-              />
-              <div className="ms-3">
-                {/* qui dentro possiamo aggiungere tutte le info */}
-                <h6 className="fw-semibold mb-1">{myProfile?.title}</h6>
-                <p className="text-secondary small mb-0">{myProfile?.area}</p>
-                <p className="text-secondary small mb-0">{myProfile?.area}</p>
-                <p className="text-secondary small mb-0">{myProfile?.area}</p>
-                <p className="text-secondary small mb-0">{myProfile?.area}</p>
-                <p className="text-secondary small mb-0">{myProfile?.area}</p>
-              </div>
-            </div>
-
-            <Button variant="link" className="text-dark p-0">
-              <FaPen size={17} />
-            </Button>
-          </div>
-
-          <hr className="my-3" />
+          <MapExp />
         </Card.Body>
       </Card>
       {/* modale create exp */}
@@ -119,13 +127,14 @@ const MainExperience = () => {
                 <Form.Control
                   name="role"
                   type="text"
-                  value={"Esempio: Retail Sales Manager"}
+                  value={formExpData.role}
+                  onChange={handleChangeExp}
                 />
                 <Form.Text className="text-muted"></Form.Text>
               </Form.Group>
               {/* da aggiungere tipo di impiego  */}
               <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Tipo di impiego*</Form.Label>
+                <Form.Label>Tipo di impiego</Form.Label>
                 <Form.Select aria-label="Default select example">
                   {tipiDiImpiego.map((type) => {
                     return <option>{type}</option>
@@ -139,7 +148,8 @@ const MainExperience = () => {
                 <Form.Control
                   name="company"
                   type="text"
-                  value={"Esempio: Microsoft"}
+                  value={formExpData.company}
+                  onChange={handleChangeExp}
                 />
               </Form.Group>
               {/* check box  */}
@@ -159,7 +169,12 @@ const MainExperience = () => {
               {/* Data di inizio */}
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Data di inizio*</Form.Label>
-                <Form.Control type="date" />
+                <Form.Control
+                  type="date"
+                  name="startDate"
+                  value={formExpData.startDate}
+                  onChange={handleChangeExp}
+                />
               </Form.Group>
               {/* località */}
               <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -167,12 +182,13 @@ const MainExperience = () => {
                 <Form.Control
                   name="area"
                   type="text"
-                  value="Esempio: Milano, Italia"
+                  value={formExpData.area}
+                  onChange={handleChangeExp}
                 />
               </Form.Group>
               {/*tipi di località */}
               <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Tipo di località*</Form.Label>
+                <Form.Label>Tipo di località</Form.Label>
                 <Form.Select aria-label="Default select example">
                   {tipiDiLocalita.map((type) => {
                     return <option>{type}</option>
@@ -184,14 +200,20 @@ const MainExperience = () => {
               </Form.Group>
               {/* descrizione */}
               <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Descrizione</Form.Label>
-                <Form.Control name="bio" as="textarea" rows={4} />
+                <Form.Label>Descrizione*</Form.Label>
+                <Form.Control
+                  name="description"
+                  as="textarea"
+                  rows={4}
+                  value={formExpData.description}
+                  onChange={handleChangeExp}
+                />
               </Form.Group>
 
               {/* sommario del profilo*/}
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Sommario del profilo*</Form.Label>
-                <Form.Control type="text" value={myProfile?.title} />
+                <Form.Control type="text" value={formExpData.role} />
                 <Form.Text className="fw-light" style={{ fontSize: "10px" }}>
                   Compare sotto il tuo nome nella parte superiore del profilo.
                 </Form.Text>
@@ -242,7 +264,11 @@ const MainExperience = () => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" className="rounded-pill m-0 py-0 ">
+          <Button
+            variant="primary"
+            className="rounded-pill m-0 py-0 "
+            onClick={handleSubmit}
+          >
             Salva
           </Button>
         </Modal.Footer>
