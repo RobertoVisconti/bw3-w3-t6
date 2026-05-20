@@ -1,24 +1,24 @@
-import { Button, Form, Modal } from "react-bootstrap"
-import { useDispatch, useSelector } from "react-redux"
-import type { AppDispatch, RootState } from "../redux/store"
-import { useEffect, useState } from "react"
+import { Button, Form, Modal } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../redux/store";
+import { useEffect, useState } from "react";
 import {
   getMyProfileAsync,
   updateProfileAsync,
-} from "../redux/actions/profileActions"
-import ButtonLinkedin from "./ButtonLinkedin"
+} from "../redux/actions/profileActions";
+import ButtonLinkedin from "./ButtonLinkedin";
 
 export interface ModalePresentazioneProps {
-  showMod: boolean
-  handleCloseMod: () => void
+  showMod: boolean;
+  handleCloseMod: () => void;
 }
 
 const ModalePresentazione = ({
   showMod,
   handleCloseMod,
 }: ModalePresentazioneProps) => {
-  const dispatch = useDispatch<AppDispatch>()
-  const { myProfile } = useSelector((state: RootState) => state.profile)
+  const dispatch = useDispatch<AppDispatch>();
+  const { myProfile } = useSelector((state: RootState) => state.profile);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -26,11 +26,11 @@ const ModalePresentazione = ({
     bio: "",
     title: "",
     area: "",
-  })
+  });
 
   useEffect(() => {
-    dispatch(getMyProfileAsync())
-  }, [dispatch])
+    dispatch(getMyProfileAsync());
+  }, [dispatch]);
 
   useEffect(() => {
     if (myProfile) {
@@ -40,25 +40,25 @@ const ModalePresentazione = ({
         bio: myProfile.bio || "",
         title: myProfile.title || "",
         area: myProfile.area || "",
-      })
+      });
     }
-  }, [myProfile])
+  }, [myProfile]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
 
     setFormData({
       ...formData,
       [name]: value,
-    })
-  }
+    });
+  };
 
   const handleSave = async () => {
-    await dispatch(updateProfileAsync(formData))
-    handleCloseMod()
-  }
+    await dispatch(updateProfileAsync(formData));
+    handleCloseMod();
+  };
 
   return (
     <Modal show={showMod} onHide={handleCloseMod} scrollable>
@@ -219,7 +219,7 @@ const ModalePresentazione = ({
         </Button>
       </Modal.Footer>
     </Modal>
-  )
-}
+  );
+};
 
-export default ModalePresentazione
+export default ModalePresentazione;

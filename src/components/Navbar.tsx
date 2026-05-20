@@ -227,7 +227,7 @@ const Navbar = () => {
               <span>Lavoro</span>
             </Link>
 
-            <Link to="/messaggi" className="linkedin-item">
+            <Link to="/messaggistica" className="linkedin-item">
               <FaCommentDots />
               <span>Messaggistica</span>
             </Link>

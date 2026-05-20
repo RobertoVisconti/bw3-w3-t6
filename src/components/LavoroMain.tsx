@@ -1,17 +1,22 @@
 import { Button, Col, Container, Row } from "react-bootstrap";
 import SingleLavoro from "./SingleLavoro";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getJobsAsync } from "../redux/actions/jobActions";
 import type { AppDispatch, RootState } from "../redux/store";
 import type { Job } from "../interfaces/interfaces";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { IoMdArrowDropup } from "react-icons/io";
+import LavoroPlaceholder from "./LavoroPlaceholder";
 
 const LavoroMain = function () {
   const jobs = useSelector((state: RootState) => state.jobs.jobs);
-  const jobsRandom = [...jobs].sort(() => Math.random() - 0.5);
   const dispatch = useDispatch<AppDispatch>();
+  const jobsRandom = useMemo(() => {
+    return [...jobs].sort(() => Math.random() - 0.5);
+  });
+
+  const isLoading = useSelector((state: RootState) => state.jobs.isLoading);
 
   useEffect(() => {
     dispatch(getJobsAsync());
@@ -39,12 +44,16 @@ const LavoroMain = function () {
           <Container className="d-flex justify-content-between">
             <Row className="d-flex">
               <Col>
-                {jobs
-                  .filter((job) => job.company_logo_url)
-                  .slice(0, visualizzati)
-                  .map((job: Job) => {
-                    return <SingleLavoro job={job} key={job._id} />;
-                  })}
+                {isLoading
+                  ? Array.from({ length: 5 }).map((_, i) => (
+                      <LavoroPlaceholder key={i} />
+                    ))
+                  : jobs
+                      .filter((job: Job) => job.company_logo_url)
+                      .slice(0, visualizzati)
+                      .map((job: Job) => {
+                        return <SingleLavoro job={job} key={job._id} />;
+                      })}
               </Col>
             </Row>
           </Container>
@@ -85,12 +94,16 @@ const LavoroMain = function () {
           <Container className="d-flex justify-content-between">
             <Row className="d-flex">
               <Col>
-                {jobsRandom
-                  .filter((job) => job.company_logo_url)
-                  .slice(0, visualizzatiRandom)
-                  .map((job: job) => {
-                    return <SingleLavoro job={job} key={job._id} />;
-                  })}
+                {isLoading
+                  ? Array.from({ length: 5 }).map((_, i) => (
+                      <LavoroPlaceholder key={i} />
+                    ))
+                  : jobsRandom
+                      .filter((job) => job.company_logo_url)
+                      .slice(0, visualizzatiRandom)
+                      .map((job: job) => {
+                        return <SingleLavoro job={job} key={job._id} />;
+                      })}
               </Col>
             </Row>
           </Container>
