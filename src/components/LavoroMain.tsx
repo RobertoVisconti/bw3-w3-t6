@@ -1,9 +1,8 @@
 import { Button, Col, Container, Row } from "react-bootstrap";
 import SingleLavoro from "./SingleLavoro";
-import { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getJobsAsync } from "../redux/actions/jobActions";
-import type { AppDispatch, RootState } from "../redux/store";
+import { useMemo, useState } from "react";
+import { useSelector } from "react-redux";
+import type { RootState } from "../redux/store";
 import type { Job } from "../interfaces/interfaces";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { IoMdArrowDropup } from "react-icons/io";
@@ -11,20 +10,11 @@ import LavoroPlaceholder from "./LavoroPlaceholder";
 
 const LavoroMain = function () {
   const jobs = useSelector((state: RootState) => state.jobs.jobs);
-  const dispatch = useDispatch<AppDispatch>();
   const jobsRandom = useMemo(() => {
     return [...jobs].sort(() => Math.random() - 0.5);
   });
 
   const isLoading = useSelector((state: RootState) => state.jobs.isLoading);
-
-  useEffect(() => {
-    dispatch(getJobsAsync());
-  }, []);
-
-  useEffect(() => {
-    console.log(jobs);
-  }, [jobs]);
 
   const [visualizzati, setVisualizzati] = useState(5);
   const [visualizzatiRandom, setVisualizzatiRandom] = useState(5);

@@ -4,6 +4,7 @@ import type { RootState } from "../redux/store";
 import type { News } from "../interfaces/interfaces";
 import { Container } from "react-bootstrap";
 import formatDate from "./formatDate";
+import BigCardPlaceholder from "./BigCardPlaceholder";
 
 const DettaglioNotizia = function () {
   const params = useParams();
@@ -19,7 +20,7 @@ const DettaglioNotizia = function () {
       .join("")
       .toUpperCase();
 
-  if (!notizia) return <p>Notizia non trovata.</p>;
+  if (!notizia) return <BigCardPlaceholder/>
   return (
     <Container className="py-4">
       <div className="news-card">

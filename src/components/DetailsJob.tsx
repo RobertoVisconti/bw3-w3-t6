@@ -5,12 +5,16 @@ import type { Job } from "../interfaces/interfaces";
 import { useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { IoMdArrowDropup } from "react-icons/io";
+import type { RootState } from "../redux/store";
+import BigCardPlaceholder from "./BigCardPlaceholder";
 
 const DetailsJob = function () {
   const params = useParams();
-  const jobs = useSelector((state: Job) => state.jobs.jobs);
-  const detailJob = jobs.find((job: Job) => job._id === params.id);
+  const jobs = useSelector((state: RootState) => state.jobs.jobs);
   const [readMore, setReadMore] = useState(450);
+
+  const detailJob = jobs.find((job: Job) => job._id === params.id);
+  if (!detailJob) return <BigCardPlaceholder />;
   const description = detailJob.description
     .replace(/<[^>]+>/g, "")
     .slice(0, readMore);
@@ -21,6 +25,7 @@ const DetailsJob = function () {
       year: "numeric",
     });
   };
+
   return (
     <Container className="mt-5">
       <Row className="justify-content-center">

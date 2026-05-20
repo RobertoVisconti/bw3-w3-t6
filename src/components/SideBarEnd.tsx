@@ -55,16 +55,8 @@ const SideBarEnd = () => {
   const [activeNews, setActiveNews] = useState("");
 
   const news = useSelector((state: RootState) => state.news.news);
-  const dispatch = useDispatch<AppDispatch>();
   const [notizieMostrate, setNotizieMostrate] = useState(5);
-
-  useEffect(() => {
-    dispatch(getNewsAsync());
-  }, []);
-
-  useEffect(() => {
-    console.log(news);
-  }, [news]);
+;
 
   return (
     <>
