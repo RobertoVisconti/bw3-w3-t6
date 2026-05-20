@@ -1,31 +1,35 @@
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../redux/store";
+import { useDispatch, useSelector } from "react-redux"
+import type { AppDispatch, RootState } from "../redux/store"
 
-import { useEffect } from "react";
-import { getMyProfileAsync } from "../redux/actions/profileActions";
-import { GoShieldCheck } from "react-icons/go";
-import { Col } from "react-bootstrap";
-import type { FooterLink } from "../components/FooterLinkProfile";
-import ButtonLinkedin from "./ButtonLinkedin";
+import { useEffect } from "react"
+import { getMyProfileAsync } from "../redux/actions/profileActions"
+import { GoShieldCheck } from "react-icons/go"
+import { Col, Image } from "react-bootstrap"
+import type { FooterLink } from "../components/FooterLinkProfile"
+import ButtonLinkedin from "./ButtonLinkedin"
+import { useNavigate } from "react-router-dom"
 
 const DropDownTu = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  // funzuoine navigazione
+  const navigate = useNavigate()
+
+  const dispatch = useDispatch<AppDispatch>()
   const { myProfile, isLoading, error } = useSelector(
     (state: RootState) => state.profile,
-  );
+  )
 
   useEffect(() => {
-    dispatch(getMyProfileAsync());
-  }, [dispatch]);
+    dispatch(getMyProfileAsync())
+  }, [dispatch])
 
   // Funzione per gestire la disconnessione reale
   const handleLogout = (e: React.MouseEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("isLoggedIn")
 
-    window.location.href = "/login";
-  };
+    window.location.href = "/login"
+  }
 
   const links: FooterLink[] = [
     { label: "Account", url: "#" },
@@ -37,7 +41,7 @@ const DropDownTu = () => {
     { label: "Post e attività", url: "#" },
     { label: "Account per la pubblicazione di offerte di lavoro", url: "#" },
     { label: "Esci", url: "#" },
-  ];
+  ]
 
   return (
     <>
@@ -51,10 +55,17 @@ const DropDownTu = () => {
         <>
           <section className=" d-flex  flex-column bg-light border border-secondary rounded-3 my-2 align-items-center p-3">
             <div className="d-flex">
-              <img
-                src={myProfile.image || "https://placehold.co/30x30"}
-                alt="foto profilo"
-                className="rounded-circle w-25 h-25 me-4"
+              <Image
+                src={myProfile?.image}
+                roundedCircle
+                className="linkedin-avatar  me-3"
+                alt="foto-profilo"
+                style={{
+                  width: "80px",
+                  height: "80px",
+                  objectFit: "cover",
+                }}
+                onClick={() => navigate("/profilo")}
               />
               <div>
                 <div className="d-flex align-items-center">
@@ -83,7 +94,7 @@ const DropDownTu = () => {
                     {link.label}
                   </a>
                 </Col>
-              );
+              )
             })}
             <hr />
             {links.slice(5, 8).map((link, i) => {
@@ -97,7 +108,7 @@ const DropDownTu = () => {
                     {link.label}
                   </a>
                 </Col>
-              );
+              )
             })}
 
             {links.slice(8, 9).map((link, i) => {
@@ -112,13 +123,13 @@ const DropDownTu = () => {
                     {link.label}
                   </a>
                 </Col>
-              );
+              )
             })}
           </section>
         </>
       )}
     </>
-  );
-};
+  )
+}
 
-export default DropDownTu;
+export default DropDownTu

@@ -1,9 +1,9 @@
-import { Col, Container, Row, Dropdown } from "react-bootstrap"
+import { Col, Container, Row, Dropdown } from "react-bootstrap";
 
 export interface FooterLink {
-  label: string
-  url: string
-  isDropdown?: boolean
+  label: string;
+  url: string;
+  isDropdown?: boolean;
 }
 
 export const FooterLinkProfile = () => {
@@ -21,13 +21,13 @@ export const FooterLinkProfile = () => {
     { label: "Mobile", url: "#" },
     { label: "Piccole imprese", url: "#" },
     { label: "Centro sicurezza", url: "#" },
-  ]
+  ];
 
   return (
     <Container>
       <Row>
         {links.map((link, i) => (
-          <Col xs={12} lg={4} className="p-0">
+          <Col key={i} xs={12} lg={4} className="p-0">
             {link.isDropdown ? (
               <Dropdown>
                 <Dropdown.Toggle
@@ -57,9 +57,8 @@ export const FooterLinkProfile = () => {
               </Dropdown>
             ) : (
               <a
-                key={i}
                 href={link.url}
-                className="text-decoration-none text-muted small d-inline-block mb-2 "
+                className="text-decoration-none text-muted small d-inline-block mb-2"
               >
                 {link.label}
               </a>
@@ -68,5 +67,5 @@ export const FooterLinkProfile = () => {
         ))}
       </Row>
     </Container>
-  )
-}
+  );
+};

@@ -9,10 +9,12 @@ export const CREATE_POST_SUCCESS = 'CREATE_POST_SUCCESS';
 export const UPDATE_POST_SUCCESS = 'UPDATE_POST_SUCCESS';
 export const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS';
 
-
 export interface PostInput {
   text: string;
 }
+
+
+type PostUser = Post['user'];
 
 export const getPost = () => async (dispatch: Dispatch) => {
   dispatch({ type: POST_LOADING });
@@ -25,27 +27,40 @@ export const getPost = () => async (dispatch: Dispatch) => {
   }
 };
 
-export const createPost = (postData: PostInput) => async (dispatch: Dispatch) => {
+
+export const createPost = (postData: PostInput, currentProfile: PostUser) => async (dispatch: Dispatch) => {
   dispatch({ type: POST_LOADING });
   try {
     const data = await customFetch<Post>('posts/', 'POST', postData);
-    dispatch({ type: CREATE_POST_SUCCESS, payload: data });
-    return data;
+    
+ 
+    const enrichedPost: Post = {
+      ...data,
+      user: currentProfile || data.user
+    };
+
+    dispatch({ type: CREATE_POST_SUCCESS, payload: enrichedPost });
+    return enrichedPost;
   } catch (err) {
     const msg = err instanceof Error ? err.message : 'Errore sconosciuto';
     dispatch({ type: POST_ERROR, payload: msg });
   }
 };
 
-// per caricare l immagine devo richiamare il form data del create post
-export const uploadPostImage = (postId: string, file: File) => async (dispatch: Dispatch) => {
+export const uploadPostImage = (postId: string, file: File, currentProfile: PostUser) => async (dispatch: Dispatch) => {
   try {
     const formData = new FormData();
     formData.append('post', file);
     const data = await customFetch<Post>(`posts/${postId}`, 'POST', formData);
-    dispatch({ type: UPDATE_POST_SUCCESS, payload: data });
     
-    return data;
+
+    const enrichedPost: Post = {
+      ...data,
+      user: currentProfile || data.user
+    };
+
+    dispatch({ type: UPDATE_POST_SUCCESS, payload: enrichedPost });
+    return enrichedPost;
   } catch (err) {
     console.error("Errore durante il caricamento dell'immagine:", err);
     const msg = err instanceof Error ? err.message : 'Errore nel caricamento immagine';
@@ -57,7 +72,7 @@ export const uploadPostImage = (postId: string, file: File) => async (dispatch: 
 export const updatePost = (postId: string, postData: PostInput) => async (dispatch: Dispatch) => {
   dispatch({ type: POST_LOADING });
   try {
-    const data = await customFetch<Post>(`posts/${postId}`, 'PUT', postData);
+    const data = await customFetch<Post>(` posts/${postId}`, 'PUT', postData);
     dispatch({ type: UPDATE_POST_SUCCESS, payload: data });
     return data;
   } catch (err) {
@@ -65,7 +80,6 @@ export const updatePost = (postId: string, postData: PostInput) => async (dispat
     dispatch({ type: POST_ERROR, payload: msg });
   }
 };
-
 
 export const deletePost = (postId: string) => async (dispatch: Dispatch) => {
   dispatch({ type: POST_LOADING });

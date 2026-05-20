@@ -3,6 +3,7 @@ import {
   COMMENTS_ERROR,
   GET_COMMENTS_SUCCESS,
   ADD_COMMENT_SUCCESS,
+  DELETE_COMMENT_SUCCESS
 } from "../actions/commentsActions";
 import type { CommentState, Comment } from "../../interfaces/interfaces";
 
@@ -17,15 +18,26 @@ interface CommentAction {
   payload: CommentsPayload | Comment | string;
 }
 
+export interface DeleteCommentSuccessAction {
+  type: typeof DELETE_COMMENT_SUCCESS;
+  payload: {
+    postId: string;
+    commentId: string;
+  };
+}
+
+
+type AllCommentsActions = CommentAction | DeleteCommentSuccessAction;
 
 const initialState: CommentState = {
-    commentsByPost: {},
-    isLoading: false,
+  commentsByPost: {},
+  isLoading: false,
   error: null,
 };
+
 export const commentsReducer = (
   state = initialState,
-  action: CommentAction,
+  action: AllCommentsActions,
 ): CommentState => {
   switch (action.type) {
     case COMMENTS_LOADING:
@@ -50,15 +62,15 @@ export const commentsReducer = (
       const existingComments = state.commentsByPost[postId] || [];
       const finalComments = comments.length === 0 ? existingComments : comments;
 
-       return {
-       ...state,
-       isLoading: false,
-       commentsByPost: {
-        ...state.commentsByPost,
-        [postId]: finalComments,
-      },
-  };
-}
+      return {
+        ...state,
+        isLoading: false,
+        commentsByPost: {
+          ...state.commentsByPost,
+          [postId]: finalComments,
+        },
+      };
+    }
     
     case ADD_COMMENT_SUCCESS: {
       const newComment = action.payload as Comment;
@@ -71,6 +83,21 @@ export const commentsReducer = (
         commentsByPost: {
           ...state.commentsByPost,
           [postId]: [newComment, ...currentComments],
+        },
+      };
+    }
+
+    case DELETE_COMMENT_SUCCESS: {
+      const { postId, commentId } = (action as DeleteCommentSuccessAction).payload;
+      
+      return {
+        ...state,
+        isLoading: false,
+        commentsByPost: {
+          ...state.commentsByPost,
+          [postId]: (state.commentsByPost[postId] || []).filter(
+            (c: Comment) => c._id !== commentId
+          ),
         },
       };
     }

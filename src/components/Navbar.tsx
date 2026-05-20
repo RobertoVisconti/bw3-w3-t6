@@ -12,7 +12,6 @@ import {
   FaLinkedin,
   FaSearch,
   FaMapMarkerAlt,
-  FaHome,
   FaUserFriends,
   FaBriefcase,
   FaCommentDots,
