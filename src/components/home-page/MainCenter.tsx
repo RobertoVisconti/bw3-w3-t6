@@ -5,7 +5,7 @@ import FormPost from "./FormPost";
 import ListaConsigliati from "./ListaConsigliati";
 import ListArticle from "./ListArticles";
 
-import FooterLinkedin from "./FooterLinkedin";
+import FooterLinkedin from "../footer/FooterLinkedin";
 
 const MainCenter = function () {
   return (

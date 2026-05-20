@@ -9,7 +9,8 @@ import {
   PiPaperPlaneRightBold,
 } from "react-icons/pi";
 import { useSelector } from "react-redux";
-import type { RootState } from "../redux/store";
+import type { RootState } from "../../redux/store";
+
 import EmojiPickerButton from "./emojiButton";
 
 interface Message {

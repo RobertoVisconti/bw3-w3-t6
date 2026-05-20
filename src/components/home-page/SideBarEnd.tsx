@@ -7,13 +7,13 @@ import {
   IoChevronUpOutline,
 } from "react-icons/io5";
 
-import { FooterMiniGenerale } from "./FooterMiniGenerale";
+import { FooterMiniGenerale } from "../footer/FooterMiniGenerale";
 import EndSidebarEnd from "./endSidebarEnd";
 import { useSelector } from "react-redux";
-import type { RootState } from "../redux/store";
-import type { News } from "../interfaces/interfaces";
+import type { RootState } from "../../redux/store";
+import type { News } from "../../interfaces/interfaces";
 import { useNavigate } from "react-router-dom";
-import formatDate from "./formatDate";
+import formatDate from "../generali/formatDate";
 
 const SideBarEnd = () => {
   const [giochiVisualizzati, setGiochiVisualizzati] = useState(4);

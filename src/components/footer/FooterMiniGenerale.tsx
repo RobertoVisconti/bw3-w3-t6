@@ -1,8 +1,8 @@
 import { Container, Dropdown } from "react-bootstrap";
 import React from "react";
-import { CurrentYear } from "./CurrentYear";
+import { CurrentYear } from "../generali/CurrentYear";
 import { useSelector } from "react-redux";
-import type { RootState } from "../redux/store";
+import type { RootState } from "../../redux/store";
 
 // Mini footer da mettere nel aside
 

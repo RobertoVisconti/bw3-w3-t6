@@ -6,7 +6,7 @@ import type { AppDispatch, RootState } from "../redux/store";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
-import ButtonLinkedin from "./ButtonLinkedin";
+import ButtonLinkedin from "./generali/ButtonLinkedin";
 import { createExperience } from "../redux/actions/experienceActions";
 import MapExp from "./MapExp";
 

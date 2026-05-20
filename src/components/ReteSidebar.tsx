@@ -1,6 +1,6 @@
 // import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { FooterMiniGenerale } from "./FooterMiniGenerale";
+import { FooterMiniGenerale } from "./footer/FooterMiniGenerale";
 
 interface LinkFormat {
   icon: React.ReactNode;

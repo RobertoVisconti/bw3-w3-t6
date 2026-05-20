@@ -1,7 +1,7 @@
-import SidebarStart from "../components/sidebarstart";
+import SidebarStart from "../components/home-page/sidebarstart";
 import { Col, Container, Row } from "react-bootstrap";
 
-import SideBarEnd from "../components/SideBarEnd";
+import SideBarEnd from "../components/home-page/SideBarEnd";
 import { Outlet } from "react-router-dom";
 
 const Home = () => {

@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef, type SyntheticEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../redux/store";
+import type { AppDispatch, RootState } from "../../redux/store";
 import { SlOptions } from "react-icons/sl";
 import { PiPlanetBold } from "react-icons/pi";
 import { Button, Form, OverlayTrigger, Popover } from "react-bootstrap";
-import type { Post, Comment } from "../interfaces/interfaces";
+import type { Post, Comment } from "../../interfaces/interfaces";
 import { FaRegThumbsUp, FaThumbsUp, FaTrashAlt, FaEdit } from "react-icons/fa";
 import {
   IoCloseSharp,
@@ -17,11 +17,11 @@ import {
   addComment,
   COMMENTS_LOADING,
   COMMENTS_ERROR,
-} from "../redux/actions/commentsActions";
+} from "../../redux/actions/commentsActions";
 
 // Importiamo l'action creator dal tuo file delle azioni dei post
-import { deletePost } from "../redux/actions/postActions";
-import EmojiPickerButton from "./emojiButton";
+import { deletePost } from "../../redux/actions/postActions";
+import EmojiPickerButton from "../generali/emojiButton";
 
 interface SingleArticleProps {
   post: Post;

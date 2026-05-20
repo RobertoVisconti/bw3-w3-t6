@@ -1,7 +1,7 @@
 import { Col, Container, Row } from "react-bootstrap";
 import ProfileRightSidebar from "../components/ProfileRightSidebar";
 import MainProfile from "../components/MainProfile";
-import FooterLinkedin from "../components/FooterLinkedin";
+import FooterLinkedin from "../components/footer/FooterLinkedin";
 
 const Profilo = () => {
   return (

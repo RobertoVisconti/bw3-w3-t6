@@ -1,6 +1,6 @@
 import { Modal, Button, Form, FormCheck, Image } from "react-bootstrap";
 import { FaTrashAlt, FaCamera } from "react-icons/fa";
-import ButtonLinkedin from "../components/ButtonLinkedin";
+import ButtonLinkedin from "./generali/ButtonLinkedin";
 import type { Profile } from "../interfaces/interfaces";
 
 interface ProfileModalsProps {

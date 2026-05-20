@@ -1,6 +1,6 @@
 import { Card, Button } from "react-bootstrap";
 import type { Profile } from "../interfaces/interfaces";
-import ButtonFollow from "./ButtonFollow";
+import ButtonFollow from "./generali/ButtonFollow";
 
 interface CardsCollegatiProps extends Profile {
   collegati: boolean;

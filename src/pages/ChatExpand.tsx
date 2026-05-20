@@ -1,6 +1,6 @@
 import { Col, Container, Row } from "react-bootstrap";
 import { ReteSidebar } from "../components/ReteSidebar";
-import Messaggistica from "../components/Messaggistica";
+import Messaggistica from "../components/generali/Messaggistica";
 
 const ChatExpand = () => {
   return (

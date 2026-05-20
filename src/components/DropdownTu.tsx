@@ -5,8 +5,8 @@ import { useEffect } from "react"
 import { getMyProfileAsync } from "../redux/actions/profileActions"
 import { GoShieldCheck } from "react-icons/go"
 import { Col, Image } from "react-bootstrap"
-import type { FooterLink } from "../components/FooterLinkProfile"
-import ButtonLinkedin from "./ButtonLinkedin"
+import type { FooterLink } from "./footer/FooterLinkProfile"
+import ButtonLinkedin from "./generali/ButtonLinkedin"
 import { useNavigate } from "react-router-dom"
 
 const DropDownTu = () => {

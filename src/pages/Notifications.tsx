@@ -1,5 +1,5 @@
 import { Col, Container, Row } from "react-bootstrap";
-import SidebarStart from "../components/sidebarstart";
+import SidebarStart from "../components/home-page/sidebarstart";
 import { ReteSidebar } from "../components/ReteSidebar";
 import NotificationList from "../components/NotificationList";
 

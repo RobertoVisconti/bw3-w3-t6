@@ -18,12 +18,8 @@
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.2.6",
     "react-icons": "^5.6.0",
-    "react-jigsaw-puzzle": "^1.0.5",
     "react-redux": "^9.3.0",
-    "react-router-dom": "^7.15.1",
-    "react-snake-game": "^1.0.9",
-    "react-sudoku": "^1.0.9",
-    "react-tetris": "^0.4.0"
+    "react-router-dom": "^7.15.1"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",

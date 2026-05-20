@@ -1,6 +1,6 @@
 import { SlOptions } from "react-icons/sl";
 import { IoCloseSharp } from "react-icons/io5";
-import type { Job } from "../interfaces/interfaces";
+import type { Job } from "../../interfaces/interfaces";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 

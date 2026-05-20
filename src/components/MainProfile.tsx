@@ -7,7 +7,7 @@ import {
   uploadProfileImage,
 } from "../redux/actions/profileActions";
 import { GoShieldCheck } from "react-icons/go";
-import ButtonLinkedin from "./ButtonLinkedin";
+import ButtonLinkedin from "./generali/ButtonLinkedin";
 import ModalePresentazione from "../components/ModalePresentazione";
 import ProfileModals from "../components/ProfileModals";
 import { Button, Dropdown } from "react-bootstrap";

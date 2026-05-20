@@ -1,7 +1,7 @@
 import { Button } from "react-bootstrap";
 import { IoMdAdd } from "react-icons/io";
 import { FaArrowTrendUp } from "react-icons/fa6";
-import type { Profile } from "../interfaces/interfaces";
+import type { Profile } from "../../interfaces/interfaces";
 
 interface SingleConsigliatoProps {
   profilo: Profile;

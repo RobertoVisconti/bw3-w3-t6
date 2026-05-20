@@ -6,7 +6,7 @@ import {
   getMyProfileAsync,
   updateProfileAsync,
 } from "../redux/actions/profileActions"
-import ButtonLinkedin from "./ButtonLinkedin"
+import ButtonLinkedin from "./generali/ButtonLinkedin"
 
 export interface ModalePresentazioneProps {
   showMod: boolean

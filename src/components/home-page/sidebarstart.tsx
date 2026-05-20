@@ -1,10 +1,10 @@
 import { GoShieldCheck } from "react-icons/go"
 import SidebarStartHome from "./SidebarSartHome"
-import SidebarStartLavoro from "./SidebarStartLavoro"
+// import SidebarStartLavoro from "../lavoro/SidebarStartLavoro"
 import { useDispatch, useSelector } from "react-redux"
-import type { AppDispatch, RootState } from "../redux/store"
+import type { AppDispatch, RootState } from "../../redux/store"
 import { useEffect } from "react"
-import { getMyProfileAsync } from "../redux/actions/profileActions"
+import { getMyProfileAsync } from "../../redux/actions/profileActions"
 
 const SidebarStart = () => {
   const dispatch = useDispatch<AppDispatch>()

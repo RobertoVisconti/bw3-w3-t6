@@ -2,8 +2,8 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import SingleConsigliato from "./SingleConsigliato";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import type { RootState } from "../redux/store";
-import type { Profile } from "../interfaces/interfaces";
+import type { RootState } from "../../redux/store";
+import type { Profile } from "../../interfaces/interfaces";
 
 const ListaConsigliati = function () {
   const { allProfiles = [] } = useSelector(

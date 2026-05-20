@@ -1,10 +1,10 @@
 import { Container } from "react-bootstrap";
 import { HiDotsHorizontal } from "react-icons/hi";
-import ButtonLinkedin from "./ButtonLinkedin";
+import ButtonLinkedin from "../generali/ButtonLinkedin";
 import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../redux/store";
+import type { AppDispatch, RootState } from "../../redux/store";
 import { useEffect } from "react";
-import { getMyProfileAsync } from "../redux/actions/profileActions";
+import { getMyProfileAsync } from "../../redux/actions/profileActions";
 
 const EndSidebarEnd = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -70,6 +70,7 @@ const EndSidebarEnd = () => {
           <div className="w-70 text-center">
             <ButtonLinkedin
               text="Try for Free"
+              to="#"
               className="rounded-pill border-primary fw-bold"
             />
           </div>

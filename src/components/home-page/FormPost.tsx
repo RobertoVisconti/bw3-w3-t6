@@ -3,12 +3,12 @@ import { Col, FormControl, Modal, Button } from "react-bootstrap";
 import { PiVideoFill, PiArticleBold, PiXBold } from "react-icons/pi";
 import { AiFillPicture } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../redux/store";
-import { createPost, uploadPostImage } from "../redux/actions/postActions";
-import type { Post } from "../interfaces/interfaces";
+import type { AppDispatch, RootState } from "../../redux/store";
+import { createPost, uploadPostImage } from "../../redux/actions/postActions";
+import type { Post } from "../../interfaces/interfaces";
 import { BsCalendarEvent, BsChevronDown, BsClockHistory } from "react-icons/bs";
 import { FaAward } from "react-icons/fa";
-import EmojiPickerButton from "./emojiButton";
+import EmojiPickerButton from "../generali/emojiButton";
 
 const FormPost = function () {
   const emojiPostRef = useRef<HTMLInputElement>(null);

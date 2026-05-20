@@ -1,7 +1,7 @@
 import { Button } from "react-bootstrap";
-import type { Profile } from "../interfaces/interfaces";
+import type { Profile } from "../../interfaces/interfaces";
 import { useDispatch } from "react-redux";
-import { addProfile } from "../redux/actions/reteActions";
+import { addProfile } from "../../redux/actions/reteActions";
 
 interface ButtonFollowProps {
   utente: Profile;

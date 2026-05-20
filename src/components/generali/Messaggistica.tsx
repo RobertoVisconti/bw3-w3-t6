@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { Container, Row, Col, FormControl } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import type { RootState } from "../redux/store";
+import type { RootState } from "../../redux/store";
 import {
   PiDotsThreeBold,
   PiNotePencilBold,
