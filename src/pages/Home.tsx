@@ -1,8 +1,8 @@
-import SidebarStart from "../components/sidebarstart"
-import { Col, Container, Row } from "react-bootstrap"
-import MainCenter from "../components/MainCenter"
+import SidebarStart from "../components/sidebarstart";
+import { Col, Container, Row } from "react-bootstrap";
 
-import SideBarEnd from "../components/SideBarEnd"
+import SideBarEnd from "../components/SideBarEnd";
+import { Outlet } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -14,7 +14,7 @@ const Home = () => {
         </Col>
         {/* colonna centrale */}
         <Col md={6} style={{ minHeight: "100vh" }}>
-          <MainCenter />
+          <Outlet />
         </Col>
         {/* colonna destra */}
         <Col md={3}>
@@ -22,7 +22,7 @@ const Home = () => {
         </Col>
       </Row>
     </Container>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

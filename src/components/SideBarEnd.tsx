@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Container, ListGroup } from "react-bootstrap";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import {
@@ -9,9 +9,8 @@ import {
 
 import { FooterMiniGenerale } from "./FooterMiniGenerale";
 import EndSidebarEnd from "./endSidebarEnd";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../redux/store";
-import { getNewsAsync } from "../redux/actions/NotizieActions";
+import { useSelector } from "react-redux";
+import type { RootState } from "../redux/store";
 import type { News } from "../interfaces/interfaces";
 import { useNavigate } from "react-router-dom";
 import formatDate from "./formatDate";
@@ -20,35 +19,39 @@ const SideBarEnd = () => {
   const gamesData = [
     {
       id: 1,
-      name: "Patches",
-      number: "#62",
-      desc: "Metti insieme i pezzi",
-      icon: "🧩",
-      bgIcon: "#e0f1ff",
+      name: "Sudoku",
+      number: "#1",
+      desc: "Riempi la griglia con i numeri giusti",
+      icon: "🔢",
+      bgIcon: "#d1e7dd",
+      route: "/giochi/sudoku",
     },
     {
       id: 2,
-      name: "Zip",
-      number: "#427",
-      desc: "Completa il percorso",
-      icon: "⚡",
-      bgIcon: "#fff3cd",
+      name: "Jigsaw Puzzle",
+      number: "#2",
+      desc: "Ricomponi l'immagine pezzo per pezzo",
+      icon: "🧩",
+      bgIcon: "#e0f1ff",
+      route: "/giochi/puzzle",
     },
     {
       id: 3,
-      name: "Mini Sudoku",
-      number: "#280",
-      desc: "Il gioco classico, in versione mini",
-      icon: "🔢",
-      bgIcon: "#d1e7dd",
+      name: "Snake",
+      number: "#3",
+      desc: "Mangia e cresci senza toccare i bordi",
+      icon: "🐍",
+      bgIcon: "#d1f0d1",
+      route: "/giochi/snake",
     },
     {
       id: 4,
-      name: "Tango",
-      number: "#588",
-      desc: "Armonizza la griglia",
-      icon: "🎨",
+      name: "Tetris",
+      number: "#4",
+      desc: "Incastra i blocchi e completa le righe",
+      icon: "🟦",
       bgIcon: "#ffe2e2",
+      route: "/giochi/tetris",
     },
   ];
   const navigate = useNavigate();
@@ -56,8 +59,6 @@ const SideBarEnd = () => {
 
   const news = useSelector((state: RootState) => state.news.news);
   const [notizieMostrate, setNotizieMostrate] = useState(5);
-;
-
   return (
     <>
       <Container
@@ -245,6 +246,7 @@ const SideBarEnd = () => {
                 onMouseLeave={(e) =>
                   (e.currentTarget.style.backgroundColor = "transparent")
                 }
+                onClick={() => navigate(`${game.route}`)}
               >
                 {/* Box Sinistro */}
                 <div

@@ -25,6 +25,11 @@ import Esperienze from "./pages/Esperienze";
 import DettaglioNotizia from "./components/DettaglioNotizia";
 import { getNewsAsync } from "./redux/actions/NotizieActions";
 import { getJobsAsync } from "./redux/actions/jobActions";
+import MainCenter from "./components/MainCenter";
+import SnakePage from "./components/SnakePage";
+import TetrisGame from "./components/TetrisGame";
+import SudokuGame from "./components/SudokuGame";
+import PuzzleGame from "./components/PuzzleGame";
 
 const AppContent = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -68,7 +73,14 @@ const AppContent = () => {
 
       <main className="flex-grow-1">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route element={<Home />}>
+            <Route path="/" element={<MainCenter />} />
+            <Route path="/notizia/:id" element={<DettaglioNotizia />} />
+            <Route path="/giochi/snake" element={<SnakePage />} />
+            <Route path="/giochi/tetris" element={<TetrisGame />} />
+            <Route path="/giochi/sudoku" element={<SudokuGame />} />
+            <Route path="/giochi/puzzle" element={<PuzzleGame />} />
+          </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/lavoro" element={<Lavoro />} />
           <Route path="/profilo" element={<Profilo />} />
@@ -80,7 +92,6 @@ const AppContent = () => {
           <Route path="/Esperienze" element={<Esperienze />} />
           <Route path="/messaggistica" element={<ChatExpand />} />
           <Route path="/notifiche" element={<Notifications />} />
-          <Route path="/notizia/:id" element={<DettaglioNotizia />} />
         </Routes>
       </main>
 
