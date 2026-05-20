@@ -1,73 +1,39 @@
-import { Card, Button, Row, Col, Container } from "react-bootstrap";
+import { useMemo } from "react";
+import { useSelector } from "react-redux";
+import type { RootState } from "../redux/store";
 import type { Profile } from "../interfaces/interfaces";
+import { CardsCollegatiSingolo } from "./CardsCollegatiSingolo";
+import { Row, Col } from "react-bootstrap";
 
-interface CardsCollegati extends Profile {
-  collegati: boolean;
-  affiliato?: boolean;
+interface CardsCollegatiContainerProps {
+  collegati?: boolean;
 }
 
 export const CardsCollegati = ({
-  image,
-  name,
-  surname,
-  title,
-  area,
   collegati = true,
-  affiliato = true,
-}: CardsCollegati) => {
+}: CardsCollegatiContainerProps) => {
+  const { allProfiles = [] } = useSelector(
+    (state: RootState) => state.profile || {},
+  );
+
+  const randomProfiles = useMemo(() => {
+    if (!allProfiles || allProfiles.length === 0) return [];
+    // eslint-disable-next-line react-hooks/purity
+    return [...allProfiles].sort(() => Math.random() - 0.5).slice(0, 3);
+  }, [allProfiles]);
+
   return (
-    <Container>
-      <Row>
-        <Col xs={12} md={6} lg={3}>
-          <Card className="position-relative">
-            <Card.Img
-              style={{ height: "60px" }}
-              variant="top"
-              src={image}
-            ></Card.Img>
-            <Card.Img
-              style={{
-                marginTop: "-45px",
-                zIndex: "3",
-                width: "110px",
-                height: "110px",
-                objectFit: "cover",
-              }}
-              className="rounded-circle mx-auto"
-              src={image}
-            />
-            <Card.Body className="pb-0">
-              <Card.Title>
-                {name}
-                {surname}
-              </Card.Title>
-              <Card.Text>
-                <span className="small text-muted">{title}</span>
-                {affiliato && (
-                  <span className="small text-muted d-block">{area}</span>
-                )}
-              </Card.Text>
-              <Button
-                variant="primary"
-                className="rounded-5 bg-light text-primary fw-medium w-100"
-              >
-                {collegati ? (
-                  <span>
-                    <i className="fas fa-user-plus"></i> Collegati
-                  </span>
-                ) : (
-                  <span>
-                    <i className="fas fa-plus"></i>Segui
-                  </span>
-                )}
-              </Button>
-              <Button className="bg-transparent border-0">
-                <i className="text-dark text-opacity-75 fas fa-times-circle top-0 end-0 m-2 fs-1 position-absolute"></i>
-              </Button>
-            </Card.Body>
-          </Card>
+    <Row className="g-3">
+      {randomProfiles.map((profilo: Profile) => (
+        <Col xs={12} md={4} lg={3} key={profilo._id}>
+          <div
+            className="user-select-none h-100 custom-hover-effect"
+            style={{ cursor: "pointer" }}
+          >
+            <CardsCollegatiSingolo {...profilo} collegati={collegati} />
+          </div>
         </Col>
-      </Row>
-    </Container>
+      ))}
+    </Row>
   );
 };

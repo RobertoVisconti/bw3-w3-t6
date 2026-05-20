@@ -1,5 +1,4 @@
 import { Button } from "react-bootstrap";
-
 import { CardsCollegati } from "./CardsCollegati";
 
 export const MainRete = () => {
@@ -60,11 +59,7 @@ export const MainRete = () => {
       </article>
       <article className="border rounded-2 border-secondary p-2">
         <h6>Suggeriti per te</h6>
-        <CardsCollegati
-          name="Gatto Silvestro"
-          title="Security Manager"
-          collegati={true}
-        />
+        <CardsCollegati />
       </article>
     </section>
   );
