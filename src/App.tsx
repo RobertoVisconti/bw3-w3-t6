@@ -9,7 +9,6 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import type { AppDispatch } from "./redux/store";
 import { getAllProfilesAction } from "./redux/actions/profileActions";
-
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Lavoro from "./pages/Lavoro";
@@ -25,6 +24,8 @@ import Esperienze from "./pages/Esperienze";
 import DettaglioNotizia from "./components/notizie/DettaglioNotizia";
 import { getNewsAsync } from "./redux/actions/NotizieActions";
 import { getJobsAsync } from "./redux/actions/jobActions";
+
+import SettingsPage from "./pages/SettingsPage";
 import MainCenter from "./components/home-page/MainCenter";
 import SnakePage from "./components/games/SnakePage";
 import TetrisGame from "./components/games/TetrisGame";
@@ -64,7 +65,7 @@ const AppContent = () => {
   }, []);
 
   const isLoginPage = location.pathname === "/login";
-
+  const isSettingsPage = location.pathname === "/impostazioni";
   return (
     <div className="d-flex flex-column min-vh-100">
       {!isLoginPage && (
@@ -96,11 +97,12 @@ const AppContent = () => {
           <Route path="/Esperienze" element={<Esperienze />} />
           <Route path="/messaggistica" element={<ChatExpand />} />
           <Route path="/notifiche" element={<Notifications />} />
+          <Route path="/impostazioni" element={<SettingsPage />} />
         </Routes>
       </main>
 
       {/* Mostra la ChatBar solo se l'utente è loggato e fuori dal login */}
-      {!isLoginPage && <ChatBar />}
+      {!isLoginPage && !isSettingsPage && <ChatBar />}
       <footer></footer>
     </div>
   );
