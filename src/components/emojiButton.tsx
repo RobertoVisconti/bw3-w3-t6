@@ -6,12 +6,16 @@ interface EmojiPickerButtonProps {
   text: string;
   setText: (text: string) => void;
   inputRef: React.RefObject<HTMLInputElement | HTMLTextAreaElement | null>;
+  align?: "left" | "right"; // Gestisce dove si apre il rettangolo del picker
+  size?: number; // Gestisce la grandezza dell'icona della faccina
 }
 
 const EmojiPickerButton = ({
   text,
   setText,
   inputRef,
+  align = "right", // Valore di default per la chat / altri componenti
+  size = 18, // Valore di default per la chat / altri componenti
 }: EmojiPickerButtonProps) => {
   const [showPicker, setShowPicker] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -22,18 +26,21 @@ const EmojiPickerButton = ({
 
     if (!input) return;
 
+    // Gestione dell'inserimento dell'emoji nella posizione del cursore
     const start = input.selectionStart ?? 0;
     const end = input.selectionEnd ?? 0;
 
     const newText = text.substring(0, start) + emoji + text.substring(end);
     setText(newText);
 
+    // Riposiziona il cursore subito dopo l'emoji appena inserita
     setTimeout(() => {
       input.focus();
       input.setSelectionRange(start + emoji.length, start + emoji.length);
     }, 0);
   };
 
+  // Chiude il picker se si clicca fuori dal componente
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -53,11 +60,17 @@ const EmojiPickerButton = ({
       {/* Bottone della Faccina */}
       <button
         type="button"
-        className="btn btn-link text-secondary p-1 border-0 rounded-circle d-flex align-items-center justify-content-center"
+        className="btn btn-link text-secondary p-0 border-0 rounded-circle d-flex align-items-center justify-content-center"
         onClick={() => setShowPicker(!showPicker)}
         title="Aggiungi emoji"
+        style={{
+          // Calcola dinamicamente l'area di hover tonda in base alla dimensione dell'icona
+          width: `${size + 14}px`,
+          height: `${size + 14}px`,
+          backgroundColor: showPicker ? "#f3f3f3" : "transparent",
+        }}
       >
-        <PiSmileyBold size={18} />
+        <PiSmileyBold size={size} className="text-secondary" />
       </button>
 
       {/* Popup del Picker */}
@@ -65,9 +78,10 @@ const EmojiPickerButton = ({
         <div
           className="position-absolute shadow-lg"
           style={{
-            zIndex: 1100,
-            bottom: "40px",
-            right: "0px",
+            zIndex: 1500, // Alto per sovrascrivere il modale Bootstrap
+            bottom: `${size + 22}px`, // Si alza proporzionalmente alla grandezza del tasto
+            left: align === "left" ? "0px" : "auto",
+            right: align === "right" ? "0px" : "auto",
           }}
         >
           <EmojiPicker
