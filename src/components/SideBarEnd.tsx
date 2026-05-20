@@ -1,45 +1,22 @@
-import { useState } from "react"
-import { Container, ListGroup } from "react-bootstrap"
-import { IoMdInformationCircleOutline } from "react-icons/io"
-import { IoChevronDownOutline, IoChevronForwardOutline } from "react-icons/io5"
+import { useEffect, useState } from "react";
+import { Container, ListGroup } from "react-bootstrap";
+import { IoMdInformationCircleOutline } from "react-icons/io";
+import {
+  IoChevronDownOutline,
+  IoChevronForwardOutline,
+  IoChevronUpOutline,
+} from "react-icons/io5";
 
-import { FooterMiniGenerale } from "./FooterMiniGenerale"
-import EndSidebarEnd from "./endSidebarEnd"
+import { FooterMiniGenerale } from "./FooterMiniGenerale";
+import EndSidebarEnd from "./endSidebarEnd";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../redux/store";
+import { getNewsAsync } from "../redux/actions/NotizieActions";
+import type { News } from "../interfaces/interfaces";
+import { useNavigate } from "react-router-dom";
+import formatDate from "./formatDate";
 
 const SideBarEnd = () => {
-  const newsData = [
-    {
-      id: 1,
-      title: "Playatomic, Canva: cercasi country manager",
-      time: "2 giorni fa",
-      readers: "393 lettori",
-    },
-    {
-      id: 2,
-      title: "L'auto europea parla sempre più cinese",
-      time: "2 giorni fa",
-      readers: "369 lettori",
-    },
-    {
-      id: 3,
-      title: "Aumentano i consumi per cani e gatti",
-      time: "2 giorni fa",
-      readers: "104 lettori",
-    },
-    {
-      id: 4,
-      title: "Le nuove Top Voices di LinkedIn",
-      time: "4 giorni fa",
-      readers: "1312 lettori",
-    },
-    {
-      id: 5,
-      title: "Internazionali di Roma: vince Sinner",
-      time: "2h fa",
-      readers: "1237 lettori",
-    },
-  ]
-
   const gamesData = [
     {
       id: 1,
@@ -73,9 +50,21 @@ const SideBarEnd = () => {
       icon: "🎨",
       bgIcon: "#ffe2e2",
     },
-  ]
+  ];
+  const navigate = useNavigate();
+  const [activeNews, setActiveNews] = useState("");
 
-  const [activeNews, setActiveNews] = useState(1)
+  const news = useSelector((state: RootState) => state.news.news);
+  const dispatch = useDispatch<AppDispatch>();
+  const [notizieMostrate, setNotizieMostrate] = useState(5);
+
+  useEffect(() => {
+    dispatch(getNewsAsync());
+  }, []);
+
+  useEffect(() => {
+    console.log(news);
+  }, [news]);
 
   return (
     <>
@@ -125,11 +114,11 @@ const SideBarEnd = () => {
             className="border-0 p-0 m-0"
             style={{ display: "flex", flexDirection: "column" }}
           >
-            {newsData.map((news) => (
+            {news.slice(0, notizieMostrate).map((singleNew: News) => (
               <ListGroup.Item
-                key={news.id}
+                key={singleNew.id}
                 as="div"
-                onClick={() => setActiveNews(news.id)}
+                onClick={() => navigate(`/notizia/${singleNew.id}`)}
                 className="px-3 py-2 w-100 transition-all"
                 style={{
                   cursor: "pointer",
@@ -144,11 +133,11 @@ const SideBarEnd = () => {
                 }}
                 onMouseEnter={(e) => {
                   if (activeNews !== news.id)
-                    e.currentTarget.style.backgroundColor = "#f3f3f3"
+                    e.currentTarget.style.backgroundColor = "#f3f3f3";
                 }}
                 onMouseLeave={(e) => {
                   if (activeNews !== news.id)
-                    e.currentTarget.style.backgroundColor = "transparent"
+                    e.currentTarget.style.backgroundColor = "transparent";
                 }}
               >
                 {/* Titolo  */}
@@ -162,7 +151,7 @@ const SideBarEnd = () => {
                     display: "block",
                   }}
                 >
-                  {news.title}
+                  {singleNew.title}
                 </div>
                 {/* Sottotitolo */}
                 <div
@@ -174,28 +163,50 @@ const SideBarEnd = () => {
                     display: "block",
                   }}
                 >
-                  {news.time} • {news.readers}
+                  📅{formatDate(singleNew.published)} • {singleNew.language}
                 </div>
               </ListGroup.Item>
             ))}
           </ListGroup>
 
           {/* Mostra altre notizie */}
-          <div
-            className="px-3 py-2 d-flex align-items-center text-secondary fw-semibold mt-1"
-            style={{
-              fontSize: "0.84rem",
-              gap: "4px",
-              cursor: "pointer",
-              width: "fit-content",
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <span className="ps-1">Mostra altre notizie</span>
-            <IoChevronDownOutline size={15} />
-          </div>
+          {notizieMostrate === 5 && (
+            <div
+              className="px-3 py-2 d-flex align-items-center text-secondary fw-semibold mt-1"
+              style={{
+                fontSize: "0.84rem",
+                gap: "4px",
+                cursor: "pointer",
+                width: "fit-content",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+              onClick={() => setNotizieMostrate(notizieMostrate + 5)}
+            >
+              <span className="ps-1">Mostra altre notizie</span>
+              <IoChevronDownOutline size={15} />
+            </div>
+          )}
+
+          {notizieMostrate > 5 && (
+            <div
+              className="px-3 py-2 d-flex align-items-center text-primary fw-semibold mt-1"
+              style={{
+                fontSize: "0.84rem",
+                gap: "4px",
+                cursor: "pointer",
+                width: "fit-content",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+              onClick={() => setNotizieMostrate(notizieMostrate - 5)}
+            >
+              <span className="ps-1">Mostra meno</span>
+              <IoChevronUpOutline size={15} />
+            </div>
+          )}
         </div>
 
         <hr className="my-1 border-light-subtle mx-3" />
@@ -347,7 +358,7 @@ const SideBarEnd = () => {
         <FooterMiniGenerale></FooterMiniGenerale>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default SideBarEnd
+export default SideBarEnd;

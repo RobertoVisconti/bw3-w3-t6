@@ -1,54 +1,55 @@
-import "./App.css"
-import "./Navbar.css"
-import "bootstrap/dist/css/bootstrap.min.css"
+import "./App.css";
+import "./Navbar.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom"
-import { Provider } from "react-redux"
-import { store } from "./redux/store"
-import type { AppDispatch } from "./redux/store"
-import { getAllProfilesAction } from "./redux/actions/profileActions"
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+import type { AppDispatch } from "./redux/store";
+import { getAllProfilesAction } from "./redux/actions/profileActions";
 
-import Home from "./pages/Home"
-import Navbar from "./components/Navbar"
-import Lavoro from "./pages/Lavoro"
-import Profilo from "./pages/Profilo"
-import ChatBar from "./components/ChatBar"
-import { PaginaErrore } from "./pages/PaginaErrore"
-import { Rete } from "./pages/Rete"
-import DetailsJob from "./components/DetailsJob"
-import Login from "./pages/Login"
-import ChatExpand from "./pages/ChatExpand"
-import Notifications from "./pages/Notifications"
-import Esperienze from "./pages/Esperienze"
+import Home from "./pages/Home";
+import Navbar from "./components/Navbar";
+import Lavoro from "./pages/Lavoro";
+import Profilo from "./pages/Profilo";
+import ChatBar from "./components/ChatBar";
+import { PaginaErrore } from "./pages/PaginaErrore";
+import { Rete } from "./pages/Rete";
+import DetailsJob from "./components/DetailsJob";
+import Login from "./pages/Login";
+import ChatExpand from "./pages/ChatExpand";
+import Notifications from "./pages/Notifications";
+import Esperienze from "./pages/Esperienze";
+import DettaglioNotizia from "./components/DettaglioNotizia";
 
 const AppContent = () => {
-  const dispatch = useDispatch<AppDispatch>()
-  const location = useLocation()
-  const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const [isLoggedIn, setIsLoggedIn] = useState(
     () => localStorage.getItem("isLoggedIn") === "true",
-  )
+  );
 
   useEffect(() => {
-    const loggedStatus = localStorage.getItem("isLoggedIn") === "true"
+    const loggedStatus = localStorage.getItem("isLoggedIn") === "true";
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsLoggedIn(loggedStatus)
+    setIsLoggedIn(loggedStatus);
 
     if (!loggedStatus && location.pathname !== "/login") {
-      navigate("/login")
+      navigate("/login");
     }
-  }, [location.pathname, navigate])
+  }, [location.pathname, navigate]);
 
   useEffect(() => {
     if (isLoggedIn) {
-      dispatch(getAllProfilesAction())
+      dispatch(getAllProfilesAction());
     }
-  }, [dispatch, isLoggedIn])
+  }, [dispatch, isLoggedIn]);
 
-  const isLoginPage = location.pathname === "/login"
+  const isLoginPage = location.pathname === "/login";
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -72,6 +73,7 @@ const AppContent = () => {
           <Route path="/Esperienze" element={<Esperienze />} />
           <Route path="/messaggistica" element={<ChatExpand />} />
           <Route path="/notifiche" element={<Notifications />} />
+          <Route path="/notizia/:id" element={<DettaglioNotizia />} />
         </Routes>
       </main>
 
@@ -79,15 +81,15 @@ const AppContent = () => {
       {!isLoginPage && <ChatBar />}
       <footer></footer>
     </div>
-  )
-}
+  );
+};
 
 function App() {
   return (
     <Provider store={store}>
       <AppContent />
     </Provider>
-  )
+  );
 }
 
-export default App
+export default App;
