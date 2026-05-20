@@ -1,4 +1,4 @@
-import { useState, useEffect, type SyntheticEvent } from "react";
+import { useState, useEffect, useRef, type SyntheticEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../redux/store";
 import { SlOptions } from "react-icons/sl";
@@ -21,6 +21,7 @@ import {
 
 // Importiamo l'action creator dal tuo file delle azioni dei post
 import { deletePost } from "../redux/actions/postActions";
+import EmojiPickerButton from "./emojiButton";
 
 interface SingleArticleProps {
   post: Post;
@@ -30,6 +31,8 @@ const loggedEmail = localStorage.getItem("userEmail");
 const EMPTY_ARRAY: Comment[] = [];
 
 const SingleArticle = ({ post }: SingleArticleProps) => {
+  // per l emoji
+  const commentInputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch<AppDispatch>();
 
   // Stato locale per nascondere il post se appartiene ad un altro utente
@@ -357,21 +360,29 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
             />
             <Form
               onSubmit={handleCommentSubmit}
-              className="flex-grow-1 position-relative"
+              className="flex-grow-1 d-flex align-items-center gap-1 bg-light rounded-4 px-3 py-1 border border-secondary-subtle"
             >
               <Form.Control
+                ref={commentInputRef}
                 type="text"
                 placeholder="Aggiungi un commento..."
                 value={newCommentText}
                 onChange={(e) => setNewCommentText(e.target.value)}
-                className="rounded-4 bg-light border-secondary-subtle pe-5 py-2 text-dark"
+                className="border-0 bg-transparent p-1 text-dark shadow-none flex-grow-1"
                 style={{ fontSize: "0.9rem" }}
               />
+
+              <EmojiPickerButton
+                text={newCommentText}
+                setText={setNewCommentText}
+                inputRef={commentInputRef}
+              />
+
               <Button
                 type="submit"
                 variant="transparent"
                 disabled={!newCommentText.trim()}
-                className="position-absolute end-0 top-50 translate-middle-y border-0 text-primary p-2 d-flex align-items-center"
+                className="border-0 text-primary p-1 d-flex align-items-center"
               >
                 <IoPaperPlaneOutline size={16} />
               </Button>
