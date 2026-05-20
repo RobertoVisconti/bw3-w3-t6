@@ -7,6 +7,8 @@ import {
   Image,
   Dropdown,
   ListGroup,
+  Modal,
+  Button,
 } from "react-bootstrap";
 import {
   FaLinkedin,
@@ -22,6 +24,7 @@ import {
   FaUsers,
   FaChartBar,
   FaCheckCircle,
+  FaTimes,
 } from "react-icons/fa";
 
 import { useEffect, useState, useRef, useMemo } from "react";
@@ -38,6 +41,7 @@ const Navbar = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showPremiumModal, setShowPremiumModal] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Stato di autenticazione reattivo
@@ -209,6 +213,7 @@ const Navbar = () => {
               <FaUserFriends />
               <span>La mia rete</span>
             </Link>
+
             <Link
               to="/lavoro"
               className={
@@ -242,8 +247,8 @@ const Navbar = () => {
                   roundedCircle
                   className="linkedin-avatar"
                   style={{
-                    width: "24px",
-                    height: "24px",
+                    width: "25px",
+                    height: "25px",
                     objectFit: "cover",
                   }}
                 />
@@ -326,15 +331,127 @@ const Navbar = () => {
               </Dropdown.Menu>
             </Dropdown>
 
-            <Link
-              to="/premium"
-              className="linkedin-premium text-decoration-underline"
+            <button
+              type="button"
+              className="linkedin-premium text-decoration-underline border-0 bg-transparent"
+              onClick={() => setShowPremiumModal(true)}
             >
               Prova premium per 0 €
-            </Link>
+            </button>
           </div>
         </Container>
       </BsNavbar>
+
+      <Modal
+          show={showPremiumModal}
+          onHide={() => setShowPremiumModal(false)}
+          dialogClassName="premium-modal"
+        >
+        <Modal.Body className="p-4">
+          <div className="d-flex justify-content-between align-items-start mb-3">
+            <h6 className="fw-bold mb-0 lh-sm">
+              Roberto, metti il turbo alla tua
+              <br />
+              carriera
+            </h6>
+
+            <Button
+          variant="link"
+          className="text-dark p-0 border-0"
+          onClick={() => setShowPremiumModal(false)}
+        >
+          <FaTimes size={22} />
+        </Button>
+          </div>
+
+          <div className="d-flex flex-column gap-3 mb-3">
+            <div className="d-flex gap-3">
+              <span className="text-warning fw-bold fs-5">✓</span>
+              <span className="small text-black">
+                Contatta chiunque con i messaggi InMail
+              </span>
+            </div>
+
+            <div className="d-flex gap-3">
+              <span className="text-warning fw-bold fs-5">✓</span>
+              <span className="small text-black">
+                Ottieni 11 volte più visualizzazioni del profilo
+              </span>
+            </div>
+
+            <div className="d-flex gap-3">
+              <span className="text-warning fw-bold fs-5">✓</span>
+              <span className="small text-black">
+                Accedi a informazioni esclusive sulle aziende
+              </span>
+            </div>
+
+            <div className="d-flex gap-3">
+              <span className="text-warning fw-bold fs-5">✓</span>
+              <span className="small text-black">
+                Partecipa a conversazioni live con leader di settore
+              </span>
+            </div>
+          </div>
+
+          <div className="d-flex align-items-center mb-3">
+            <div className="d-flex me-2">
+              <Image
+                src="https://placehold.co/28x28"
+                roundedCircle
+                className="border border-white"
+                style={{
+                  width: "28px",
+                  height: "28px",
+                  objectFit: "cover",
+                  marginRight: "-9px",
+                  zIndex: 3,
+                }}
+              />
+              <Image
+                src="https://placehold.co/28x28"
+                roundedCircle
+                className="border border-white"
+                style={{
+                  width: "28px",
+                  height: "28px",
+                  objectFit: "cover",
+                  marginRight: "-9px",
+                  zIndex: 2,
+                }}
+              />
+              <Image
+                src="https://placehold.co/28x28"
+                roundedCircle
+                className="border border-white"
+                style={{
+                  width: "28px",
+                  height: "28px",
+                  objectFit: "cover",
+                  zIndex: 1,
+                }}
+              />
+            </div>
+
+            <span className="text-secondary small">
+              Milioni di utenti usano Premium
+            </span>
+          </div>
+
+          <Button
+            className="rounded-pill fw-semibold border-0 px-4 py-2 mb-3"
+            style={{ backgroundColor: "#f8c77e", color: "black" }}
+          >
+            Prova 1 mese di Premium per 0 €
+          </Button>
+
+          <p className="text-secondary small mb-0 lh-sm">
+            Prova gratuita di 1 mese con assistenza 24/7. Facile da
+            annullare. Ti invieremo un promemoria 7 giorni prima
+            della fine del periodo di prova.
+          </p>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
