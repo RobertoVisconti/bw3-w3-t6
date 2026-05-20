@@ -1,9 +1,8 @@
 import type { Dispatch } from 'redux';
-import type { Comment, CommentInput } from '../../interfaces/interfaces'
+import type { Comment, CommentInput } from '../../interfaces/interfaces';
 
-const BASE_URL = 'https://striveschool-api.herokuapp.com/api/comments/'
-const TOKEN = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBjMjkyYTc0MDQxZjAwMTUwYmZiMTgiLCJpYXQiOjE3NzkxODE4NjYsImV4cCI6MTc4MDM5MTQ2Nn0.0qFdvZ-BbLzKqRDhCriQJlGYCaWI79v44-waIIguaBk'
-
+const BASE_URL = 'https://striveschool-api.herokuapp.com/api/comments/';
+const TOKEN = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBjMjkyYTc0MDQxZjAwMTUwYmZiMTgiLCJpYXQiOjE3NzkxODE4NjYsImV4cCI6MTc4MDM5MTQ2Nn0.0qFdvZ-BbLzKqRDhCriQJlGYCaWI79v44-waIIguaBk';
 
 // Action Types
 export const COMMENTS_LOADING = 'COMMENTS_LOADING';
@@ -11,9 +10,9 @@ export const COMMENTS_ERROR = 'COMMENTS_ERROR';
 export const GET_COMMENTS_SUCCESS = 'GET_COMMENTS_SUCCESS';
 export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
 export const DELETE_COMMENT_SUCCESS = 'DELETE_COMMENT_SUCCESS';
+export const UPDATE_COMMENT_SUCCESS = 'UPDATE_COMMENT_SUCCESS';
 
-
-// richiamo i commenti del post
+// Richiamo i commenti del post
 export const getComments = (postId: string) => async (dispatch: Dispatch) => {
   dispatch({ type: COMMENTS_LOADING });
   try {
@@ -28,7 +27,6 @@ export const getComments = (postId: string) => async (dispatch: Dispatch) => {
     if (!response.ok) throw new Error('Errore nel recupero dei commenti');
 
     const allComments: Comment[] = await response.json();
-    
     const filteredComments = allComments.filter(c => c.elementId === postId);
 
     dispatch({ type: GET_COMMENTS_SUCCESS, payload: { postId, comments: filteredComments } });
@@ -40,7 +38,7 @@ export const getComments = (postId: string) => async (dispatch: Dispatch) => {
   }
 };
 
-// publico un nuovo commento
+// Pubblico un nuovo commento
 export const addComment = (commentData: CommentInput) => async (dispatch: Dispatch) => {
   dispatch({ type: COMMENTS_LOADING });
   try {
@@ -58,6 +56,37 @@ export const addComment = (commentData: CommentInput) => async (dispatch: Dispat
     const data: Comment = await response.json();
     dispatch({ type: ADD_COMMENT_SUCCESS, payload: data });
     return data;
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Errore sconosciuto';
+    dispatch({ type: COMMENTS_ERROR, payload: msg });
+    return null;
+  }
+};
+
+// Modifico un commento esistente (PUT)
+export const updateComment = (commentId: string, postId: string, commentData: CommentInput) => async (dispatch: Dispatch) => {
+  dispatch({ type: COMMENTS_LOADING });
+  try {
+    const response = await fetch(`${BASE_URL}${commentId}`, {
+      method: 'PUT',
+      body: JSON.stringify(commentData),
+      headers: {
+        'Authorization': TOKEN,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) throw new Error('Errore durante la modifica del commento');
+
+    const updatedComment: Comment = await response.json();
+    
+    // Inviamo sia il postId che il commento aggiornato strutturati per l'interfaccia del reducer
+    dispatch({ 
+      type: UPDATE_COMMENT_SUCCESS, 
+      payload: { postId, comment: updatedComment } 
+    });
+    
+    return updatedComment;
   } catch (err) {
     const msg = err instanceof Error ? err.message : 'Errore sconosciuto';
     dispatch({ type: COMMENTS_ERROR, payload: msg });
