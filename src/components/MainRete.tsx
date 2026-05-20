@@ -2,7 +2,7 @@ import { Button } from "react-bootstrap";
 import { CardsCollegati } from "./CardsCollegati";
 import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
-import type { RootState } from "@reduxjs/toolkit/query";
+import type { RootState } from "../redux/store";
 
 export const MainRete = () => {
   const [cardsVisibleCount, setCardsVisibleCount] = useState(20);
