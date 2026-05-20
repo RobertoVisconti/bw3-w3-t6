@@ -64,7 +64,6 @@ const ListArticle = function () {
       },
       { threshold: 0.1 },
     );
-    // okokokok
     if (currentRef) {
       observer.observe(currentRef);
     }
