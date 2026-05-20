@@ -1,6 +1,7 @@
-import { Col, Container, Row } from "react-bootstrap"
-import ProfileRightSidebar from "../components/ProfileRightSidebar"
-import MainProfile from "../components/MainProfile"
+import { Col, Container, Row } from "react-bootstrap";
+import ProfileRightSidebar from "../components/ProfileRightSidebar";
+import MainProfile from "../components/MainProfile";
+import FooterLinkedin from "../components/FooterLinkedin";
 
 const Profilo = () => {
   return (
@@ -9,6 +10,7 @@ const Profilo = () => {
         {/* colonna principale */}
         <Col md={9}>
           <MainProfile />
+          <FooterLinkedin />
         </Col>
 
         {/* sidebar destra */}
@@ -17,7 +19,7 @@ const Profilo = () => {
         </Col>
       </Row>
     </Container>
-  )
-}
+  );
+};
 
-export default Profilo
+export default Profilo;

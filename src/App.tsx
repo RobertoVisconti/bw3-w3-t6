@@ -19,6 +19,8 @@ import { PaginaErrore } from "./pages/PaginaErrore"
 import { Rete } from "./pages/Rete"
 import DetailsJob from "./components/DetailsJob"
 import Login from "./pages/Login"
+import ChatExpand from "./pages/ChatExpand"
+import Notifications from "./pages/Notifications"
 import Esperienze from "./pages/Esperienze"
 
 const AppContent = () => {
@@ -68,6 +70,8 @@ const AppContent = () => {
           <Route path="/Rete" element={<Rete />}></Route>
           <Route path="/dettaglio-lavoro/:id" element={<DetailsJob />} />
           <Route path="/Esperienze" element={<Esperienze />} />
+          <Route path="/messaggistica" element={<ChatExpand />} />
+          <Route path="/notifiche" element={<Notifications />} />
         </Routes>
       </main>
 

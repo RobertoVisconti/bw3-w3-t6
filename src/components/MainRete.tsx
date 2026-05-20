@@ -1,8 +1,52 @@
 import { Button } from "react-bootstrap";
-
 import { CardsCollegati } from "./CardsCollegati";
+import { useState, useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
+import type { RootState } from "../redux/store";
 
 export const MainRete = () => {
+  const [cardsVisibleCount, setCardsVisibleCount] = useState(20);
+  const [isCardsLoading, setIsCardsLoading] = useState(false);
+
+  const cardsObserverRef = useRef<HTMLDivElement | null>(null);
+
+  const { allProfiles = [] } = useSelector(
+    (state: RootState) => state.profile || {},
+  );
+  const totalProfilesAvailable = allProfiles.length;
+
+  useEffect(() => {
+    if (isCardsLoading || totalProfilesAvailable === 0) return;
+
+    const currentRef = cardsObserverRef.current;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          if (cardsVisibleCount < totalProfilesAvailable) {
+            setIsCardsLoading(true);
+
+            setTimeout(() => {
+              setCardsVisibleCount((prev) => prev + 20);
+              setIsCardsLoading(false);
+            }, 1000);
+          }
+        }
+      },
+      { threshold: 0.1 },
+    );
+
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [isCardsLoading, cardsVisibleCount, totalProfilesAvailable]);
+
   return (
     <section className="d-flex flex-column gap-3 mt-2">
       <article className="border rounded-2 border-secondary p-2">
@@ -60,11 +104,21 @@ export const MainRete = () => {
       </article>
       <article className="border rounded-2 border-secondary p-2">
         <h6>Suggeriti per te</h6>
-        <CardsCollegati
-          name="Gatto Silvestro"
-          title="Security Manager"
-          collegati={true}
-        />
+        <CardsCollegati limit={cardsVisibleCount} />
+        {isCardsLoading && (
+          <div className="text-center my-4">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Caricamento...</span>
+            </div>
+          </div>
+        )}
+
+        {!isCardsLoading && cardsVisibleCount < totalProfilesAvailable && (
+          <div
+            ref={cardsObserverRef}
+            style={{ height: "20px", background: "transparent" }}
+          />
+        )}
       </article>
     </section>
   );

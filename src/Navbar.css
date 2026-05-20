@@ -48,6 +48,12 @@
   color: #000;
 }
 
+.button-custom span {
+  font-size: 13px;
+  position: relative;
+  top: 3px;
+}
+
 .linkedin-item.active {
   border-bottom: none;
 }
@@ -59,6 +65,11 @@
 .linkedin-caret {
   font-size: 15px !important;
   margin-left: 5px;
+}
+
+.home-shift {
+  position: relative;
+  left: 25px !important;
 }
 
 .linkedin-avatar {
@@ -79,10 +90,10 @@
 }
 
 .linkedin-premium {
-  width: 90px;
+  width: 110px;
   height: 55px;
   color: #915907;
-  font-size: 11px;
+  font-size: 11.5px;
   line-height: 1.15;
   text-align: center;
   display: flex;
@@ -135,4 +146,8 @@
 .business-right strong:hover {
   text-decoration: underline;
   cursor: pointer;
+}
+
+.premium-modal {
+  max-width: 350px !important;
 }

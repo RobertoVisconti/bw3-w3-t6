@@ -54,7 +54,7 @@ export const ReteSidebar = () => {
             <a
               key={i}
               href={link.url}
-              className="text-decoration-none text-secondary"
+              className="text-decoration-none text-secondary custom-hover-effect"
             >
               <span className="me-1 fs-5">{link.icon}</span>{" "}
               <span className="fw-medium">{link.label}</span>
