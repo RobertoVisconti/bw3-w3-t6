@@ -1,3 +1,10 @@
+import { Button, Image, Modal } from "react-bootstrap"
+import { IoEyeSharp } from "react-icons/io5"
+import ButtonLinkedin from "./ButtonLinkedin"
+import { HiOutlinePencil } from "react-icons/hi"
+import { FaCamera, FaTrashAlt } from "react-icons/fa"
+import { SlPicture } from "react-icons/sl"
+
 const ModalPic = () => {
   return (
     <Modal show={showImg} onHide={handleCloseImg}>
