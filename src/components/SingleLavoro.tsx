@@ -56,7 +56,7 @@ const SingleLavoro = function ({ job }: SingleLavoroProps) {
             document.getElementById("list-item-lavoro").remove();
           }}
         >
-          <IoCloseSharp  className="hovered"/>
+          <IoCloseSharp className="hovered" />
         </span>
       </div>
     </div>
