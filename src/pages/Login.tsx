@@ -29,6 +29,7 @@ const Login = () => {
     if (email === emailValida && password === passwordValida) {
       console.log("Login effettuato con successo!");
       localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userEmail", email);
       navigate("/");
     } else {
       setErrorMsg(

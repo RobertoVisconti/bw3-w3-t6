@@ -8,7 +8,6 @@ import {
 } from '../actions/postActions';
 import type { PostState, Post } from '../../interfaces/interfaces';
 
-
 interface PostAction {
   type: string;
   payload: Post[] | Post | string;
@@ -60,7 +59,7 @@ export const postReducer = (state = initialState, action: PostAction): PostState
         )
       };
     }
-
+    
     case DELETE_POST_SUCCESS:
       return {
         ...state,
