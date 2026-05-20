@@ -264,7 +264,7 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
                 className="d-flex gap-2 align-items-start p-2 rounded-3 bg-light"
               >
                 <img
-                  src="https://placecats.com/32/32"
+                  src={post.user?.image || "https://placecats.com/35/35"}
                   alt="Avatar commentatore"
                   className="rounded-circle"
                   style={{ width: "32px", height: "32px", objectFit: "cover" }}
