@@ -6,13 +6,13 @@ import { IoMdAdd } from "react-icons/io";
 import { PiPlanetBold } from "react-icons/pi";
 import { Button, Form, OverlayTrigger, Popover } from "react-bootstrap";
 import type { Post, Comment } from "../interfaces/interfaces";
-import { FaRegThumbsUp, FaTrashAlt } from "react-icons/fa";
+import { FaRegThumbsUp, FaTrashAlt, FaEdit } from "react-icons/fa";
 import {
   IoCloseSharp,
   IoPaperPlaneOutline,
   IoRepeatSharp,
 } from "react-icons/io5";
-import { BiMessageSquareDetail } from "react-icons/bi";
+import { BiMessageSquareDetail as BiMessageIcon } from "react-icons/bi";
 import {
   getComments,
   addComment,
@@ -24,10 +24,7 @@ interface SingleArticleProps {
   post: Post;
 }
 
-// email per il delete
 const loggedEmail = localStorage.getItem("userEmail");
-
-// impedisco a react di creare un nuovo array
 const EMPTY_ARRAY: Comment[] = [];
 
 const SingleArticle = ({ post }: SingleArticleProps) => {
@@ -36,7 +33,10 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
   const [showComments, setShowComments] = useState(false);
   const [newCommentText, setNewCommentText] = useState("");
 
-  // Usiamo la costante esterna come fallback sicuro
+  // --- STATI PER LA MODIFICA ---
+  const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
+  const [editText, setEditText] = useState("");
+
   const commentsForPost = useSelector(
     (state: RootState) =>
       state.comments.commentsByPost[post._id] || EMPTY_ARRAY,
@@ -64,8 +64,50 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
     };
 
     await dispatch(addComment(commentPayload));
-
     setNewCommentText("");
+  };
+
+  // --- FUNZIONE PER SALVARE LA MODIFICA (PUT) ---
+  const handleUpdateComment = async (commentId: string) => {
+    if (!editText.trim()) return;
+
+    const BASE_URL = "https://striveschool-api.herokuapp.com/api/comments/";
+    const TOKEN =
+      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBjMjkyYTc0MDQxZjAwMTUwYmZiMTgiLCJpYXQiOjE3NzkxODE4NjYsImV4cCI6MTc4MDM5MTQ2Nn0.0qFdvZ-BbLzKqRDhCriQJlGYCaWI79v44-waIIguaBk";
+
+    dispatch({ type: COMMENTS_LOADING });
+    try {
+      const response = await fetch(`${BASE_URL}${commentId}`, {
+        method: "PUT",
+        headers: {
+          Authorization: TOKEN,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          comment: editText,
+          rate: 3,
+          elementId: post._id,
+        }),
+      });
+
+      if (response.ok) {
+        const updatedComment = await response.json();
+
+        dispatch({
+          type: "UPDATE_COMMENT_SUCCESS",
+          payload: { postId: post._id, comment: updatedComment },
+        });
+
+        // Resettiamo gli stati di editing
+        setEditingCommentId(null);
+        setEditText("");
+      } else {
+        throw new Error("Impossibile modificare il commento");
+      }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Errore nell'update";
+      dispatch({ type: COMMENTS_ERROR, payload: msg });
+    }
   };
 
   const handleDeleteComment = async (commentId: string) => {
@@ -83,7 +125,6 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
       });
 
       if (response.ok) {
-        // Rimuoviamo il commento dallo stato locale di Redux all'istante
         dispatch({
           type: "DELETE_COMMENT_SUCCESS",
           payload: { postId: post._id, commentId: commentId },
@@ -209,7 +250,7 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
           onClick={() => setShowComments(!showComments)}
           className={`btn btn-light btn-sm flex-fill d-flex align-items-center justify-content-center gap-2 border-0 bg-transparent py-2 custom-action-btn ${showComments ? "text-primary" : "text-secondary"}`}
         >
-          <BiMessageSquareDetail size={18} />{" "}
+          <BiMessageIcon size={18} />{" "}
           <span className="fw-semibold">Commenta</span>
         </button>
         <button className="btn btn-light btn-sm flex-fill text-secondary d-flex align-items-center justify-content-center gap-2 border-0 bg-transparent py-2 custom-action-btn">
@@ -259,11 +300,12 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
           {/* Rendering della lista dei commenti */}
           <div className="comments-list d-flex flex-column gap-2">
             {commentsForPost.map((commento: Comment) => {
-              // Controlliamo se il commento è stato scritto dall'utente loggato
               const isMyComment =
                 commento.author === myProfile?.email ||
                 commento.author === loggedEmail ||
                 commento.author === "robertovisconti93+epicode@gmail.com";
+
+              const isEditing = editingCommentId === commento._id;
 
               return (
                 <div
@@ -271,7 +313,6 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
                   className="d-flex gap-2 align-items-start p-2 rounded-3 bg-light"
                 >
                   <img
-                    /* Logica Immagine: se è il mio commento mostra la mia foto da Redux, altrimenti un gattino/avatar di fallback */
                     src={
                       isMyComment
                         ? myProfile?.image || "https://placecats.com/60/60"
@@ -301,63 +342,117 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
                       >
                         {new Date(commento.createdAt).toLocaleDateString()}
                       </span>
-                      <p
-                        className="m-0 mt-1 text-dark small"
-                        style={{ wordBreak: "break-word" }}
-                      >
-                        {commento.comment}
-                      </p>
+
+                      {/* INPUT DI MODIFICA O TESTO STATICO */}
+                      {isEditing ? (
+                        <div className="mt-2">
+                          {/* Input arrotondato (rounded-4), con sfondo leggero e un po' di padding */}
+                          <Form.Control
+                            type="text"
+                            value={editText}
+                            onChange={(e) => setEditText(e.target.value)}
+                            className="rounded-4 bg-light border-secondary-subtle py-2 text-dark mb-2"
+                            style={{ fontSize: "0.9rem" }}
+                            autoFocus
+                          />
+                          {/* Contenitore dei bottoni con margine superiore (mt-2 o gestito dal mb-2 sopra) */}
+                          <div className="d-flex gap-2 justify-content-end align-items-center">
+                            <Button
+                              size="sm"
+                              variant="success"
+                              className="rounded-5 px-3 fw-semibold py-1"
+                              style={{
+                                fontSize: "0.8rem",
+                              }}
+                              onClick={() => handleUpdateComment(commento._id)}
+                            >
+                              Salva
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="secondary"
+                              className="rounded-5 px-3 fw-semibold py-1"
+                              style={{
+                                fontSize: "0.8rem",
+                              }}
+                              onClick={() => setEditingCommentId(null)}
+                            >
+                              Annulla
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                        <p
+                          className="m-0 mt-1 text-dark small"
+                          style={{ wordBreak: "break-word" }}
+                        >
+                          {commento.comment}
+                        </p>
+                      )}
                     </div>
 
-                    {isMyComment && (
-                      <OverlayTrigger
-                        trigger="click"
-                        rootClose
-                        placement="left"
-                        overlay={
-                          <Popover
-                            id={`popover-delete-${commento._id}`}
-                            className="shadow-sm border-secondary-subtle"
-                          >
-                            <Popover.Body
-                              className="p-2 text-center"
-                              style={{ minWidth: "140px" }}
-                            >
-                              <p className="m-0 mb-2 small fw-semibold text-dark">
-                                Eliminare?
-                              </p>
-                              <div className="d-flex gap-2 justify-content-center">
-                                <Button
-                                  size="sm"
-                                  variant="danger"
-                                  className="py-0 px-2 small backend-del-btn"
-                                  onClick={() => {
-                                    handleDeleteComment(commento._id);
-                                    document.body.click();
-                                  }}
-                                >
-                                  Sì
-                                </Button>
-                                <Button
-                                  size="sm"
-                                  variant="light"
-                                  className="py-0 px-2 small border"
-                                  onClick={() => document.body.click()}
-                                >
-                                  No
-                                </Button>
-                              </div>
-                            </Popover.Body>
-                          </Popover>
-                        }
-                      >
+                    {/* PULSANTI TRASH E EDIT ACCANTO SE È IL MIO COMMENTO */}
+                    {isMyComment && !isEditing && (
+                      <div className="position-absolute end-0 top-0 m-1 d-flex gap-1">
+                        {/* Tasto Modifica */}
                         <button
-                          className="btn btn-link text-danger position-absolute end-0 top-0 m-1 p-1 border-0 custom-trash-btn"
-                          style={{ cursor: "pointer" }}
+                          className="btn btn-link text-secondary p-1 border-0"
+                          onClick={() => {
+                            setEditingCommentId(commento._id);
+                            setEditText(commento.comment);
+                          }}
+                          title="Modifica commento"
                         >
-                          <FaTrashAlt size={14} />
+                          <FaEdit size={14} />
                         </button>
-                      </OverlayTrigger>
+
+                        {/* Tasto Elimina (Popover originale) */}
+                        <OverlayTrigger
+                          trigger="click"
+                          rootClose
+                          placement="left"
+                          overlay={
+                            <Popover
+                              id={`popover-delete-${commento._id}`}
+                              className="shadow-sm border-secondary-subtle"
+                            >
+                              <Popover.Body
+                                className="p-2 text-center"
+                                style={{ minWidth: "140px" }}
+                              >
+                                <p className="m-0 mb-2 small fw-semibold text-dark">
+                                  Eliminare?
+                                </p>
+                                <div className="d-flex gap-2 justify-content-center">
+                                  <Button
+                                    size="sm"
+                                    variant="danger"
+                                    className="py-0 px-2 small"
+                                    onClick={() => {
+                                      handleDeleteComment(commento._id);
+                                      document.body.click();
+                                    }}
+                                  >
+                                    Sì
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="light"
+                                    className="py-0 px-2 small border"
+                                    onClick={() => document.body.click()}
+                                  >
+                                    No
+                                  </Button>
+                                </div>
+                              </Popover.Body>
+                            </Popover>
+                          }
+                        >
+                          <button className="btn btn-link text-danger p-1 border-0">
+                            <FaTrashAlt size={14} />
+                          </button>
+                        </OverlayTrigger>
+                      </div>
                     )}
                   </div>
                 </div>
