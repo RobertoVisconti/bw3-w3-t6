@@ -1,5 +1,6 @@
 import { Card, Button } from "react-bootstrap";
 import type { Profile } from "../interfaces/interfaces";
+import ButtonFollow from "./ButtonFollow";
 
 interface CardsCollegatiProps extends Profile {
   collegati: boolean;
@@ -7,21 +8,41 @@ interface CardsCollegatiProps extends Profile {
 }
 
 export const CardsCollegatiSingolo = ({
+  _id,
   image,
   name,
   surname,
   title,
   area,
+  username,
+  email,
+  createdAt,
+  updatedAt,
+  __v,
   collegati = true,
   affiliato = true,
 }: CardsCollegatiProps) => {
+  const utenteCompleto: Profile = {
+    _id,
+    image,
+    name,
+    surname,
+    title,
+    area,
+    username,
+    email,
+    createdAt,
+    updatedAt,
+    __v,
+  };
+
   return (
-    <Card className="position-relative " style={{ height: "320px" }}>
+    <Card className="position-relative" style={{ height: "320px" }}>
       <Card.Img
         style={{ height: "60px" }}
         variant="top"
         src="https://placehold.net/400x600.png"
-      ></Card.Img>
+      />
       <Card.Img
         style={{
           marginTop: "-45px",
@@ -36,8 +57,7 @@ export const CardsCollegatiSingolo = ({
       <Card.Body className="pb-0 d-flex flex-column">
         <div className="flex-grow-1">
           <Card.Title>
-            {name}
-            {surname}
+            {name} {surname}
           </Card.Title>
           <Card.Text>
             <span className="small text-muted">{title}</span>
@@ -47,20 +67,8 @@ export const CardsCollegatiSingolo = ({
           </Card.Text>
         </div>
 
-        <Button
-          variant="primary"
-          className=" rounded-5 bg-light text-primary fw-medium w-100"
-        >
-          {collegati ? (
-            <span>
-              <i className="fas fa-user-plus"></i> Collegati
-            </span>
-          ) : (
-            <span>
-              <i className="fas fa-plus"></i>Segui
-            </span>
-          )}
-        </Button>
+        <ButtonFollow utente={utenteCompleto} isCollegato={collegati} />
+
         <Button className="bg-transparent border-0">
           <i className="text-dark text-opacity-75 fas fa-times-circle top-0 end-0 m-2 fs-1 position-absolute"></i>
         </Button>

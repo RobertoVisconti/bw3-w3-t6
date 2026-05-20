@@ -349,10 +349,10 @@ const Navbar = () => {
       </BsNavbar>
 
       <Modal
-          show={showPremiumModal}
-          onHide={() => setShowPremiumModal(false)}
-          dialogClassName="premium-modal"
-        >
+        show={showPremiumModal}
+        onHide={() => setShowPremiumModal(false)}
+        dialogClassName="premium-modal"
+      >
         <Modal.Body className="p-4">
           <div className="d-flex justify-content-between align-items-start mb-3">
             <h6 className="fw-bold mb-0 lh-sm">
@@ -362,12 +362,12 @@ const Navbar = () => {
             </h6>
 
             <Button
-          variant="link"
-          className="text-dark p-0 border-0"
-          onClick={() => setShowPremiumModal(false)}
-        >
-          <FaTimes size={22} />
-        </Button>
+              variant="link"
+              className="text-dark p-0 border-0"
+              onClick={() => setShowPremiumModal(false)}
+            >
+              <FaTimes size={22} />
+            </Button>
           </div>
 
           <div className="d-flex flex-column gap-3 mb-3">
@@ -452,9 +452,9 @@ const Navbar = () => {
           </Button>
 
           <p className="text-secondary small mb-0 lh-sm">
-            Prova gratuita di 1 mese con assistenza 24/7. Facile da
-            annullare. Ti invieremo un promemoria 7 giorni prima
-            della fine del periodo di prova.
+            Prova gratuita di 1 mese con assistenza 24/7. Facile da annullare.
+            Ti invieremo un promemoria 7 giorni prima della fine del periodo di
+            prova.
           </p>
         </Modal.Body>
       </Modal>

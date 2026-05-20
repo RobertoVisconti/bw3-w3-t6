@@ -5,6 +5,8 @@ import { postReducer } from "../reducers/postReducer";
 import jobsReducer from "../reducers/jobsReducer";
 import { commentsReducer } from "../reducers/commentsReducer";
 import { footerReducer } from "../reducers/FooterReducer";
+import { reteReducer } from "../reducers/reteReducer";
+import NewsReducer from "../reducers/notizieReducer";
 
 const mainReducer = combineReducers({
   profile: profileReducer,
@@ -13,6 +15,8 @@ const mainReducer = combineReducers({
   jobs: jobsReducer,
   comments: commentsReducer,
   footer: footerReducer,
+  rete: reteReducer,
+  news: NewsReducer,
 });
 
 export const store = configureStore({

@@ -20,6 +20,11 @@ import { Rete } from "./pages/Rete";
 import DetailsJob from "./components/DetailsJob";
 import Login from "./pages/Login";
 import ChatExpand from "./pages/ChatExpand";
+import Notifications from "./pages/Notifications";
+import Esperienze from "./pages/Esperienze";
+import DettaglioNotizia from "./components/DettaglioNotizia";
+import { getNewsAsync } from "./redux/actions/NotizieActions";
+import { getJobsAsync } from "./redux/actions/jobActions";
 
 const AppContent = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -46,6 +51,11 @@ const AppContent = () => {
     }
   }, [dispatch, isLoggedIn]);
 
+  useEffect(() => {
+    dispatch(getNewsAsync());
+    dispatch(getJobsAsync()); // se vuoi anche i jobs
+  }, []);
+
   const isLoginPage = location.pathname === "/login";
 
   return (
@@ -67,7 +77,10 @@ const AppContent = () => {
           <Route path="*" element={<PaginaErrore />} />
           <Route path="/Rete" element={<Rete />}></Route>
           <Route path="/dettaglio-lavoro/:id" element={<DetailsJob />} />
+          <Route path="/Esperienze" element={<Esperienze />} />
           <Route path="/messaggistica" element={<ChatExpand />} />
+          <Route path="/notifiche" element={<Notifications />} />
+          <Route path="/notizia/:id" element={<DettaglioNotizia />} />
         </Routes>
       </main>
 
