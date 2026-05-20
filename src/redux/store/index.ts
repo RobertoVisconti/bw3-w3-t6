@@ -5,6 +5,7 @@ import { postReducer } from "../reducers/postReducer";
 import jobsReducer from "../reducers/jobsReducer";
 import { commentsReducer } from "../reducers/commentsReducer";
 import { reteReducer } from "../reducers/reteReducer";
+import NewsReducer from "../reducers/notizieReducer";
 
 const mainReducer = combineReducers({
   profile: profileReducer,
@@ -12,7 +13,8 @@ const mainReducer = combineReducers({
   post: postReducer,
   jobs: jobsReducer,
   comments: commentsReducer,
-  rete: reteReducer
+  rete: reteReducer,
+  news: NewsReducer,
 });
 
 export const store = configureStore({
@@ -20,7 +22,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-      immutableCheck: false,    
+      immutableCheck: false,
     }),
 });
 

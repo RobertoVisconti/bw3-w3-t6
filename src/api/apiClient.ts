@@ -107,6 +107,7 @@ export async function customFetch<T>(
 //   };
 // };
 
+// FETCH PER I LAVORI
 const BASE_URL_JOBS = "https://strive-benchmark.herokuapp.com/api/";
 
 export async function customFetchJobs<T>(
@@ -143,4 +144,15 @@ export async function customFetchJobs<T>(
   if (method === "DELETE") return {} as T;
 
   return await response.json();
+}
+
+// FETCH PER LE NOTIZIE NELLA SIDEBAR
+
+const BASE_URL_NOTIZIE =
+  "https://api.currentsapi.services/v1/latest-news?language=it&apiKey=dhbpj8rLZ6X9ZGEhwtbOL70bSxdvXSzJMN0oEza2SEcy_Seu";
+
+export async function customFetchNotizie() {
+  const response = await fetch(BASE_URL_NOTIZIE);
+  const data = await response.json();
+  return data;
 }
