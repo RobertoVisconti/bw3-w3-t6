@@ -6,7 +6,7 @@ import { IoMdAdd } from "react-icons/io";
 import { PiPlanetBold } from "react-icons/pi";
 import { Button, Form, OverlayTrigger, Popover } from "react-bootstrap";
 import type { Post, Comment } from "../interfaces/interfaces";
-import { FaRegThumbsUp, FaTrashAlt, FaEdit } from "react-icons/fa";
+import { FaRegThumbsUp, FaThumbsUp, FaTrashAlt, FaEdit } from "react-icons/fa"; // Aggiunto FaThumbsUp pieno
 import {
   IoCloseSharp,
   IoPaperPlaneOutline,
@@ -33,6 +33,12 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
   const [showComments, setShowComments] = useState(false);
   const [newCommentText, setNewCommentText] = useState("");
 
+  // --- STATI PER IL "CONSIGLIA" (LIKE) ---
+  const [isLiked, setIsLiked] = useState(false);
+  // Base di partenza statica (es. 14), che aumenta o diminuisce se l'utente clicca
+  const baseLikes = 14;
+  const totalLikes = isLiked ? baseLikes + 1 : baseLikes;
+
   // --- STATI PER LA MODIFICA ---
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
   const [editText, setEditText] = useState("");
@@ -43,11 +49,11 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
   );
   const { myProfile } = useSelector((state: RootState) => state.profile);
 
+  // Effetto per caricare i commenti all'avvio del componente in modo da avere subito il count reale,
+  // oppure quando la sezione viene esplicitamente aperta.
   useEffect(() => {
-    if (showComments) {
-      dispatch(getComments(post._id));
-    }
-  }, [dispatch, showComments, post._id]);
+    dispatch(getComments(post._id));
+  }, [dispatch, post._id]);
 
   const postDate = post.createdAt
     ? new Date(post.createdAt).toLocaleDateString()
@@ -98,7 +104,6 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
           payload: { postId: post._id, comment: updatedComment },
         });
 
-        // Resettiamo gli stati di editing
         setEditingCommentId(null);
         setEditText("");
       } else {
@@ -136,6 +141,15 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
       const msg = err instanceof Error ? err.message : "Errore nel delete";
       dispatch({ type: COMMENTS_ERROR, payload: msg });
     }
+  };
+
+  // Funzioni fittizie per simulare le azioni di Diffondi e Invia
+  const handleSharePost = () => {
+    alert("Post diffuso con successo!");
+  };
+
+  const handleSendPost = () => {
+    alert("Post inviato ai tuoi collegamenti!");
   };
 
   return (
@@ -218,7 +232,7 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
         )}
       </div>
 
-      {/* Barra dei Contatori */}
+      {/* Barra dei Contatori Dinamici */}
       <div className="d-flex justify-content-between text-muted small px-1 pb-2 border-bottom">
         <div className="d-flex align-items-center gap-1">
           <span
@@ -227,11 +241,12 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
           >
             <FaRegThumbsUp size={10} className="text-white" />
           </span>
-          <span>14 Consiglia</span>
+          <span>{totalLikes} Consiglia</span>
         </div>
         <div
           style={{ cursor: "pointer" }}
           onClick={() => setShowComments(!showComments)}
+          className="hover-underline"
         >
           <span>
             {commentsForPost.length}{" "}
@@ -240,12 +255,16 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
         </div>
       </div>
 
-      {/* Pulsanti di Interazione */}
+      {/* Pulsanti di Interazione Attivi */}
       <div className="d-flex justify-content-between py-1 border-bottom">
-        <button className="btn btn-light btn-sm flex-fill text-secondary d-flex align-items-center justify-content-center gap-2 border-0 bg-transparent py-2 custom-action-btn">
-          <FaRegThumbsUp size={18} />{" "}
+        <button
+          onClick={() => setIsLiked(!isLiked)}
+          className={`btn btn-light btn-sm flex-fill d-flex align-items-center justify-content-center gap-2 border-0 bg-transparent py-2 custom-action-btn ${isLiked ? "text-primary" : "text-secondary"}`}
+        >
+          {isLiked ? <FaThumbsUp size={18} /> : <FaRegThumbsUp size={18} />}
           <span className="fw-semibold">Consiglia</span>
         </button>
+
         <button
           onClick={() => setShowComments(!showComments)}
           className={`btn btn-light btn-sm flex-fill d-flex align-items-center justify-content-center gap-2 border-0 bg-transparent py-2 custom-action-btn ${showComments ? "text-primary" : "text-secondary"}`}
@@ -253,11 +272,19 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
           <BiMessageIcon size={18} />{" "}
           <span className="fw-semibold">Commenta</span>
         </button>
-        <button className="btn btn-light btn-sm flex-fill text-secondary d-flex align-items-center justify-content-center gap-2 border-0 bg-transparent py-2 custom-action-btn">
+
+        <button
+          onClick={handleSharePost}
+          className="btn btn-light btn-sm flex-fill text-secondary d-flex align-items-center justify-content-center gap-2 border-0 bg-transparent py-2 custom-action-btn"
+        >
           <IoRepeatSharp size={18} />{" "}
           <span className="fw-semibold">Diffondi</span>
         </button>
-        <button className="btn btn-light btn-sm flex-fill text-secondary d-flex align-items-center justify-content-center gap-2 border-0 bg-transparent py-2 custom-action-btn">
+
+        <button
+          onClick={handleSendPost}
+          className="btn btn-light btn-sm flex-fill text-secondary d-flex align-items-center justify-content-center gap-2 border-0 bg-transparent py-2 custom-action-btn"
+        >
           <IoPaperPlaneOutline size={18} />{" "}
           <span className="fw-semibold">Invia</span>
         </button>
@@ -346,7 +373,6 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
                       {/* INPUT DI MODIFICA O TESTO STATICO */}
                       {isEditing ? (
                         <div className="mt-2">
-                          {/* Input arrotondato (rounded-4), con sfondo leggero e un po' di padding */}
                           <Form.Control
                             type="text"
                             value={editText}
@@ -355,15 +381,12 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
                             style={{ fontSize: "0.9rem" }}
                             autoFocus
                           />
-                          {/* Contenitore dei bottoni con margine superiore (mt-2 o gestito dal mb-2 sopra) */}
                           <div className="d-flex gap-2 justify-content-end align-items-center">
                             <Button
                               size="sm"
                               variant="success"
                               className="rounded-5 px-3 fw-semibold py-1"
-                              style={{
-                                fontSize: "0.8rem",
-                              }}
+                              style={{ fontSize: "0.8rem" }}
                               onClick={() => handleUpdateComment(commento._id)}
                             >
                               Salva
@@ -372,9 +395,7 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
                               size="sm"
                               variant="secondary"
                               className="rounded-5 px-3 fw-semibold py-1"
-                              style={{
-                                fontSize: "0.8rem",
-                              }}
+                              style={{ fontSize: "0.8rem" }}
                               onClick={() => setEditingCommentId(null)}
                             >
                               Annulla
@@ -394,7 +415,6 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
                     {/* PULSANTI TRASH E EDIT ACCANTO SE È IL MIO COMMENTO */}
                     {isMyComment && !isEditing && (
                       <div className="position-absolute end-0 top-0 m-1 d-flex gap-1">
-                        {/* Tasto Modifica */}
                         <button
                           className="btn btn-link text-secondary p-1 border-0"
                           onClick={() => {
@@ -406,7 +426,6 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
                           <FaEdit size={14} />
                         </button>
 
-                        {/* Tasto Elimina (Popover originale) */}
                         <OverlayTrigger
                           trigger="click"
                           rootClose
