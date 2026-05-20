@@ -1,15 +1,36 @@
 import { Button, Card, Modal } from "react-bootstrap"
 import { FaPen, FaPlus } from "react-icons/fa"
-import { useSelector } from "react-redux"
-import type { RootState } from "../redux/store"
+import { useDispatch, useSelector } from "react-redux"
+import type { AppDispatch, RootState } from "../redux/store"
 
 import { FaArrowLeftLong } from "react-icons/fa6"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Form from "react-bootstrap/Form"
 import ButtonLinkedin from "./ButtonLinkedin"
+import { createExperience } from "../redux/actions/experienceActions"
 
 const MainExperience = () => {
   const { myProfile } = useSelector((state: RootState) => state.profile)
+  const dispatch = useDispatch<AppDispatch>()
+  const [formData, setFormData] = useState({
+    role: "",
+    company: "",
+    startDate: "",
+    endDate: "",
+    description: "",
+    area: "",
+    username: "", // SERVER GENERATED
+    createdAt: "", // SERVER GENERATED
+    updatedAt: "", // SERVER GENERATED
+    __v: Number, // SERVER GENERATED
+    _id: "", // SERVER GENERATED
+  })
+
+  useEffect(() => {
+    if (myProfile?._id) {
+      dispatch(createExperience(myProfile?._id, formData))
+    }
+  }, [dispatch, myProfile, formData])
 
   //   modale create experience
   const [showCreateExp, setShowCreateExp] = useState(false)
@@ -207,13 +228,13 @@ const MainExperience = () => {
             <div>
               <h5>Contenuti Multimediali</h5>
               <p>
-                Ti consigliamo di aggiungere le 5 competenze più utilizzate in
-                questo ruolo. Appariranno anche nella sezione Competenze.
+                Aggiungi contenuti multimediali come immagini, documenti, siti o
+                presentazioni.
               </p>
               <div className="w-50">
                 <ButtonLinkedin
                   to="#"
-                  text="Aggiungi competenza"
+                  text=" + Aggiungi contenuti"
                   className="bg-transparent text-primary "
                 />
               </div>
