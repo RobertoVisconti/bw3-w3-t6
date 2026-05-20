@@ -16,12 +16,13 @@ import { useNavigate } from "react-router-dom";
 import formatDate from "./formatDate";
 
 const SideBarEnd = () => {
+  const [giochiVisualizzati, setGiochiVisualizzati] = useState(4);
   const gamesData = [
     {
       id: 1,
       name: "Sudoku",
       number: "#1",
-      desc: "Riempi la griglia con i numeri giusti",
+      desc: "Riempi la griglia",
       icon: "🔢",
       bgIcon: "#d1e7dd",
       route: "/giochi/sudoku",
@@ -30,7 +31,7 @@ const SideBarEnd = () => {
       id: 2,
       name: "Jigsaw Puzzle",
       number: "#2",
-      desc: "Ricomponi l'immagine pezzo per pezzo",
+      desc: "Ricomponi l'immagine",
       icon: "🧩",
       bgIcon: "#e0f1ff",
       route: "/giochi/puzzle",
@@ -39,7 +40,7 @@ const SideBarEnd = () => {
       id: 3,
       name: "Snake",
       number: "#3",
-      desc: "Mangia e cresci senza toccare i bordi",
+      desc: "Mangia e cresci",
       icon: "🐍",
       bgIcon: "#d1f0d1",
       route: "/giochi/snake",
@@ -48,10 +49,28 @@ const SideBarEnd = () => {
       id: 4,
       name: "Tetris",
       number: "#4",
-      desc: "Incastra i blocchi e completa le righe",
+      desc: "Incastra i blocchi",
       icon: "🟦",
       bgIcon: "#ffe2e2",
       route: "/giochi/tetris",
+    },
+    {
+      id: 5,
+      name: "Pong",
+      number: "#5",
+      desc: "Sfida l'IA a ping pong",
+      icon: "🏓",
+      bgIcon: "#fff3cd",
+      route: "/giochi/pong",
+    },
+    {
+      id: 6,
+      name: "Flappy Bird",
+      number: "#6",
+      desc: "Vola il più lontano possibile",
+      icon: "🐦",
+      bgIcon: "#fce4ec",
+      route: "/giochi/flappy",
     },
   ];
   const navigate = useNavigate();
@@ -225,7 +244,7 @@ const SideBarEnd = () => {
             className="border-0 p-0 m-0 mb-2"
             style={{ display: "flex", flexDirection: "column" }}
           >
-            {gamesData.map((game) => (
+            {gamesData.slice(0, giochiVisualizzati).map((game) => (
               <ListGroup.Item
                 key={game.id}
                 as="div"
@@ -340,9 +359,22 @@ const SideBarEnd = () => {
               flexDirection: "row",
               alignItems: "center",
             }}
+            onClick={() => {
+              if (giochiVisualizzati === 4) {
+                setGiochiVisualizzati(gamesData.length);
+              } else {
+                setGiochiVisualizzati(4);
+              }
+            }}
           >
-            <span className="ps-1">Mostra altro</span>
-            <IoChevronDownOutline size={15} />
+            <span className="ps-1">
+              {giochiVisualizzati === 4 ? "Mostra altro" : "Mostra meno"}
+            </span>
+            {giochiVisualizzati === 4 ? (
+              <IoChevronDownOutline size={15} />
+            ) : (
+              <IoChevronUpOutline size={15} />
+            )}
           </div>
         </div>
       </Container>

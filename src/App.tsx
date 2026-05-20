@@ -30,6 +30,8 @@ import SnakePage from "./components/SnakePage";
 import TetrisGame from "./components/TetrisGame";
 import SudokuGame from "./components/SudokuGame";
 import PuzzleGame from "./components/PuzzleGame";
+import PongGame from "./components/PongGame";
+import FlappyGame from "./components/FlippyGame";
 
 const AppContent = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -80,6 +82,8 @@ const AppContent = () => {
             <Route path="/giochi/tetris" element={<TetrisGame />} />
             <Route path="/giochi/sudoku" element={<SudokuGame />} />
             <Route path="/giochi/puzzle" element={<PuzzleGame />} />
+            <Route path="/giochi/pong" element={<PongGame />} />
+            <Route path="/giochi/flappy" element={<FlappyGame />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/lavoro" element={<Lavoro />} />
