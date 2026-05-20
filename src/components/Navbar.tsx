@@ -25,6 +25,7 @@ import {
   FaChartBar,
   FaCheckCircle,
   FaTimes,
+  FaHome,
 } from "react-icons/fa";
 
 import { useEffect, useState, useRef, useMemo } from "react";
@@ -207,6 +208,11 @@ const Navbar = () => {
               />
             </InputGroup>
           </div>
+  
+              <Link to="/" className="linkedin-item home-shift">
+            <FaHome />
+            <span>Home</span>
+          </Link>
 
           <div className="d-flex align-items-center">
             <Link to="/rete" className="linkedin-item">
