@@ -13,13 +13,19 @@ const EndSidebarEnd = () => {
   useEffect(() => {
     dispatch(getMyProfileAsync());
   }, [dispatch]);
-
+  // COSTANTE PER STYLE CSS PER LA LARGHEZZA
+  const width75 = `.width-75 {width: 75%;}@media (min-width: 992px) {.width-75 {width: 100%;
+    }
+  }
+`;
   return (
-    <div>
+    <>
+      <style>{width75}</style>
       <Container
         fluid
-        className="bg-white rounded-3 border border-secondary shadow-sm p-3 text-start m-0 my-2"
-        style={{ maxWidth: "300px" }} // Mantiene il box compatto ed evita che si allarghi troppo su schermi grandi
+        className="bg-white rounded-3 border-card-linkedin shadow-sm p-3 text-start mx-auto mx-lg-0 my-2 width-75 "
+        // style={{ maxWidth: "300px" }}
+        // Mantiene il box compatto ed evita che si allarghi troppo su schermi grandi
       >
         <div className="d-flex align-items-center justify-content-end text-muted small mb-2">
           <p className="m-0 p-0 me-1" style={{ fontSize: "12px" }}>
@@ -76,7 +82,7 @@ const EndSidebarEnd = () => {
           </div>
         </div>
       </Container>
-    </div>
+    </>
   );
 };
 

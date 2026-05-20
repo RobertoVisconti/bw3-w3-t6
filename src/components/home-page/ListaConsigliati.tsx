@@ -17,7 +17,7 @@ const ListaConsigliati = function () {
   }, [allProfiles]);
 
   return (
-    <div className="bg-white mt-3 border border-black rounded-2 pt-2 px-2">
+    <div className="bg-white mt-3 rounded-2 pt-2 px-2 border-card-linkedin">
       <div className="py-2">
         <span className="fw-bold">Consigliati per te</span>
       </div>

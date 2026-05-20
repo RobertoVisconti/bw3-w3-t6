@@ -26,7 +26,7 @@ const SidebarStart = () => {
       {error && <div className="alert alert-danger">{error}</div>}
 
       {myProfile && (
-        <section className="bg-light border border-secondary rounded-3 my-2 ">
+        <section className="bg-light rounded-3 my-2 border-card-linkedin">
           <a href="/profilo" className="text-decoration-none text-black">
             {/* banner */}
             <div

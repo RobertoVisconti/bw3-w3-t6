@@ -41,6 +41,9 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
   const [showComments, setShowComments] = useState(false);
   const [newCommentText, setNewCommentText] = useState("");
 
+  //Per il btn-segui quando viene cliccato
+  const [seguito, setSegui] = useState(false);
+
   // Stati per il "Consiglia" (Like)
   const [isLiked, setIsLiked] = useState(false);
   const baseLikes = 14;
@@ -270,6 +273,12 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
           </div>
         </div>
         {/* Il bottone segui è stato rimosso con successo */}
+        <button
+          className={`btn-segui ${seguito ? "seguito" : ""}`}
+          onClick={() => setSegui(!seguito)}
+        >
+          {seguito ? "✓ Seguito" : "+ Segui"}
+        </button>
       </div>
 
       {/* Contenuto del Post */}

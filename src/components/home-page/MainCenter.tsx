@@ -9,7 +9,7 @@ import FooterLinkedin from "../footer/FooterLinkedin";
 
 const MainCenter = function () {
   return (
-    <Container>
+    <Container fluid>
       <Row>
         <FormPost />
       </Row>
@@ -18,7 +18,7 @@ const MainCenter = function () {
       </Row>
       <Row>
         <ListArticle />
-        <FooterLinkedin></FooterLinkedin>
+        {/* FOOTER RIMOSSO , NON SERVE NELLA HOMEPAGE */}
       </Row>
     </Container>
   );

@@ -72,10 +72,7 @@ const FormPost = function () {
 
   return (
     <>
-      <div
-        className="justify-content-center mt-3 rounded-2 bg-white"
-        style={{ border: "1px solid black", overflow: "hidden" }}
-      >
+      <div className="justify-content-center mt-3 rounded-2 bg-white border-card-linkedin">
         <Col className="d-flex flex-column pt-2 px-3" xs={12}>
           <div className="d-flex justify-content-center align-items-center gap-2 w-100">
             <img
@@ -98,7 +95,14 @@ const FormPost = function () {
               readOnly
             />
           </div>
-          <div className="d-flex justify-content-around py-2 mt-2 border-top">
+          <div
+            className=" py-2 mt-2"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3,1fr)",
+              justifyItems: "center",
+            }}
+          >
             <button
               onClick={handleShow}
               className="btn btn-link text-secondary text-decoration-none d-flex align-items-center gap-2 fw-semibold border-0 p-2"

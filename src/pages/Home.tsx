@@ -6,19 +6,25 @@ import { Outlet } from "react-router-dom";
 
 const Home = () => {
   return (
-    <Container>
+    <Container fluid="xl">
       <Row>
         {/* colonna sinistra */}
-        <Col md={3}>
+        <Col xs={12} md={3} lg={3}>
           <SidebarStart />
         </Col>
-        {/* colonna centrale */}
-        <Col md={6} style={{ minHeight: "100vh" }}>
-          <Outlet />
-        </Col>
-        {/* colonna destra */}
-        <Col md={3}>
-          <SideBarEnd />
+
+        {/* colonna centrale + destra insieme */}
+        <Col xs={12} md={9} lg={9}>
+          <Row>
+            {/* centrale */}
+            <Col xs={12} lg={8} style={{ minHeight: "100vh" }}>
+              <Outlet />
+            </Col>
+            {/* destra */}
+            <Col xs={12} lg={4}>
+              <SideBarEnd />
+            </Col>
+          </Row>
         </Col>
       </Row>
     </Container>
