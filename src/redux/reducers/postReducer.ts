@@ -60,14 +60,12 @@ export const postReducer = (state = initialState, action: PostAction): PostState
       };
     }
     
-    case DELETE_POST_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        posts: state.posts.filter((post: Post) =>
-          post._id !== (action.payload as string)
-        )
-      };
+ case DELETE_POST_SUCCESS:
+  return {
+    ...state,
+    isLoading: false,
+    posts: state.posts.filter((post: Post) => post._id !== (action.payload as string))
+  };
 
     default:
       return state;
