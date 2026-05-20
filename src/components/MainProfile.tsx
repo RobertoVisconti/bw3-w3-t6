@@ -11,7 +11,7 @@ import ButtonLinkedin from "./ButtonLinkedin"
 import ModalePresentazione from "../components/ModalePresentazione"
 import ProfileModals from "../components/ProfileModals"
 import { Button, Dropdown } from "react-bootstrap"
-import { FaPen, FaUserPlus, FaEnvelope } from "react-icons/fa"
+import { FaPen, FaUserPlus, FaEnvelope, FaBriefcase } from "react-icons/fa"
 import { AiOutlinePicture } from "react-icons/ai"
 import { IoMdPhotos } from "react-icons/io"
 
@@ -337,7 +337,7 @@ const MainProfile = () => {
                     </div>
                   </div>
                   <div>
-                    <MapExp />
+                    <MapExp userId={displayedProfile._id} />
                   </div>
                 </div>
               )}

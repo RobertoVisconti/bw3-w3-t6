@@ -1,56 +1,56 @@
 import { Button } from "react-bootstrap"
 import { FaPen } from "react-icons/fa"
-import type { Experience } from "../interfaces/interfaces"
 import { useSelector } from "react-redux"
 import type { RootState } from "../redux/store"
+import type { Experience } from "../interfaces/interfaces"
 
 interface MapExpProps {
-  experiences?: Experience[]
+  userId: string
 }
 
-const MapExp = () => {
+const MapExp = ({ userId }: MapExpProps) => {
   const experiences = useSelector(
     (state: RootState) => state.experience.experiences,
   )
+
+  // filtri per userId (QUI è il punto chiave)
+  const userExperiences = experiences.filter((exp) => exp.user === userId)
+  console.log(userExperiences)
   console.log(experiences)
+
+  if (!userExperiences.length) {
+    return <p className="text-muted">Nessuna esperienza inserita</p>
+  }
+
   return (
     <div>
-      {experiences?.map((exp) => {
-        return (
-          <>
-            <div
-              className="d-flex justify-content-between align-items-start"
-              key={exp?._id}
-            >
-              <div className="d-flex align-items-start">
-                {/* logo lavoro */}
-                <img
-                  src={exp.image || "https://placehold.co/40x30"}
-                  alt="logo-lavoro"
-                  className=""
-                />
-                <div className="ms-3">
-                  {/* qui dentro possiamo aggiungere tutte le info */}
-                  <h6 className="fw-semibold mb-1">{exp.role}</h6>
-                  <p className="text-secondary small mb-0">{exp.area}</p>
-                  <p className="text-secondary small mb-0">
-                    {new Date(exp.startDate).toLocaleDateString()}
-                  </p>
-                  <p className="text-secondary small mb-0 text-truncate">
-                    {exp.description}
-                  </p>
-                </div>
-              </div>
+      {userExperiences.map((exp: Experience) => (
+        <div
+          key={exp._id}
+          className="d-flex justify-content-between align-items-start mb-3"
+        >
+          <div className="d-flex align-items-start">
+            <img src={exp.image || "https://placehold.co/40x30"} alt="logo" />
 
-              <Button variant="link" className="text-dark p-0">
-                <FaPen size={17} />
-              </Button>
+            <div className="ms-3">
+              <h6 className="fw-semibold mb-1">{exp.role}</h6>
+              <p className="text-secondary small mb-0">{exp.company}</p>
+
+              <p className="text-secondary small mb-0">
+                {new Date(exp.startDate).toLocaleDateString()}
+              </p>
+
+              <p className="text-secondary small mb-0">{exp.description}</p>
             </div>
-            <hr className="my-3" />
-          </>
-        )
-      })}
+          </div>
+
+          <Button variant="link" className="text-dark p-0">
+            <FaPen size={17} />
+          </Button>
+        </div>
+      ))}
     </div>
   )
 }
+
 export default MapExp

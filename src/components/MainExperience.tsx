@@ -21,6 +21,7 @@ const MainExperience = () => {
     endDate: "",
     description: "",
     area: "",
+    _id: "",
   })
 
   const handleChangeExp = (
@@ -46,6 +47,7 @@ const MainExperience = () => {
       endDate: "",
       description: "",
       area: "",
+      _id: "",
     })
 
     handleCloseCreateExp()
@@ -60,6 +62,7 @@ const MainExperience = () => {
         title: myProfile.title || "",
         area: myProfile.area || "",
         username: myProfile.username || "",
+        _id: myProfile._id || "",
       })
     }
   }, [myProfile])
@@ -104,7 +107,7 @@ const MainExperience = () => {
             </div>
             <FaPlus onClick={handleShowCreateExp} />
           </div>
-          <MapExp />
+          <MapExp userId={formExpData._id} />
         </Card.Body>
       </Card>
       {/* modale create exp */}

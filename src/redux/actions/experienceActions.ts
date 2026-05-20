@@ -20,7 +20,6 @@ export const getExperience = (userId: string) => async (dispatch: Dispatch) => {
     const data = await customFetch<Experience[]>(
       `profile/${userId}/experiences`,
     )
-    console.log("questo è experience:" + data)
     dispatch({ type: GET_EXPERIENCES_SUCCESS, payload: data })
   } catch (err) {
     const msg = err instanceof Error ? err.message : "Errore sconosciuto"
