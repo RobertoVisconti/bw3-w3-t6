@@ -8,44 +8,51 @@ import {
 } from "../redux/actions/profileActions";
 import { GoShieldCheck } from "react-icons/go";
 import ButtonLinkedin from "./ButtonLinkedin";
-import { IoEyeSharp } from "react-icons/io5";
 import ModalePresentazione from "../components/ModalePresentazione";
-import {
-  Button,
-  Dropdown,
-  Form,
-  FormCheck,
-  Image,
-  Modal,
-} from "react-bootstrap";
-import { HiOutlinePencil } from "react-icons/hi";
-import {
-  FaCamera,
-  FaPen,
-  FaTrashAlt,
-  FaUserPlus,
-  FaEnvelope,
-  FaBriefcase,
-} from "react-icons/fa";
-import { SlPicture } from "react-icons/sl";
+import ProfileModals from "../components/ProfileModals";
+import { Button, Dropdown } from "react-bootstrap";
+import { FaPen, FaUserPlus, FaEnvelope, FaBriefcase } from "react-icons/fa";
 import { AiOutlinePicture } from "react-icons/ai";
 import { IoMdPhotos } from "react-icons/io";
 
 const MainProfile = () => {
-  // Recupero l'ID dell'utente dall'URL (se presente)
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
-  // funzioni upload Immagine profilo
+  // Stato per il profilo visualizzato
+  const [displayedProfile, setDisplayedProfile] = useState<any>(null);
+  const [isOwnProfile, setIsOwnProfile] = useState(true);
+
+  // Variabili di stato per i modali
   const [showUpPic, setShowUpPic] = useState(false);
+  const [showMod, setShowMod] = useState(false);
+  const [showImg, setShowImg] = useState(false);
+  const [showCover, setShowCover] = useState(false);
+  const [showPref, setShowPref] = useState(false);
 
-  const handleCloseUpPic = () => setShowUpPic(false);
-  const handleShowUpPic = () => setShowUpPic(true);
-
-  // update
+  // Variabili per l'upload dell'immagine
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
+  // Funzioni di chiusura/apertura modali
+  const handleCloseUpPic = () => setShowUpPic(false);
+  const handleShowUpPic = () => setShowUpPic(true);
+  const handleCloseMod = () => setShowMod(false);
+  const handleShowMod = () => setShowMod(true);
+  const handleCloseImg = () => setShowImg(false);
+  const handleShowImg = () => setShowImg(true);
+  const handleCloseCover = () => setShowCover(false);
+  const handleShowCover = () => setShowCover(true);
+  const handleClosePref = () => setShowPref(false);
+  const handleShowPref = () => setShowPref(true);
+
+  // Selettori Redux
+  const { myProfile, allProfiles, isLoading, error } = useSelector(
+    (state: RootState) => state.profile,
+  );
+
+  // Funzione per l'upload dell'immagine del profilo
   const handleUpload = async () => {
     if (!selectedFile || !displayedProfile?._id) return;
 
@@ -56,42 +63,6 @@ const MainProfile = () => {
     handleCloseImg();
   };
 
-  // funzioni modal e presentazioni
-  const [showMod, setShowMod] = useState(false);
-
-  const handleCloseMod = () => setShowMod(false);
-  const handleShowMod = () => setShowMod(true);
-
-  // funzioni modeale pic
-
-  const [showImg, setShowImg] = useState(false);
-
-  const handleCloseImg = () => setShowImg(false);
-  const handleShowImg = () => setShowImg(true);
-
-  // funzione modale cover
-
-  const [showCover, setShowCover] = useState(false);
-
-  const handleCloseCover = () => setShowCover(false);
-  const handleShowCover = () => setShowCover(true);
-
-  // funzione modale preferenze offerte di lavoro
-
-  const [showPref, setShowPref] = useState(false);
-
-  const handleClosePref = () => setShowPref(false);
-  const handleShowPref = () => setShowPref(true);
-
-  const dispatch = useDispatch<AppDispatch>();
-  const { myProfile, allProfiles, isLoading, error } = useSelector(
-    (state: RootState) => state.profile,
-  );
-
-  // Stato per il profilo visualizzato
-  const [displayedProfile, setDisplayedProfile] = useState<any>(null);
-  const [isOwnProfile, setIsOwnProfile] = useState(true);
-
   // Carico il mio profilo al mount
   useEffect(() => {
     dispatch(getMyProfileAsync());
@@ -100,14 +71,12 @@ const MainProfile = () => {
   // Logica per determinare quale profilo mostrare
   useEffect(() => {
     if (userId) {
-      // Cerco il profilo dell'utente negli allProfiles
       const foundProfile = allProfiles?.find((p) => p._id === userId);
       if (foundProfile) {
         setDisplayedProfile(foundProfile);
         setIsOwnProfile(foundProfile._id === myProfile?._id);
       }
     } else {
-      // Se non c'è userId nell'URL, mostro il mio profilo
       if (myProfile) {
         setDisplayedProfile(myProfile);
         setIsOwnProfile(true);
@@ -124,8 +93,6 @@ const MainProfile = () => {
 
   return (
     <>
-      {/* section profilo */}
-      {/* ! PAGE LAVORO --> la section profilo rimane invariata al cambio tra Home e Lavoro */}
       {isLoading && (
         <div className="text-center my-3">Caricamento profilo...</div>
       )}
@@ -154,11 +121,10 @@ const MainProfile = () => {
 
                     <Dropdown.Menu>
                       <Dropdown.Item onClick={handleShowCover}>
-                        <p className="fw-bold">
-                          {" "}
+                        <div className="fw-bold m-0">
                           <AiOutlinePicture size={25} className="me-2" />
                           Modifica immagine di copertina
-                        </p>
+                        </div>
                       </Dropdown.Item>
                       <Dropdown.Item className="d-flex align-items-center ">
                         <IoMdPhotos size={17} className="me-2" />
@@ -168,9 +134,7 @@ const MainProfile = () => {
                           </p>
                           <p
                             className="fw-light m-0"
-                            style={{
-                              fontSize: "13px",
-                            }}
+                            style={{ fontSize: "13px" }}
                           >
                             Fai un'ottima prima impressione usando fino a 5
                             immagini
@@ -185,7 +149,7 @@ const MainProfile = () => {
               <img
                 src={displayedProfile.image || "https://placehold.co/30x30"}
                 alt="foto profilo"
-                className="rounded-circle profile-image  "
+                className="rounded-circle profile-image"
                 onClick={isOwnProfile ? handleShowImg : undefined}
                 style={{ cursor: isOwnProfile ? "pointer" : "default" }}
               />
@@ -214,12 +178,13 @@ const MainProfile = () => {
                     informazioni di contatto
                   </a>
                 </p>
-                <a className="fw-bold text-decoration-none">381 collegamenti</a>
+                <a href="#" className="fw-bold text-decoration-none">
+                  381 collegamenti
+                </a>
               </div>
 
               {/* Pulsanti differenti in base al tipo di profilo */}
               {isOwnProfile ? (
-                // Pulsanti per il proprio profilo
                 <div className="d-flex gap-1">
                   <ButtonLinkedin
                     text="Disponibile per"
@@ -239,7 +204,6 @@ const MainProfile = () => {
                     style={{ fontSize: "10px" }}
                     to="#"
                   />
-
                   <ButtonLinkedin
                     text="..."
                     className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2 "
@@ -248,7 +212,6 @@ const MainProfile = () => {
                   />
                 </div>
               ) : (
-                // Pulsanti per i profili altrui
                 <div className="d-flex gap-2 mt-2 mb-4">
                   <Button
                     className="rounded-pill fw-bold d-flex align-items-center gap-2"
@@ -295,13 +258,11 @@ const MainProfile = () => {
               {/* Sezione "Disponibile a lavorare" - visibile solo per il proprio profilo */}
               {isOwnProfile && (
                 <div
-                  className="d-flex align-items-start rounded-2 flex-column  mt-3 p-3 w-50"
-                  style={{
-                    backgroundColor: "#DDE7F1",
-                  }}
+                  className="d-flex align-items-start rounded-2 flex-column mt-3 p-3 w-50"
+                  style={{ backgroundColor: "#DDE7F1" }}
                 >
                   <div className="d-flex align-items-center w-100 justify-content-between">
-                    <p className="p-0 m-0 ">
+                    <p className="p-0 m-0">
                       <b>Disponibile a lavorare</b>
                     </p>
                     <FaPen size={17} onClick={handleShowPref} />
@@ -317,7 +278,7 @@ const MainProfile = () => {
             </div>
           </section>
 
-          {/* NUOVA SEZIONE: INFORMAZIONI / BIO (Mostrata sempre per tutti) */}
+          {/* SEZIONE: INFORMAZIONI / BIO */}
           <section className="bg-light border border-secondary rounded-3 p-3">
             <div className="d-flex align-items-center justify-content-between mb-2">
               <h2 className="fs-4 fw-bold m-0">Informazioni</h2>
@@ -333,7 +294,7 @@ const MainProfile = () => {
             </p>
           </section>
 
-          {/* NUOVA SEZIONE: ESPERIENZE RESTRUTTURATE DALL'API (Mostrata sempre per tutti) */}
+          {/* SEZIONE: ESPERIENZE */}
           <section className="bg-light border border-secondary rounded-3 p-3">
             <div className="d-flex align-items-center justify-content-between mb-3">
               <h2 className="fs-4 fw-bold m-0">Esperienza</h2>
@@ -404,334 +365,24 @@ const MainProfile = () => {
         </div>
       )}
 
-      {/* modale pic */}
-      {isOwnProfile && (
-        <Modal show={showImg} onHide={handleCloseImg}>
-          <Modal.Header closeButton className="bg-dark border-0">
-            <Modal.Title className="text-light">Foto del profilo</Modal.Title>
-          </Modal.Header>
-          <Modal.Body className="bg-dark">
-            <div className="w-100 justify-content-center d-flex">
-              <Image
-                src={displayedProfile?.image}
-                alt="foto profilo"
-                style={{
-                  width: "250px",
-                  height: "250px",
-                  borderRadius: "15px",
-                  objectFit: "cover",
-                }}
-              />
-            </div>
-          </Modal.Body>
-          <Modal.Footer className="bg-dark border-0 d-flex justify-content-between">
-            <Button
-              className="bg-transparent border-0 d-flex flex-column align-items-center text-light"
-              style={{ fontSize: "13px" }}
-              onClick={handleCloseImg}
-            >
-              <FaTrashAlt />
-              Elimina
-            </Button>
-            <Button
-              className="bg-transparent border-0 d-flex flex-column align-items-center text-light"
-              style={{ fontSize: "13px" }}
-              onClick={handleShowUpPic}
-            >
-              <FaCamera />
-              Modifica
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
-
-      {/* modale cover */}
-      {isOwnProfile && (
-        <Modal show={showCover} onHide={handleCloseCover}>
-          <Modal.Header closeButton className="bg-dark border-0">
-            <Modal.Title className="text-light">
-              Modifica immagine di copertina
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body className="bg-dark">
-            <div className="w-100 justify-content-center d-flex">
-              <div
-                style={{
-                  width: "300px",
-                  height: "150px",
-                  backgroundImage: 'url("https://placebear.com/1000/1000")',
-                  backgroundSize: "cover",
-                  borderRadius: "10px",
-                }}
-              />
-            </div>
-          </Modal.Body>
-          <Modal.Footer className="bg-dark border-0 d-flex justify-content-between">
-            <Button
-              className="bg-transparent border-0 d-flex flex-column align-items-center text-light"
-              onClick={handleCloseCover}
-            >
-              <FaTrashAlt />
-              Elimina
-            </Button>
-            <Button
-              className="bg-transparent border-0 d-flex flex-column align-items-center text-light"
-              onClick={handleCloseCover}
-            >
-              <FaCamera />
-              Modifica
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
-
-      {/* Modal Preferenze Offerte Lavoro */}
-      {isOwnProfile && (
-        <Modal show={showPref} onHide={handleClosePref} size="lg">
-          <Modal.Header closeButton className="bg-light">
-            <Modal.Title>Preferenze offerte di lavoro</Modal.Title>
-          </Modal.Header>
-          <Modal.Body className="bg-white p-4">
-            <p className="p-0 m-0">
-              <b>A cosa sei interessato?</b>
-            </p>
-            <p style={{ fontSize: "13px" }} className="text-secondary">
-              I recruiter vedono queste informazioni, quindi possono offrirti
-              ruoli pertinenti
-            </p>
-            <div>
-              {/* form qualifiche */}
-              <p className="p-0 m-0">Qualifiche*</p>
-              <div className="d-flex">
-                <div className="me-2">
-                  <ButtonLinkedin
-                    to="#"
-                    text="Dipendente "
-                    className="bg-success border-0"
-                  />
-                </div>
-                <div className="me-2">
-                  <ButtonLinkedin
-                    to="#"
-                    text="Studente"
-                    className="bg-success border-0 "
-                  />
-                </div>
-              </div>
-              <div className="w-50">
-                <ButtonLinkedin
-                  to="#"
-                  className="text-primary bg-transparent"
-                  text="+ Aggiungi qualifica"
-                />
-              </div>
-              {/* form tipi di località */}
-              <p className="m-0 mt-5">Tipi di località*</p>
-              <div className="d-flex">
-                <div className="me-2">
-                  <ButtonLinkedin
-                    to="#"
-                    text="In sede"
-                    className="bg-success border-0"
-                  />
-                </div>
-                <div className="me-2">
-                  <ButtonLinkedin
-                    to="#"
-                    text="ibrido"
-                    className="bg-success border-0 "
-                  />
-                </div>
-                <ButtonLinkedin
-                  to="#"
-                  className="text-secondary bg-transparent border-secondary"
-                  text="Da remoto +"
-                />
-              </div>
-
-              {/* form località in sede*/}
-              <p className="m-0 mt-5">Località (in sede)*</p>
-              <div className="d-flex">
-                <div className="me-2">
-                  <ButtonLinkedin
-                    to="#"
-                    text={displayedProfile?.area}
-                    className="bg-success border-0"
-                  />
-                </div>
-              </div>
-              <div className="w-50">
-                <ButtonLinkedin
-                  to="#"
-                  className="text-primary bg-transparent"
-                  text="+ Aggiungi località"
-                />
-              </div>
-
-              {/* form Data di inizio */}
-              <p className="m-0 p-0 mt-5">Data di inizio</p>
-              <Form className="mt-3">
-                <FormCheck
-                  type="radio"
-                  name="dataDiInizio"
-                  label="Immediatamente, sto attivamente cercando lavoro"
-                  id="available"
-                />
-
-                <FormCheck
-                  type="radio"
-                  name="dataDiInizio"
-                  label="Flessibile, do occasionalmente un'occhiata"
-                  id="flexible"
-                />
-              </Form>
-
-              {/* form tipi di impiego */}
-              <p className="m-0 mt-5">Tipi di impiego*</p>
-              <div className="d-flex flex-wrap">
-                <div className="me-2">
-                  <ButtonLinkedin
-                    to="#"
-                    text="A tempo pieno"
-                    className="bg-success border-0"
-                  />
-                </div>
-                <div className="me-2">
-                  <ButtonLinkedin
-                    to="#"
-                    className="text-secondary bg-transparent border-secondary"
-                    text="Part-time +"
-                  />
-                </div>
-                <div className="me-2">
-                  <ButtonLinkedin
-                    to="#"
-                    className="text-secondary bg-transparent border-secondary"
-                    text="Contratto +"
-                  />
-                </div>
-                <div className="me-2">
-                  <ButtonLinkedin
-                    to="#"
-                    className="text-secondary bg-transparent border-secondary"
-                    text="Stage +"
-                  />
-                </div>
-                <div className="me-2">
-                  <ButtonLinkedin
-                    to="#"
-                    className="text-secondary bg-transparent border-secondary"
-                    text="Temporaneo +"
-                  />
-                </div>
-              </div>
-              {/* form Visibilità */}
-              <p className="m-0 p-0 mt-5">
-                Visibilità (chi può vedere che sei disponibile a lavorare){" "}
-              </p>
-              <Form className="mt-3">
-                <FormCheck
-                  type="radio"
-                  name="visibilità"
-                  label="Solo recruiter"
-                  id="available"
-                />
-
-                <FormCheck
-                  type="radio"
-                  name="visibilità"
-                  label="Tutti gli utenti LinkedIn"
-                  id="flexible"
-                />
-              </Form>
-            </div>
-          </Modal.Body>
-          <Modal.Footer className="d-flex justify-content-between">
-            <Button
-              variant="light"
-              onClick={handleClosePref}
-              className="rounded-pill m-0 py-0"
-            >
-              Elimina
-            </Button>
-            <Button
-              variant="primary"
-              onClick={handleClosePref}
-              className="rounded-pill m-0 py-0 "
-            >
-              Salva
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
-
-      {/* modal Caricamento Foto */}
-      {isOwnProfile && (
-        <Modal show={showUpPic} onHide={handleCloseUpPic}>
-          <Modal.Header closeButton className="bg-dark border-0">
-            <Modal.Title className="text-light">
-              Carica foto profilo
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body className="bg-dark">
-            <Form.Group>
-              <Form.Label
-                onClick={handleUpload}
-                className="w-100 d-flex justify-content-center"
-              >
-                {preview && (
-                  <Image
-                    src={preview}
-                    roundedCircle
-                    className="linkedin-avatar "
-                    alt="preview"
-                    style={{
-                      width: "200px",
-                      height: "200px",
-                      objectFit: "cover",
-                    }}
-                  />
-                )}
-              </Form.Label>
-
-              <Form.Control
-                className="bg-transparent text-light border-0 border-bottom  "
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (!file) return;
-
-                  setSelectedFile(file);
-
-                  setPreview(URL.createObjectURL(file));
-                }}
-              />
-            </Form.Group>
-          </Modal.Body>
-          <Modal.Footer className="bg-dark border-0 d-flex justify-content-between">
-            <Button
-              className="bg-transparent border-0 d-flex flex-column align-items-center text-light"
-              style={{ fontSize: "13px" }}
-              onClick={handleCloseUpPic}
-            >
-              <FaTrashAlt />
-              Elimina
-            </Button>
-            <Button
-              className="bg-transparent border-0 d-flex flex-column align-items-center text-light"
-              style={{ fontSize: "13px" }}
-              onClick={() => {
-                handleUpload();
-                handleCloseUpPic();
-              }}
-            >
-              <FaCamera />
-              Aggiorna
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
+      {/* COMPONENTE CENTRALIZZATO DEI MODALI */}
+      <ProfileModals
+        isOwnProfile={isOwnProfile}
+        displayedProfile={displayedProfile}
+        showImg={showImg}
+        handleCloseImg={handleCloseImg}
+        handleShowUpPic={handleShowUpPic}
+        showCover={showCover}
+        handleCloseCover={handleCloseCover}
+        showPref={showPref}
+        handleClosePref={handleClosePref}
+        showUpPic={showUpPic}
+        handleCloseUpPic={handleCloseUpPic}
+        preview={preview}
+        handleUpload={handleUpload}
+        setSelectedFile={setSelectedFile}
+        setPreview={setPreview}
+      />
     </>
   );
 };
