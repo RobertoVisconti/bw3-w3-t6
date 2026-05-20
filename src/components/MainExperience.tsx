@@ -185,10 +185,39 @@ const MainExperience = () => {
                   })}
                 </Form.Select>
                 <Form.Text className="fw-light" style={{ fontSize: "10px" }}>
-                  Scegli un tipo di località (es. da remoto)
+                  Queste informazioni verranno usate per migliorare la ricerca
+                  di lavoro su LinkedIn
                 </Form.Text>
               </Form.Group>
             </Form>
+            <div>
+              <h5>Competenze</h5>
+              <p>
+                Ti consigliamo di aggiungere le 5 competenze più utilizzate in
+                questo ruolo. Appariranno anche nella sezione Competenze.
+              </p>
+              <div className="w-50">
+                <ButtonLinkedin
+                  to="#"
+                  text="Aggiungi competenza"
+                  className="bg-transparent text-primary "
+                />
+              </div>
+            </div>
+            <div>
+              <h5>Contenuti Multimediali</h5>
+              <p>
+                Ti consigliamo di aggiungere le 5 competenze più utilizzate in
+                questo ruolo. Appariranno anche nella sezione Competenze.
+              </p>
+              <div className="w-50">
+                <ButtonLinkedin
+                  to="#"
+                  text="Aggiungi competenza"
+                  className="bg-transparent text-primary "
+                />
+              </div>
+            </div>
           </div>
         </Modal.Body>
         <Modal.Footer>

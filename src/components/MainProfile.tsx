@@ -160,10 +160,13 @@ const MainProfile = () => {
             <div className="p-3 pt-5">
               <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center">
-                  <h1 className="fs-3 m-0 me-2">
-                    {displayedProfile.surname} {displayedProfile.name}
-                  </h1>
-                  <GoShieldCheck />
+                  <div>
+                    <h1 className="fs-3 m-0 me-2">
+                      {displayedProfile.surname} {displayedProfile.name}
+                    </h1>
+                    <h6>{displayedProfile.username}</h6>
+                    <GoShieldCheck />
+                  </div>
                 </div>
                 {/* Pulsante edit visibile solo per il proprio profilo */}
                 {isOwnProfile && <FaPen size={17} onClick={handleShowMod} />}
