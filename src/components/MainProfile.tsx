@@ -11,11 +11,13 @@ import ButtonLinkedin from "./ButtonLinkedin"
 import ModalePresentazione from "../components/ModalePresentazione"
 import ProfileModals from "../components/ProfileModals"
 import { Button, Dropdown } from "react-bootstrap"
-import { FaPen, FaUserPlus, FaEnvelope, FaBriefcase } from "react-icons/fa"
+import { FaPen, FaUserPlus, FaEnvelope } from "react-icons/fa"
 import { AiOutlinePicture } from "react-icons/ai"
 import { IoMdPhotos } from "react-icons/io"
-import { CiCirclePlus } from "react-icons/ci"
+
 import { FiPlus } from "react-icons/fi"
+import MapExp from "./MapExp"
+import { getExperience } from "../redux/actions/experienceActions"
 
 const MainProfile = () => {
   const { userId } = useParams<{ userId: string }>()
@@ -52,6 +54,10 @@ const MainProfile = () => {
   // Selettori Redux
   const { myProfile, allProfiles, isLoading, error } = useSelector(
     (state: RootState) => state.profile,
+  )
+
+  const experiences = useSelector(
+    (state: RootState) => state.experience.experiences,
   )
 
   // Funzione per l'upload dell'immagine del profilo
@@ -92,6 +98,13 @@ const MainProfile = () => {
     setDisplayedProfile(myProfile)
     setIsOwnProfile(true)
   }
+
+  // fetch get exp
+  useEffect(() => {
+    if (displayedProfile?._id) {
+      dispatch(getExperience(displayedProfile._id))
+    }
+  }, [dispatch, displayedProfile?._id])
 
   return (
     <>
@@ -301,31 +314,39 @@ const MainProfile = () => {
 
           {/* SEZIONE: ESPERIENZE */}
           <section className="bg-light border border-secondary rounded-3 p-3">
-            <div className="d-flex align-items-center justify-content-between mb-3">
-              <h2 className="fs-4 fw-bold m-0">Esperienza</h2>
+            <div className="d-flex  justify-content-between flex-column mb-3">
               {isOwnProfile && (
-                <div className="d-flex ">
-                  <Button
-                    variant=""
-                    className=""
-                    onClick={() => navigate("/Esperienze")}
-                  >
-                    <FiPlus className="m-0 p-0" />
-                  </Button>
-                  <Button
-                    variant=""
-                    className=""
-                    onClick={() => navigate("/Esperienze")}
-                  >
-                    <FaPen size={17} />
-                  </Button>
+                <div className="">
+                  <div className="d-flex justify-content-between mb-3">
+                    <h2 className="fs-4 fw-bold m-0">Esperienza</h2>
+                    <div>
+                      <Button
+                        variant=""
+                        className=""
+                        onClick={() => navigate("/Esperienze")}
+                      >
+                        <FiPlus className="m-0 p-0" />
+                      </Button>
+                      <Button
+                        variant=""
+                        className=""
+                        onClick={() => navigate("/Esperienze")}
+                      >
+                        <FaPen size={17} />
+                      </Button>
+                    </div>
+                  </div>
+                  <div>
+                    <MapExp />
+                  </div>
                 </div>
               )}
             </div>
 
-            {displayedProfile.experiences &&
+            {/* {displayedProfile.experiences &&
             displayedProfile.experiences.length > 0 ? (
               <div className="d-flex flex-column gap-3">
+                <h2 className="fs-4 fw-bold m-0">Esperienza</h2>
                 {displayedProfile.experiences.map((exp: any, index: number) => (
                   <div
                     key={exp._id || index}
@@ -375,7 +396,7 @@ const MainProfile = () => {
                   ? "Non hai ancora inserito esperienze lavorative."
                   : "Nessuna esperienza lavorativa presente nel profilo di questo utente."}
               </p>
-            )}
+            )} */}
           </section>
         </div>
       )}

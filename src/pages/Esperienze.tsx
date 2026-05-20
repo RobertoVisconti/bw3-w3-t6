@@ -12,9 +12,9 @@ const Esperienze = () => {
 
   useEffect(() => {
     if (myProfile?._id) {
-      dispatch(getExperience(myProfile?._id))
+      dispatch(getExperience(myProfile._id))
     }
-  }, [dispatch, myProfile])
+  }, [dispatch, myProfile?._id])
 
   return (
     <Container fluid>
