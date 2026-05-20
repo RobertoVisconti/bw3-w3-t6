@@ -4,6 +4,7 @@ import { experienceReducer } from "../reducers/experienceReducer";
 import { postReducer } from "../reducers/postReducer";
 import jobsReducer from "../reducers/jobsReducer";
 import { commentsReducer } from "../reducers/commentsReducer";
+import { reteReducer } from "../reducers/reteReducer";
 
 const mainReducer = combineReducers({
   profile: profileReducer,
@@ -11,6 +12,7 @@ const mainReducer = combineReducers({
   post: postReducer,
   jobs: jobsReducer,
   comments: commentsReducer,
+  rete: reteReducer
 });
 
 export const store = configureStore({

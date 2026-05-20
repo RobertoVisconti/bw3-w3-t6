@@ -20,6 +20,7 @@ import { Rete } from "./pages/Rete";
 import DetailsJob from "./components/DetailsJob";
 import Login from "./pages/Login";
 import ChatExpand from "./pages/ChatExpand";
+import Notifications from "./pages/Notifications";
 
 const AppContent = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -68,6 +69,7 @@ const AppContent = () => {
           <Route path="/Rete" element={<Rete />}></Route>
           <Route path="/dettaglio-lavoro/:id" element={<DetailsJob />} />
           <Route path="/messaggistica" element={<ChatExpand />} />
+          <Route path="/notifiche" element={<Notifications />} />
         </Routes>
       </main>
 
