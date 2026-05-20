@@ -274,7 +274,7 @@ const MainProfile = () => {
               <FaCamera />
               Aggiorna
             </Button>
-            {/* fine caricamento imggagine */}
+            {/* fine caricamento immagine */}
             <Button
               className="bg-transparent border-0 d-flex flex-column align-items-center text-light"
               style={{ fontSize: "13px" }}
