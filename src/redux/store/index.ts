@@ -4,7 +4,7 @@ import { experienceReducer } from "../reducers/experienceReducer";
 import { postReducer } from "../reducers/postReducer";
 import jobsReducer from "../reducers/jobsReducer";
 import { commentsReducer } from "../reducers/commentsReducer";
-import { footerReducer } from "../reducers/FooterReducer";
+import { footerReducer } from "../reducers/footerReducer";
 import { reteReducer } from "../reducers/reteReducer";
 import NewsReducer from "../reducers/notizieReducer";
 
