@@ -62,7 +62,7 @@ const DettaglioNotizia = function () {
             </div>
             <div>
               <button className="news-btn mx-2" onClick={() => navigate("/")}>
-                ← Torna alla home
+                ← Torna indietro
               </button>
 
               <button
