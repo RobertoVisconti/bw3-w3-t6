@@ -190,7 +190,7 @@ const MainExperience = () => {
                 </Form.Text>
               </Form.Group>
             </Form>
-            <div>
+            <div className="">
               <h5>Competenze</h5>
               <p>
                 Ti consigliamo di aggiungere le 5 competenze più utilizzate in
