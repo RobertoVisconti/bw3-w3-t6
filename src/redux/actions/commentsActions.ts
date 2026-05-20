@@ -28,7 +28,6 @@ export const getComments = (postId: string) => async (dispatch: Dispatch) => {
 
     const allComments: Comment[] = await response.json();
     
-    // 🌟 FILTRO FRONT-END: Teniamo solo i commenti legati a QUESTO post specifico
     const filteredComments = allComments.filter(c => c.elementId === postId);
 
     dispatch({ type: GET_COMMENTS_SUCCESS, payload: { postId, comments: filteredComments } });

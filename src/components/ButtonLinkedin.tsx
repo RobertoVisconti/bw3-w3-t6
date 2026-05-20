@@ -15,7 +15,7 @@ const ButtonLinkedin: React.FC<ButtonLinkedinProps> = ({
   return (
     <Link to={to} className="">
       <Button
-        className={`btn text-primary bg-transparent rounded-pill w-100 mt-2 mb-2 fw-bold border-2 ${className} `}
+        className={` btn  rounded-pill w-100 mt-2 mb-2 fw-bold border-2 ${className} `}
         style={{ ...style }}
         {...props}
       >
