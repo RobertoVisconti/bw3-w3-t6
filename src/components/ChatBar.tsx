@@ -30,10 +30,12 @@ const ChatBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Tipizzato correttamente senza 'any'
   const [activeChat, setActiveChat] = useState<UserProfile | null>(null);
   const [newMessage, setNewMessage] = useState("");
-  const [messages, setMessages] = useState<Message[]>([]);
+
+  const [conversations, setConversations] = useState<{
+    [userId: string]: Message[];
+  }>({});
 
   const { myProfile, allProfiles, isLoading } = useSelector(
     (state: RootState) => state.profile,
@@ -49,10 +51,9 @@ const ChatBar = () => {
     )
     .slice(0, 15);
 
-  // Tipizzazione corretta e sicura dell'evento del form
   const handleSendMessage = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!newMessage.trim() || !myProfile?._id) return;
+    if (!newMessage.trim() || !myProfile?._id || !activeChat?._id) return;
 
     const msg: Message = {
       id: Date.now().toString(),
@@ -61,7 +62,15 @@ const ChatBar = () => {
       timestamp: "Adesso",
     };
 
-    setMessages([...messages, msg]);
+    // salviamo il messaggio unicamente nella lista dell'utente selezionato
+    setConversations((prevConversations) => {
+      const currentChatMessages = prevConversations[activeChat._id] || [];
+      return {
+        ...prevConversations,
+        [activeChat._id]: [...currentChatMessages, msg],
+      };
+    });
+
     setNewMessage("");
   };
 
@@ -154,7 +163,7 @@ const ChatBar = () => {
         >
           {!activeChat ? (
             <>
-              {/*  LISTA UTENTI */}
+              {/* LISTA UTENTI */}
               <div className="p-2 border-bottom bg-white">
                 <FormControl
                   type="text"
@@ -229,44 +238,49 @@ const ChatBar = () => {
             </>
           ) : (
             <>
-              {/*  FINESTRA DI CHAT INTERNA */}
+              {/* FINESTRA DI CHAT INTERNA */}
               <div className="d-flex flex-column h-100 bg-light justify-content-between position-relative">
                 <div
                   className="flex-grow-1 overflow-auto p-3"
                   style={{ maxHeight: "310px" }}
                 >
-                  {messages.length === 0 ? (
-                    <div className="text-center text-muted small mt-5">
-                      Dì ciao a {activeChat.name}! Inizia una conversazione.
-                    </div>
-                  ) : (
-                    messages.map((msg) => {
-                      const isMe = msg.senderId === myProfile?._id;
-                      return (
-                        <div
-                          key={msg.id}
-                          className={`d-flex flex-column mb-2 ${isMe ? "align-items-end" : "align-items-start"}`}
-                        >
+                  {(() => {
+                    const currentChatMessages =
+                      conversations[activeChat._id] || [];
+
+                    return currentChatMessages.length === 0 ? (
+                      <div className="text-center text-muted small mt-5">
+                        Dì ciao a {activeChat.name}! Inizia una conversazione.
+                      </div>
+                    ) : (
+                      currentChatMessages.map((msg) => {
+                        const isMe = msg.senderId === myProfile?._id;
+                        return (
                           <div
-                            className={`px-3 py-2 rounded-3 text-break ${
-                              isMe
-                                ? "bg-primary text-white"
-                                : "bg-white text-dark border shadow-sm"
-                            }`}
-                            style={{ fontSize: "0.85rem", maxWidth: "80%" }}
+                            key={msg.id}
+                            className={`d-flex flex-column mb-2 ${isMe ? "align-items-end" : "align-items-start"}`}
                           >
-                            {msg.text}
+                            <div
+                              className={`px-3 py-2 rounded-3 text-break ${
+                                isMe
+                                  ? "bg-primary text-white"
+                                  : "bg-white text-dark border shadow-sm"
+                              }`}
+                              style={{ fontSize: "0.85rem", maxWidth: "80%" }}
+                            >
+                              {msg.text}
+                            </div>
+                            <span
+                              className="text-muted mt-1"
+                              style={{ fontSize: "0.65rem" }}
+                            >
+                              {msg.timestamp}
+                            </span>
                           </div>
-                          <span
-                            className="text-muted mt-1"
-                            style={{ fontSize: "0.65rem" }}
-                          >
-                            {msg.timestamp}
-                          </span>
-                        </div>
-                      );
-                    })
-                  )}
+                        );
+                      })
+                    );
+                  })()}
                 </div>
 
                 <form
