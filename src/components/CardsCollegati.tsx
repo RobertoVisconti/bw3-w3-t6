@@ -7,10 +7,12 @@ import { Row, Col } from "react-bootstrap";
 
 interface CardsCollegatiContainerProps {
   collegati?: boolean;
+  limit?: number;
 }
 
 export const CardsCollegati = ({
   collegati = true,
+  limit = 8,
 }: CardsCollegatiContainerProps) => {
   const { allProfiles = [] } = useSelector(
     (state: RootState) => state.profile || {},
@@ -19,8 +21,8 @@ export const CardsCollegati = ({
   const randomProfiles = useMemo(() => {
     if (!allProfiles || allProfiles.length === 0) return [];
     // eslint-disable-next-line react-hooks/purity
-    return [...allProfiles].sort(() => Math.random() - 0.5).slice(0, 3);
-  }, [allProfiles]);
+    return [...allProfiles].sort(() => Math.random() - 0.5).slice(0, limit);
+  }, [allProfiles, limit]);
 
   return (
     <Row className="g-3">
