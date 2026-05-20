@@ -14,11 +14,9 @@ const FormPost = function () {
   const [showModal, setShowModal] = useState(false);
   const [postText, setPostText] = useState("");
 
-  // STATI PER L'IMMAGINE ALLEGATA
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  // Riferimento per cliccare l'input file nascosto
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleClose = () => {
@@ -47,15 +45,18 @@ const FormPost = function () {
   const handlePublish = async () => {
     if (postText.trim() === "") return;
 
+    if (!myProfile) {
+      console.error("Profilo non caricato. Impossibile pubblicare.");
+      return;
+    }
+
     try {
-      // Creiamo il post e aspettiamo l'oggetto di ritorno dal server
       const newPost = await (dispatch(
-        createPost({ text: postText }),
+        createPost({ text: postText }, myProfile),
       ) as unknown as Promise<Post | null>);
 
-      // Se il post è stato creato e c'è un'immagine, carichiamo l'allegato sfruttando l'_id
       if (newPost && newPost._id && selectedImage) {
-        await dispatch(uploadPostImage(newPost._id, selectedImage));
+        await dispatch(uploadPostImage(newPost._id, selectedImage, myProfile));
       }
 
       handleClose();

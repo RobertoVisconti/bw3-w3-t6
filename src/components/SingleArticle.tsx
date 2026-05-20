@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, type SyntheticEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../redux/store";
 import { SlOptions } from "react-icons/sl";
 import { IoMdAdd } from "react-icons/io";
 import { PiPlanetBold } from "react-icons/pi";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, OverlayTrigger, Popover } from "react-bootstrap";
 import type { Post, Comment } from "../interfaces/interfaces";
 import { FaRegThumbsUp, FaTrashAlt } from "react-icons/fa";
 import {
@@ -24,14 +24,22 @@ interface SingleArticleProps {
   post: Post;
 }
 
+// email per il delete
+const loggedEmail = localStorage.getItem("userEmail");
+
+// impedisco a react di creare un nuovo array
+const EMPTY_ARRAY: Comment[] = [];
+
 const SingleArticle = ({ post }: SingleArticleProps) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const [showComments, setShowComments] = useState(false);
   const [newCommentText, setNewCommentText] = useState("");
 
+  // Usiamo la costante esterna come fallback sicuro
   const commentsForPost = useSelector(
-    (state: RootState) => state.comments.commentsByPost[post._id] || [],
+    (state: RootState) =>
+      state.comments.commentsByPost[post._id] || EMPTY_ARRAY,
   );
   const { myProfile } = useSelector((state: RootState) => state.profile);
 
@@ -45,7 +53,7 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
     ? new Date(post.createdAt).toLocaleDateString()
     : "Qualche giorno fa";
 
-  const handleCommentSubmit = async (e: React.FormEvent) => {
+  const handleCommentSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!newCommentText.trim()) return;
 
@@ -61,30 +69,31 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
   };
 
   const handleDeleteComment = async (commentId: string) => {
-    if (window.confirm("Vuoi davvero eliminare questo commento?")) {
-      const BASE_URL = "https://striveschool-api.herokuapp.com/api/comments/";
-      const TOKEN =
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBjMjkyYTc0MDQxZjAwMTUwYmZiMTgiLCJpYXQiOjE3NzkxODE4NjYsImV4cCI6MTc4MDM5MTQ2Nn0.0qFdvZ-BbLzKqRDhCriQJlGYCaWI79v44-waIIguaBk";
+    const BASE_URL = "https://striveschool-api.herokuapp.com/api/comments/";
+    const TOKEN =
+      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBjMjkyYTc0MDQxZjAwMTUwYmZiMTgiLCJpYXQiOjE3NzkxODE4NjYsImV4cCI6MTc4MDM5MTQ2Nn0.0qFdvZ-BbLzKqRDhCriQJlGYCaWI79v44-waIIguaBk";
 
-      dispatch({ type: COMMENTS_LOADING });
-      try {
-        const response = await fetch(`${BASE_URL}${commentId}`, {
-          method: "DELETE",
-          headers: {
-            Authorization: TOKEN,
-          },
+    dispatch({ type: COMMENTS_LOADING });
+    try {
+      const response = await fetch(`${BASE_URL}${commentId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: TOKEN,
+        },
+      });
+
+      if (response.ok) {
+        // INVECE di getComments, rimuoviamo il commento dallo stato locale di Redux all'istante!
+        dispatch({
+          type: "DELETE_COMMENT_SUCCESS",
+          payload: { postId: post._id, commentId: commentId },
         });
-
-        if (response.ok) {
-          // Ricarichiamo al volo i commenti aggiornati dal server per pulire lo stato di Redux
-          dispatch(getComments(post._id));
-        } else {
-          throw new Error("Impossibile eliminare il commento");
-        }
-      } catch (err) {
-        const msg = err instanceof Error ? err.message : "Errore nel delete";
-        dispatch({ type: COMMENTS_ERROR, payload: msg });
+      } else {
+        throw new Error("Impossibile eliminare il commento");
       }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Errore nel delete";
+      dispatch({ type: COMMENTS_ERROR, payload: msg });
     }
   };
 
@@ -263,7 +272,10 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
                 <div className="flex-grow-1 position-relative">
                   <div className="d-flex flex-column bg-white p-2 rounded-3 border border-light shadow-xs">
                     <span className="fw-bold small text-dark">
-                      {commento.author}
+                      {commento.author.replace(
+                        "robertovisconti93+epicode@gmail.com",
+                        "Roberto Visconti",
+                      )}
                     </span>
                     <span
                       className="text-secondary"
@@ -278,15 +290,58 @@ const SingleArticle = ({ post }: SingleArticleProps) => {
                       {commento.comment}
                     </p>
                   </div>
-
-                  {/* Cestino visibile solo se l'utente loggato è l'autore effettivo del commento */}
-                  {myProfile && commento.author === myProfile.email && (
-                    <button
-                      onClick={() => handleDeleteComment(commento._id)}
-                      className="btn btn-link text-danger position-absolute end-0 top-0 m-1 p-1 border-0"
+                  {((myProfile && commento.author === myProfile.email) ||
+                    commento.author === loggedEmail ||
+                    commento.author ===
+                      "robertovisconti93+epicode@gmail.com") && (
+                    <OverlayTrigger
+                      trigger="click"
+                      rootClose
+                      placement="left"
+                      overlay={
+                        <Popover
+                          id={`popover-delete-${commento._id}`}
+                          className="shadow-sm border-secondary-subtle"
+                        >
+                          <Popover.Body
+                            className="p-2 text-center"
+                            style={{ minWidth: "140px" }}
+                          >
+                            <p className="m-0 mb-2 small fw-semibold text-dark">
+                              Eliminare?
+                            </p>
+                            <div className="d-flex gap-2 justify-content-center">
+                              <Button
+                                size="sm"
+                                variant="danger"
+                                className="py-0 px-2 small backend-del-btn"
+                                onClick={() => {
+                                  handleDeleteComment(commento._id);
+                                  document.body.click();
+                                }}
+                              >
+                                Sì
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="light"
+                                className="py-0 px-2 small border"
+                                onClick={() => document.body.click()}
+                              >
+                                No
+                              </Button>
+                            </div>
+                          </Popover.Body>
+                        </Popover>
+                      }
                     >
-                      <FaTrashAlt size={14} />
-                    </button>
+                      <button
+                        className="btn btn-link text-danger position-absolute end-0 top-0 m-1 p-1 border-0 custom-trash-btn"
+                        style={{ cursor: "pointer" }}
+                      >
+                        <FaTrashAlt size={14} />
+                      </button>
+                    </OverlayTrigger>
                   )}
                 </div>
               </div>
