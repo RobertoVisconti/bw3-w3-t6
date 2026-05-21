@@ -8,6 +8,9 @@ import type { Post } from "../../interfaces/interfaces";
 
 const MyPost = function () {
   const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    dispatch(getPost());
+  }, [dispatch]);
 
   const { myProfile } = useSelector((state: RootState) => state.profile || {});
 
@@ -21,10 +24,6 @@ const MyPost = function () {
   const [isLocalLoading, setIsLocalLoading] = useState(false);
 
   const observerRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    dispatch(getPost());
-  }, [dispatch]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect

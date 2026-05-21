@@ -64,10 +64,10 @@ const ListArticle = function () {
       },
       { threshold: 0.1 },
     );
-    // COMMENTATO MOMENTANEAMENTE
-    // if (currentRef) {
-    //   observer.observe(currentRef);
-    // }
+
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
 
     return () => {
       if (currentRef) {
