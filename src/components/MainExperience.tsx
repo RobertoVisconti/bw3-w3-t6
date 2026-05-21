@@ -1,5 +1,5 @@
 import { Button, Card, Modal } from "react-bootstrap"
-import { FaPen, FaPlus } from "react-icons/fa"
+import { FaPlus } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux"
 import type { AppDispatch, RootState } from "../redux/store"
 
