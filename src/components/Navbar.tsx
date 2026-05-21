@@ -554,7 +554,7 @@ const Navbar = () => {
         </Container>
       </BsNavbar>
 
-      {/* MODAL PREMIUM (Invariato nella logica, pulito nelle spaziature interne) */}
+     
       <Modal
         show={showPremiumModal}
         onHide={() => setShowPremiumModal(false)}
