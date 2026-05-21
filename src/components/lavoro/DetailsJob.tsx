@@ -27,7 +27,7 @@ const DetailsJob = function () {
   };
 
   return (
-    <Container className="mt-5">
+    <Container fluid="lg" className="mt-5">
       <Row className="justify-content-center">
         <Col xs={10}>
           <div className="job-card">
@@ -42,32 +42,31 @@ const DetailsJob = function () {
                 </p>
                 <div>
                   {description.length === 450 && (
-                    <Button
+                    <button
                       style={{ fontSize: "0.7em" }}
-                      variant="outline-primary"
+                      className="btn-segui"
                       onClick={() => setReadMore(detailJob.description.length)}
                     >
                       Continua a leggere ...
                       <IoMdArrowDropdown className="fs-5 ms-1" />
-                    </Button>
+                    </button>
                   )}
 
                   {description.length > 450 && (
-                    <Button
+                    <button
                       style={{ fontSize: "0.7em" }}
-                      variant="outline-primary"
+                      className="btn-segui"
                       onClick={() => setReadMore(450)}
                     >
                       Nascondi
                       <IoMdArrowDropup className="fs-5 ms-1" />
-                    </Button>
+                    </button>
                   )}
                 </div>
               </div>
               <span className="job-card-badge">{detailJob.job_type}</span>
             </div>
 
-            <hr className="job-card-divider" />
 
             <div className="job-card-meta">
               <span>📍 {detailJob.candidate_required_location}</span>
