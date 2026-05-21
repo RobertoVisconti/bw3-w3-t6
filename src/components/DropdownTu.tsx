@@ -78,6 +78,7 @@ const DropDownTu = () => {
                   height: "80px",
                   objectFit: "cover",
                   cursor: "pointer", // Aggiunto per far capire che è cliccabile
+                  aspectRatio: "1/1",
                 }}
                 onClick={() => navigate("/profilo")}
               />
