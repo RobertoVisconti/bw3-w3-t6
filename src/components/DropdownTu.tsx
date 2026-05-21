@@ -1,63 +1,70 @@
-import { useDispatch, useSelector } from "react-redux"
-import type { AppDispatch, RootState } from "../redux/store"
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../redux/store";
 
-import { useEffect } from "react"
-import { getMyProfileAsync } from "../redux/actions/profileActions"
-import { GoShieldCheck } from "react-icons/go"
-import { Col, Image } from "react-bootstrap"
+import { useEffect, useState } from "react";
+import { getMyProfileAsync } from "../redux/actions/profileActions";
+import { GoShieldCheck } from "react-icons/go";
+import { Col, Image } from "react-bootstrap";
 
-import { useNavigate } from "react-router-dom"
-import ButtonLinkedin from "./generali/ButtonLinkedin"
+import { useNavigate } from "react-router-dom";
+import ButtonLinkedin from "./generali/ButtonLinkedin";
+import OffcanvasGuida from "./generali/OffcanvasGuida";
 
 interface LocalFooterLink {
-  label: string
-  path?: string
-  isLogout?: boolean
+  label: string;
+  path?: string;
+  isLogout?: boolean;
+  onClick?: () => void;
 }
 
 const DropDownTu = () => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
   const { myProfile, isLoading, error } = useSelector(
     (state: RootState) => state.profile,
-  )
+  );
 
   useEffect(() => {
-    dispatch(getMyProfileAsync())
-  }, [dispatch])
+    dispatch(getMyProfileAsync());
+  }, [dispatch]);
 
   const handleLogout = (e: React.MouseEvent) => {
-    e.preventDefault()
-    localStorage.removeItem("isLoggedIn")
-    window.location.href = "/login"
-  }
+    e.preventDefault();
+    localStorage.removeItem("isLoggedIn");
+    window.location.href = "/login";
+  };
+
+  // costante per l'offcanvas di guida
+  const [showGuida, setShowGuida] = useState(false);
 
   const links: LocalFooterLink[] = [
     { label: "Account", path: "/account" },
     { label: "Prova 1 mese di Premium per 0€", path: "/premium" },
     { label: "Impostazioni e privacy", path: "/impostazioni" },
-    { label: "Guida", path: "/help" },
+    { label: "Guida", onClick: () => setShowGuida(true) },
     { label: "Lingua", path: "/Languages" },
     { label: "Gestisci", path: "/manage" },
-    { label: "Post e attività", path: "/activities" },
+    { label: "Post e attività", path: "/mypost" },
     {
       label: "Account per la pubblicazione di offerte di lavoro",
-      path: "/lavoro",
+      path: "/crearelavoro",
     },
     { label: "Esci", isLogout: true },
-  ]
+  ];
 
   // 3. Funzione centralizzata per gestire il click sui link
   const handleLinkClick = (e: React.MouseEvent, link: LocalFooterLink) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (link.isLogout) {
-      handleLogout(e)
+      handleLogout(e);
+    } else if (link.onClick) {
+      link.onClick();
     } else if (link.path) {
-      navigate(link.path)
+      navigate(link.path);
     }
-  }
+  };
 
   return (
     <>
@@ -141,10 +148,14 @@ const DropDownTu = () => {
               </a>
             </Col>
           ))}
+          <OffcanvasGuida
+            show={showGuida}
+            handleClose={() => setShowGuida(false)}
+          />
         </section>
       )}
     </>
-  )
-}
+  );
+};
 
-export default DropDownTu
+export default DropDownTu;
