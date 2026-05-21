@@ -21,6 +21,7 @@ interface ProfileModalsProps {
   handleCloseUpPic: () => void;
   preview: string | null;
   handleUpload: () => void;
+  handleDeleteImage: () => void;
   setSelectedFile: (file: File | null) => void;
   setPreview: (preview: string | null) => void;
 }
@@ -39,10 +40,11 @@ const ProfileModals = ({
   handleCloseUpPic,
   preview,
   handleUpload,
+  handleDeleteImage,
   setSelectedFile,
   setPreview,
 }: ProfileModalsProps) => {
-  if (!isOwnProfile) return null; // Se non è il proprio profilo, non renderizzare alcun modale di modifica
+  if (!isOwnProfile) return null;
 
   return (
     <>
@@ -54,7 +56,7 @@ const ProfileModals = ({
         <Modal.Body className="bg-dark">
           <div className="w-100 justify-content-center d-flex">
             <Image
-              src={displayedProfile?.image}
+              src={displayedProfile?.image || "https://placecats.com/300/300"} // Fallback se è vuota
               alt="foto profilo"
               style={{
                 width: "250px",
@@ -69,7 +71,10 @@ const ProfileModals = ({
           <Button
             className="bg-transparent border-0 d-flex flex-column align-items-center text-light"
             style={{ fontSize: "13px" }}
-            onClick={handleCloseImg}
+            onClick={() => {
+              handleDeleteImage();
+              handleCloseImg();
+            }}
           >
             <FaTrashAlt />
             Elimina
@@ -292,10 +297,7 @@ const ProfileModals = ({
         </Modal.Header>
         <Modal.Body className="bg-dark">
           <Form.Group>
-            <Form.Label
-              onClick={handleUpload}
-              className="w-100 d-flex justify-content-center cursor-pointer"
-            >
+            <Form.Label className="w-100 d-flex justify-content-center">
               {preview && (
                 <Image
                   src={preview}
@@ -313,7 +315,7 @@ const ProfileModals = ({
               className="bg-transparent text-light border-0 border-bottom"
               type="file"
               accept="image/*"
-              onChange={(e: any) => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 const file = e.target.files?.[0];
                 if (!file) return;
                 setSelectedFile(file);
@@ -326,7 +328,10 @@ const ProfileModals = ({
           <Button
             className="bg-transparent border-0 d-flex flex-column align-items-center text-light"
             style={{ fontSize: "13px" }}
-            onClick={handleCloseUpPic}
+            onClick={() => {
+              handleDeleteImage();
+              handleCloseUpPic();
+            }}
           >
             <FaTrashAlt />
             Elimina
