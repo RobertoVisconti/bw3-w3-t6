@@ -8,6 +8,24 @@ export const MainRete = () => {
   const [cardsVisibleCount, setCardsVisibleCount] = useState(20);
   const [isCardsLoading, setIsCardsLoading] = useState(false);
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Se lo schermo scende sotto i 768 isMobile diventa true
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Definisce il limite di card che verranno visualizzate in mobile o desktop
+  const limitePrimoArticolo = isMobile ? 4 : 8;
+  const limiteSecondoArticolo = isMobile ? 2 : 6;
+
   const cardsObserverRef = useRef<HTMLDivElement | null>(null);
 
   const { allProfiles = [] } = useSelector(
@@ -49,9 +67,9 @@ export const MainRete = () => {
 
   return (
     <section className="d-flex flex-column gap-3 ">
-      <article className="border rounded-2 bg-white border-card-linkedin  p-2">
-        <div className="d-flex justify-content-between">
-          <div className="d-flex flex-column">
+      <article className="border rounded-2 bg-white border-card-linkedin d-none d-sm-block p-2">
+        <div className="d-flex justify-content-between ">
+          <div className="d-flex flex-column ">
             <h5>Fai decollare la tua rete con le persone che conosci</h5>
             <p className="small text-muted">
               Hai 10 volte più probabilità di ottenere visualizzazioni dai
@@ -72,7 +90,7 @@ export const MainRete = () => {
           </div>
         </div>
       </article>
-      <article className=" d-flex justify-content-between border-card-linkedin rounded-2  p-2">
+      <article className=" d-flex justify-content-between border-card-linkedin rounded-2 d-none d-sm-block p-2">
         <h6>Nessun invito in sospeso</h6>
         <span>Gestisci</span>
       </article>
@@ -83,24 +101,40 @@ export const MainRete = () => {
           </h6>
           <a
             href="#"
-            className="text-decoration-none text-secondary text-nowrap"
+            className="text-decoration-none text-secondary text-nowrap d-none d-sm-block"
           >
             Mostra tutto
           </a>
         </div>
-        <CardsCollegati />
+        <CardsCollegati limit={limitePrimoArticolo} />
+        <a
+          href="#"
+          className="text-decoration-none text-secondary text-nowrap d-sm-none d-flex justify-content-center my-2"
+        >
+          Mostra tutto
+        </a>
       </article>
       <article className="rounded-2 border-card-linkedin p-2">
         <div className="d-flex justify-content-between">
           <h6>Popolare su Linkedin</h6>
           <a
             href="#"
-            className="text-decoration-none text-secondary text-nowrap"
+            className="text-decoration-none text-secondary text-nowrap d-none d-sm-block"
           >
             Mostra tutto
           </a>
         </div>
-        <CardsCollegati collegati={false} />
+        <CardsCollegati
+          collegati={false}
+          limit={limiteSecondoArticolo}
+          colClasses="xs={12} md={4}"
+        />{" "}
+        <a
+          href="#"
+          className="text-decoration-none text-secondary text-nowrap d-sm-none d-flex justify-content-center my-2"
+        >
+          Mostra tutto
+        </a>
       </article>
       <article className="rounded-2 border-card-linkedin p-2">
         <h6>Suggeriti per te</h6>

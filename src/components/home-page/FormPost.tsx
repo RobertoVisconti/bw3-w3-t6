@@ -78,20 +78,25 @@ const FormPost = function () {
 
   return (
     <>
-      <div className="justify-content-center mt-3 rounded-2 bg-white border-card-linkedin">
+      <div className="justify-content-center mt-3 rounded-2 bg-white border-card-linkedin d-none d-sm-block">
         <Col className="d-flex flex-column pt-2 px-3" xs={12}>
-          <div className="d-flex justify-content-center align-items-center gap-2 w-100">
+          <div className="d-flex justify-space-between align-items-center gap-2 w-100">
             <img
-              src={myProfile?.image || "https://placecats.com/60/60"}
+              src={myProfile?.image || "https://placecats.com/48/48"}
               alt="img-profile"
               className="rounded-circle"
-              style={{ width: "48px", height: "48px", objectFit: "cover" }}
+              style={{
+                width: "48px",
+                height: "48px",
+                objectFit: "cover",
+                aspectRatio: "1/1",
+              }}
             />
             <FormControl
               type="text"
               id="input-post"
               placeholder="Crea un post"
-              className="rounded-5 w-100 px-3 border"
+              className="rounded-5 px-3 border"
               style={{
                 height: "48px",
                 backgroundColor: "#f4f4f4",
