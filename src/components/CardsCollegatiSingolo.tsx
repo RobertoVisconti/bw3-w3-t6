@@ -37,7 +37,10 @@ export const CardsCollegatiSingolo = ({
   };
 
   return (
-    <Card className="position-relative border-card-linkedin shadow-sm" style={{ height: "320px" }}>
+    <Card
+      className="position-relative border-card-linkedin shadow-sm"
+      style={{ height: "320px" }}
+    >
       <Card.Img
         style={{ height: "60px" }}
         variant="top"
@@ -46,7 +49,7 @@ export const CardsCollegatiSingolo = ({
       <Card.Img
         style={{
           marginTop: "-45px",
-          zIndex: "3",
+          zIndex: "1",
           width: "110px",
           height: "110px",
           objectFit: "cover",

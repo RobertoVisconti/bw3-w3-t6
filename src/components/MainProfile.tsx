@@ -71,6 +71,15 @@ const MainProfile = () => {
     handleCloseImg()
   }
 
+  // 🔥 NUOVA FUNZIONE: Gestisce l'eliminazione "finta" resettando l'immagine a stringa vuota tramite API
+  const handleDelete = async () => {
+    await dispatch(deleteProfileImage())
+
+    // Puliamo anche gli stati locali delle anteprime per sicurezza
+    setSelectedFile(null)
+    setPreview(null)
+  }
+
   // Carico il mio profilo al mount
   useEffect(() => {
     dispatch(getMyProfileAsync())
@@ -361,6 +370,7 @@ const MainProfile = () => {
         handleCloseUpPic={handleCloseUpPic}
         preview={preview}
         handleUpload={handleUpload}
+        handleDeleteImage={handleDelete}
         setSelectedFile={setSelectedFile}
         setPreview={setPreview}
       />
