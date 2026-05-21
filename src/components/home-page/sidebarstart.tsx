@@ -1,20 +1,32 @@
-import { GoShieldCheck } from "react-icons/go";
-import SidebarStartHome from "./SidebarSartHome";
+import { GoShieldCheck } from "react-icons/go"
+import SidebarStartHome from "./SidebarSartHome"
 // import SidebarStartLavoro from "../lavoro/SidebarStartLavoro"
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../../redux/store";
-import { useEffect } from "react";
-import { getMyProfileAsync } from "../../redux/actions/profileActions";
+import { useDispatch, useSelector } from "react-redux"
+import type { AppDispatch, RootState } from "../../redux/store"
+import { useEffect } from "react"
+import { getMyProfileAsync } from "../../redux/actions/profileActions"
+import { getExperience } from "../../redux/actions/experienceActions"
 
 const SidebarStart = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch<AppDispatch>()
   const { myProfile, isLoading, error } = useSelector(
     (state: RootState) => state.profile,
-  );
+  )
+
+  const experiences = useSelector(
+    (state: RootState) => state.experience.experiences,
+  )
+  console.log(experiences)
 
   useEffect(() => {
-    dispatch(getMyProfileAsync());
-  }, [dispatch]);
+    dispatch(getMyProfileAsync())
+  }, [dispatch])
+
+  useEffect(() => {
+    if (myProfile?._id) {
+      dispatch(getExperience(myProfile._id))
+    }
+  }, [dispatch, myProfile?._id])
 
   return (
     <div
@@ -57,12 +69,20 @@ const SidebarStart = () => {
               </div>
               <div className="d-flex align-items-center mt-3">
                 <img
-                  src="https://placehold.co/40x30"
+                  src={
+                    experiences && experiences.length > 0
+                      ? experiences[0].image
+                      : "https://placehold.co/30x30"
+                  }
                   alt="logo-lavoro"
                   className="me-3"
                 />
                 <p className="p-0 m-0">
-                  <b>Attuale Posizione di Lavoro</b>
+                  <b>
+                    {experiences && experiences.length > 0
+                      ? experiences[0].role
+                      : "Nessuna esperienza"}
+                  </b>
                 </p>
               </div>
             </div>
@@ -78,7 +98,7 @@ const SidebarStart = () => {
         {/* <SidebarStartLavoro /> */}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SidebarStart;
+export default SidebarStart
