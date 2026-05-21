@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import {
   Navbar as BsNavbar,
   Container,
@@ -9,7 +9,7 @@ import {
   ListGroup,
   Modal,
   Button,
-} from "react-bootstrap";
+} from "react-bootstrap"
 import {
   FaLinkedin,
   FaSearch,
@@ -26,44 +26,44 @@ import {
   FaTimes,
   FaHome,
   FaBars,
-} from "react-icons/fa";
+} from "react-icons/fa"
 
-import { useEffect, useState, useRef, useMemo } from "react";
-import { getMyProfileAsync } from "../redux/actions/profileActions";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../redux/store";
+import { useEffect, useState, useRef, useMemo } from "react"
+import { getMyProfileAsync } from "../redux/actions/profileActions"
+import { useDispatch, useSelector } from "react-redux"
+import type { AppDispatch, RootState } from "../redux/store"
 
-import DropDownTu from "./DropdownTu";
+import DropDownTu from "./DropdownTu"
 
 const Navbar = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate()
+  const location = useLocation()
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [showPremiumModal, setShowPremiumModal] = useState(false);
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("")
+  const [showDropdown, setShowDropdown] = useState(false)
+  const [showPremiumModal, setShowPremiumModal] = useState(false)
+  const [showMobileMenu, setShowMobileMenu] = useState(false)
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   // Stato di autenticazione reattivo
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true"
 
   // Estraiamo i dati dallo store Redux
   const { myProfile, allProfiles, isLoading, error } = useSelector(
     (state: RootState) => state.profile,
-  );
+  )
 
   // Controllo degli accessi ed esecuzione chiamate protetta
   useEffect(() => {
     if (!isLoggedIn) {
-      navigate("/login");
+      navigate("/login")
     } else if (!myProfile && !isLoading && !error) {
       // Evita di sparare fetch a raffica se c'è già un caricamento in corso o un errore 429
-      dispatch(getMyProfileAsync());
+      dispatch(getMyProfileAsync())
     }
-  }, [dispatch, isLoggedIn, navigate, myProfile, isLoading, error]);
+  }, [dispatch, isLoggedIn, navigate, myProfile, isLoading, error])
 
   // Gestione della chiusura del dropdown cliccando fuori
   useEffect(() => {
@@ -72,34 +72,34 @@ const Navbar = () => {
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        setShowDropdown(false);
+        setShowDropdown(false)
       }
-    };
+    }
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
 
   // 🌟 OTTIMIZZAZIONE: Memorizziamo il filtro per evitare re-render infiniti in console
   const filteredResults = useMemo(() => {
-    if (!searchQuery.trim()) return [];
+    if (!searchQuery.trim()) return []
 
     return (allProfiles || []).filter((user) =>
       `${user.name} ${user.surname}`
         .toLowerCase()
         .includes(searchQuery.toLowerCase()),
-    );
-  }, [allProfiles, searchQuery]);
+    )
+  }, [allProfiles, searchQuery])
 
   // Protezione di rotta immediata
   if (!isLoggedIn) {
-    return null;
+    return null
   }
 
   const isHomePath =
     location.pathname === "/" ||
     location.pathname.startsWith("/notizia") ||
-    location.pathname.startsWith("/giochi");
+    location.pathname.startsWith("/giochi")
 
   return (
     <>
@@ -146,8 +146,8 @@ const Navbar = () => {
                   className="border-start-0 rounded-end-pill shadow-none"
                   value={searchQuery}
                   onChange={(e) => {
-                    setSearchQuery(e.target.value);
-                    setShowDropdown(true);
+                    setSearchQuery(e.target.value)
+                    setShowDropdown(true)
                   }}
                   onFocus={() => setShowDropdown(true)}
                 />
@@ -169,9 +169,9 @@ const Navbar = () => {
                         action
                         className="d-flex align-items-center gap-2 py-2 border-start-0 border-end-0"
                         onClick={() => {
-                          navigate(`/profilo/${user._id}`);
-                          setShowDropdown(false);
-                          setSearchQuery("");
+                          navigate(`/profilo/${user._id}`)
+                          setShowDropdown(false)
+                          setSearchQuery("")
                         }}
                       >
                         <img
@@ -293,8 +293,8 @@ const Navbar = () => {
                   type="button"
                   className="mobile-menu-item mobile-premium-item border-0 bg-transparent text-decoration-underline"
                   onClick={() => {
-                    setShowPremiumModal(true);
-                    setShowMobileMenu(false);
+                    setShowPremiumModal(true)
+                    setShowMobileMenu(false)
                   }}
                 >
                   Prova premium per 0 €
@@ -384,11 +384,11 @@ const Navbar = () => {
                     <span className="button-custom">
                       Tu <FaCaretDown className="linkedin-caret" />
                     </span>
-
-                    <Dropdown.Menu align="end" className="m-0 p-0">
-                      <DropDownTu />
-                    </Dropdown.Menu>
                   </Dropdown.Toggle>
+
+                  <Dropdown.Menu align="end" className="m-0 p-0">
+                    <DropDownTu />
+                  </Dropdown.Menu>
                 </Dropdown>
               </div>
 
@@ -611,7 +611,7 @@ const Navbar = () => {
         </Modal.Body>
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
