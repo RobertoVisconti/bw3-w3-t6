@@ -1,29 +1,29 @@
-import { Button, Card, Modal } from "react-bootstrap";
-import { FaPlus, FaTrash } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../redux/store";
+import { Button, Card, Modal } from "react-bootstrap"
+import { FaPlus, FaTrash } from "react-icons/fa"
+import { useDispatch, useSelector } from "react-redux"
+import type { AppDispatch, RootState } from "../redux/store"
 
-import { FaArrowLeftLong } from "react-icons/fa6";
-import { useState } from "react";
-import Form from "react-bootstrap/Form";
-import ButtonLinkedin from "./generali/ButtonLinkedin";
+import { FaArrowLeftLong } from "react-icons/fa6"
+import { useState } from "react"
+import Form from "react-bootstrap/Form"
+import ButtonLinkedin from "./generali/ButtonLinkedin"
 import {
   createExperience,
   updateExperience,
   deleteExperience,
   getExperience,
-} from "../redux/actions/experienceActions";
-import { customFetch } from "../api/apiClient";
-import MapExp from "./MapExp";
-import type { Experience } from "../interfaces/interfaces";
+} from "../redux/actions/experienceActions"
+import { customFetch } from "../api/apiClient"
+import MapExp from "./MapExp"
+import type { Experience } from "../interfaces/interfaces"
 
 interface MainExperienceProps {
-  userId?: string;
+  userId?: string
 }
 
 const MainExperience = ({ userId }: MainExperienceProps) => {
-  const { myProfile } = useSelector((state: RootState) => state.profile);
-  const dispatch = useDispatch<AppDispatch>();
+  const { myProfile } = useSelector((state: RootState) => state.profile)
+  const dispatch = useDispatch<AppDispatch>()
 
   const [formExpData, setFormExpData] = useState({
     role: "",
@@ -32,16 +32,16 @@ const MainExperience = ({ userId }: MainExperienceProps) => {
     endDate: "",
     description: "",
     area: "",
-  });
+  })
 
-  const [editingExpId, setEditingExpId] = useState<string | null>(null);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [showModal, setShowModal] = useState(false);
+  const [editingExpId, setEditingExpId] = useState<string | null>(null)
+  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [showModal, setShowModal] = useState(false)
 
   const handleCloseModal = () => {
-    setShowModal(false);
-    setEditingExpId(null);
+    setShowModal(false)
+    setEditingExpId(null)
     setFormExpData({
       role: "",
       company: "",
@@ -49,67 +49,67 @@ const MainExperience = ({ userId }: MainExperienceProps) => {
       endDate: "",
       description: "",
       area: "",
-    });
+    })
     if (imagePreview) {
-      URL.revokeObjectURL(imagePreview);
+      URL.revokeObjectURL(imagePreview)
     }
-    setImageFile(null);
-    setImagePreview(null);
-  };
+    setImageFile(null)
+    setImagePreview(null)
+  }
 
   const handleShowCreate = () => {
-    setEditingExpId(null);
-    setShowModal(true);
-  };
+    setEditingExpId(null)
+    setShowModal(true)
+  }
 
   const handleChangeExp = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >,
   ) => {
-    const { name, value } = e.target;
-    setFormExpData({ ...formExpData, [name]: value });
-  };
+    const { name, value } = e.target
+    setFormExpData({ ...formExpData, [name]: value })
+  }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setImageFile(file);
-      const previewUrl = URL.createObjectURL(file);
-      setImagePreview(previewUrl);
+      const file = e.target.files[0]
+      setImageFile(file)
+      const previewUrl = URL.createObjectURL(file)
+      setImagePreview(previewUrl)
     }
-  };
+  }
 
   // FIX: Svuota l'immagine e resetta la memoria locale
   const handleRemoveSelectedImage = () => {
     if (imagePreview) {
-      URL.revokeObjectURL(imagePreview);
+      URL.revokeObjectURL(imagePreview)
     }
-    setImageFile(null);
-    setImagePreview(null);
-  };
+    setImageFile(null)
+    setImagePreview(null)
+  }
 
   const uploadExperienceImage = async (expId: string) => {
-    if (!myProfile?._id || !imageFile) return;
+    if (!myProfile?._id || !imageFile) return
     try {
-      const formData = new FormData();
-      formData.append("experience", imageFile);
+      const formData = new FormData()
+      formData.append("experience", imageFile)
 
       await customFetch(
         `profile/${myProfile._id}/experiences/${expId}/picture`,
         "POST",
         formData,
-      );
+      )
 
-      console.log("Immagine caricata!");
-      dispatch(getExperience(myProfile._id));
+      console.log("Immagine caricata!")
+      dispatch(getExperience(myProfile._id))
     } catch (error) {
-      console.error("Errore upload immagine:", error);
+      console.error("Errore upload immagine:", error)
     }
-  };
+  }
 
   const handleSubmit = async () => {
-    if (!myProfile?._id) return;
+    if (!myProfile?._id) return
 
     const payload = {
       ...formExpData,
@@ -120,34 +120,34 @@ const MainExperience = ({ userId }: MainExperienceProps) => {
         ? new Date(formExpData.endDate).toISOString()
         : undefined,
       image: imagePreview ? imagePreview : "", // Se imagePreview è vuoto, invia stringa vuota
-    };
+    }
 
     if (editingExpId) {
       // 1. Modifica l'esperienza a server
-      await dispatch(updateExperience(myProfile._id, editingExpId, payload));
+      await dispatch(updateExperience(myProfile._id, editingExpId, payload))
 
       // 2. Se c'è un nuovo file selezionalo, caricalo
       if (imageFile) {
-        await uploadExperienceImage(editingExpId);
+        await uploadExperienceImage(editingExpId)
       } else if (!imagePreview) {
         // FIX AGGIORNAMENTO IMMEDIATO: Se l'immagine è stata rimossa,
         // rinfresca la lista delle esperienze per aggiornare MapExp istantaneamente
-        dispatch(getExperience(myProfile._id));
+        dispatch(getExperience(myProfile._id))
       }
     } else {
       const actionResult = await dispatch(
         createExperience(myProfile._id, payload),
-      );
+      )
       if (actionResult && actionResult._id && imageFile) {
-        await uploadExperienceImage(actionResult._id);
+        await uploadExperienceImage(actionResult._id)
       }
     }
 
-    handleCloseModal();
-  };
+    handleCloseModal()
+  }
 
   const handleEditInit = (exp: Experience) => {
-    setEditingExpId(exp._id);
+    setEditingExpId(exp._id)
     setFormExpData({
       role: exp.role,
       company: exp.company,
@@ -155,24 +155,24 @@ const MainExperience = ({ userId }: MainExperienceProps) => {
       endDate: exp.endDate ? exp.endDate.split("T")[0] : "",
       description: exp.description,
       area: exp.area,
-    });
+    })
 
     if (exp.image) {
-      setImagePreview(exp.image);
+      setImagePreview(exp.image)
     }
-    setShowModal(true);
-  };
+    setShowModal(true)
+  }
 
   const handleDeleteInit = async (expId: string) => {
-    if (!myProfile?._id) return;
+    if (!myProfile?._id) return
     if (
       window.confirm(
         "Sei sicuro di voler eliminare definitivamente questa esperienza?",
       )
     ) {
-      await dispatch(deleteExperience(myProfile._id, expId));
+      await dispatch(deleteExperience(myProfile._id, expId))
     }
-  };
+  }
 
   const tipiDiImpiego = [
     "Seleziona",
@@ -184,10 +184,10 @@ const MainExperience = ({ userId }: MainExperienceProps) => {
     "Tirocinio",
     "Apprendistato",
     "Stagista",
-  ];
-  const tipiDiLocalita = ["Seleziona", "Sul posto", "Ibrida", "Da remoto"];
+  ]
+  const tipiDiLocalita = ["Seleziona", "Sul posto", "Ibrida", "Da remoto"]
 
-  const isOwnProfile = !userId || userId === myProfile?._id;
+  const isOwnProfile = !userId || userId === myProfile?._id
 
   return (
     <>
@@ -379,7 +379,7 @@ const MainExperience = ({ userId }: MainExperienceProps) => {
         </Modal>
       )}
     </>
-  );
-};
+  )
+}
 
-export default MainExperience;
+export default MainExperience
