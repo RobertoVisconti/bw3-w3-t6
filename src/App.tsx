@@ -34,6 +34,7 @@ import SudokuGame from "./components/games/SudokuGame";
 import PuzzleGame from "./components/games/PuzzleGame";
 import PongGame from "./components/games/PongGame";
 import FlappyGame from "./components/games/FlippyGame";
+import SettingsWork from "./pages/SettingsWork";
 
 const AppContent = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -100,6 +101,7 @@ const AppContent = () => {
           <Route path="/notifiche" element={<Notifications />} />
           <Route path="/impostazioni" element={<SettingsPage />} />
           <Route path="/languages" element={<Languages />} />
+          <Route path="/crearelavoro" element={<SettingsWork />} />
         </Routes>
       </main>
 
