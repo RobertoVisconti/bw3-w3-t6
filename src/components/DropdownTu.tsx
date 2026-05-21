@@ -45,7 +45,7 @@ const DropDownTu = () => {
     { label: "Guida", onClick: () => setShowGuida(true) },
     { label: "Lingua", path: "/Languages" },
     { label: "Gestisci", path: "/manage" },
-    { label: "Post e attività", path: "/activities" },
+    { label: "Post e attività", path: "/mypost" },
     {
       label: "Account per la pubblicazione di offerte di lavoro",
       path: "/crearelavoro",
