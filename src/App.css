@@ -35,6 +35,8 @@
   display: none !important;
 }
 
+/* CSS pagina rete */
+
 /* effetto hover per link in mia rete */
 .custom-hover-effect {
   transition:
@@ -44,4 +46,26 @@
 
 .custom-hover-effect:hover {
   background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+/* effetto hover button rete */
+
+.custom-btn-follow {
+  color: #0a66c2 !important;
+  border-color: #0a66c2 !important;
+  background-color: #ffffff !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.custom-btn-follow:hover {
+  background-color: #0a66c2 !important;
+  color: #ffffff !important;
+  border-color: #0a66c2 !important;
+}
+
+.custom-btn-follow:disabled {
+  background-color: #f3f3f3 !important;
+  color: #666666 !important;
+  border-color: #666666 !important;
+  cursor: not-allowed;
 }

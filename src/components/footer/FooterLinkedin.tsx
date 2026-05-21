@@ -1,4 +1,4 @@
-import { Container } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import { CurrentYear } from "../generali/CurrentYear";
 import { FooterLinkProfile } from "./FooterLinkProfile";
 import { FooterOpzioniLink } from "./FooterOpzioniLink";
@@ -17,10 +17,10 @@ const FooterLinkedin = () => {
         <div className="my-2">
           <CurrentYear></CurrentYear>
         </div>
-        <div className="d-flex">
+        <Row>
           <FooterOpzioniLink></FooterOpzioniLink>
           <SelezioneLingua></SelezioneLingua>
-        </div>
+        </Row>
       </div>
     </Container>
   );
