@@ -4,7 +4,7 @@ import { Col } from "react-bootstrap";
 
 export const FooterOpzioniLink = () => {
   return (
-    <Col xs={12} lg={6} className="me-3">
+    <Col xs={12} lg={6}>
       <div className=" d-flex ">
         <i className="m-1 fs-4 fas fa-question-circle text-secondary"></i>
         <div>

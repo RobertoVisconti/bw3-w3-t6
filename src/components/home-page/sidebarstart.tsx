@@ -1,23 +1,26 @@
-import { GoShieldCheck } from "react-icons/go"
-import SidebarStartHome from "./SidebarSartHome"
+import { GoShieldCheck } from "react-icons/go";
+import SidebarStartHome from "./SidebarSartHome";
 // import SidebarStartLavoro from "../lavoro/SidebarStartLavoro"
-import { useDispatch, useSelector } from "react-redux"
-import type { AppDispatch, RootState } from "../../redux/store"
-import { useEffect } from "react"
-import { getMyProfileAsync } from "../../redux/actions/profileActions"
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../../redux/store";
+import { useEffect } from "react";
+import { getMyProfileAsync } from "../../redux/actions/profileActions";
 
 const SidebarStart = () => {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
   const { myProfile, isLoading, error } = useSelector(
     (state: RootState) => state.profile,
-  )
+  );
 
   useEffect(() => {
-    dispatch(getMyProfileAsync())
-  }, [dispatch])
+    dispatch(getMyProfileAsync());
+  }, [dispatch]);
 
   return (
-    <div className="position-sticky pt-2" style={{ top: "3em" }}>
+    <div
+      className="position-sticky pt-2 d-none d-sm-block"
+      style={{ top: "3em" }}
+    >
       {/* section profilo */}
       {/* ! PAGE LAVORO --> la section profilo rimane invariata al cambio tra Home e Lavoro */}
       {isLoading && (
@@ -75,7 +78,7 @@ const SidebarStart = () => {
         {/* <SidebarStartLavoro /> */}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SidebarStart
+export default SidebarStart;

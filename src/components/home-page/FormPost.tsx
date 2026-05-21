@@ -15,6 +15,8 @@ const FormPost = function () {
 
   const dispatch = useDispatch<AppDispatch>();
   const { myProfile } = useSelector((state: RootState) => state.profile);
+  // Estraiamo isLoading dallo stato dei post di Redux
+  const { isLoading } = useSelector((state: RootState) => state.post);
 
   const [showModal, setShowModal] = useState(false);
   const [postText, setPostText] = useState("");
@@ -25,6 +27,8 @@ const FormPost = function () {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleClose = () => {
+    // Impedisci la chiusura accidentale se sta caricando
+    if (isLoading) return;
     setShowModal(false);
     setPostText("");
     setSelectedImage(null);
@@ -33,7 +37,6 @@ const FormPost = function () {
 
   const handleShow = () => setShowModal(true);
 
-  // Gestore della selezione del file dal computer
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -48,7 +51,7 @@ const FormPost = function () {
   };
 
   const handlePublish = async () => {
-    if (postText.trim() === "") return;
+    if (postText.trim() === "" || isLoading) return;
 
     if (!myProfile) {
       console.error("Profilo non caricato. Impossibile pubblicare.");
@@ -56,14 +59,17 @@ const FormPost = function () {
     }
 
     try {
+      // 1. Creiamo prima il post testuale
       const newPost = await (dispatch(
         createPost({ text: postText }, myProfile),
       ) as unknown as Promise<Post | null>);
 
+      // 2. Se il post è nato e c'è una foto, aspettiamo che finisca l'upload dell'immagine
       if (newPost && newPost._id && selectedImage) {
         await dispatch(uploadPostImage(newPost._id, selectedImage, myProfile));
       }
 
+      // 3. Solo a questo punto (quando Redux ha aggiornato lo stato con il post completo) chiudiamo la modale
       handleClose();
     } catch (error) {
       console.error("Errore durante la pubblicazione:", error);
@@ -72,11 +78,11 @@ const FormPost = function () {
 
   return (
     <>
-      <div className="justify-content-center mt-3 rounded-2 bg-white border-card-linkedin">
+      <div className="justify-content-center mt-3 rounded-2 bg-white border-card-linkedin d-none d-sm-block">
         <Col className="d-flex flex-column pt-2 px-3" xs={12}>
-          <div className="d-flex justify-content-center align-items-center gap-2 w-100">
+          <div className="d-flex justify-space-between align-items-center gap-2 w-100">
             <img
-              src={myProfile?.image || "https://placecats.com/60/60"}
+              src={myProfile?.image || "https://placecats.com/48/48"}
               alt="img-profile"
               className="rounded-circle"
               style={{ width: "48px", height: "48px", objectFit: "cover" }}
@@ -85,7 +91,7 @@ const FormPost = function () {
               type="text"
               id="input-post"
               placeholder="Crea un post"
-              className="rounded-5 w-100 px-3 border"
+              className="rounded-5 px-3 border"
               style={{
                 height: "48px",
                 backgroundColor: "#f4f4f4",
@@ -129,9 +135,17 @@ const FormPost = function () {
       </div>
 
       {/* MODALE PER IL POST */}
-      <Modal show={showModal} onHide={handleClose} centered size="lg">
-        {/* Header pulito solo con la X di chiusura */}
-        <Modal.Header closeButton className="border-0 pb-0"></Modal.Header>
+      <Modal
+        show={showModal}
+        onHide={handleClose}
+        centered
+        size="lg"
+        backdrop={isLoading ? "static" : true}
+      >
+        <Modal.Header
+          closeButton={!isLoading}
+          className="border-0 pb-0"
+        ></Modal.Header>
 
         <Modal.Body
           className="pt-0 d-flex flex-column"
@@ -167,6 +181,7 @@ const FormPost = function () {
           {/* Textarea */}
           <textarea
             ref={emojiPostRef}
+            disabled={isLoading}
             className="w-100 border-0 fs-5 text-dark custom-textarea flex-grow-1 px-3"
             rows={4}
             placeholder="Di cosa vorresti parlare?"
@@ -175,10 +190,11 @@ const FormPost = function () {
             onChange={(e) => setPostText(e.target.value)}
           />
 
-          {/* Pulsante Emoji (Faccina) sotto il testo */}
+          {/* Pulsante Emoji */}
           <div className="px-1 mb-3">
             <button
               type="button"
+              disabled={isLoading}
               className="btn p-0 border-0 text-secondary fs-4 d-flex align-items-center"
               style={{ background: "transparent" }}
               onClick={() => {}}
@@ -195,7 +211,7 @@ const FormPost = function () {
             </button>
           </div>
 
-          {/* ANTEPRIMA DELL'IMMAGINE SELEZIONATA */}
+          {/* ANTEPRIMA DELL'IMMAGINE */}
           {imagePreview && (
             <div
               className="position-relative rounded-3 overflow-hidden border border-light shadow-sm mb-3 mx-3"
@@ -211,14 +227,16 @@ const FormPost = function () {
                   backgroundColor: "#f8f9fa",
                 }}
               />
-              <button
-                type="button"
-                onClick={handleRemoveImage}
-                className="position-absolute top-0 end-0 m-2 btn btn-dark rounded-circle d-flex justify-content-center align-items-center p-0"
-                style={{ width: "32px", height: "32px", opacity: 0.85 }}
-              >
-                <PiXBold className="text-white fs-5" />
-              </button>
+              {!isLoading && (
+                <button
+                  type="button"
+                  onClick={handleRemoveImage}
+                  className="position-absolute top-0 end-0 m-2 btn btn-dark rounded-circle d-flex justify-content-center align-items-center p-0"
+                  style={{ width: "32px", height: "32px", opacity: 0.85 }}
+                >
+                  <PiXBold className="text-white fs-5" />
+                </button>
+              )}
             </div>
           )}
 
@@ -230,12 +248,12 @@ const FormPost = function () {
             className="d-none"
           />
 
-          {/* Barra degli strumenti inferiore con icone React */}
+          {/* Barra degli strumenti inferiore */}
           <div className="d-flex align-items-center gap-4 text-secondary fs-4 ps-3 pt-2">
             <AiFillPicture
-              style={{ cursor: "pointer" }}
+              style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
               className="text-secondary hover-icon"
-              onClick={() => fileInputRef.current?.click()}
+              onClick={() => !isLoading && fileInputRef.current?.click()}
             />
             <BsCalendarEvent
               style={{ cursor: "pointer" }}
@@ -251,28 +269,36 @@ const FormPost = function () {
           </div>
         </Modal.Body>
 
-        {/* Footer con Orologio e Tasto Pubblica */}
+        {/* Footer */}
         <Modal.Footer className="d-flex justify-content-end align-items-center border-top bg-white py-2 px-4">
           <div className="d-flex align-items-center gap-3">
-            {/* Icona orologio per programmare il post */}
             <BsClockHistory
               style={{ cursor: "pointer" }}
               className="fs-4 text-secondary"
             />
 
             <Button
-              variant={postText.trim() === "" ? "light" : "primary"}
+              variant={
+                postText.trim() === "" || isLoading ? "light" : "primary"
+              }
               className="rounded-5 px-4 fw-bold"
-              disabled={postText.trim() === ""}
+              disabled={postText.trim() === "" || isLoading}
               onClick={handlePublish}
               style={{
-                backgroundColor: postText.trim() === "" ? "#e8e8e8" : "#0a66c2",
+                backgroundColor:
+                  postText.trim() === "" || isLoading ? "#e8e8e8" : "#0a66c2",
                 borderColor: "transparent",
-                color: postText.trim() === "" ? "rgba(0,0,0,0.35)" : "#ffffff",
-                cursor: postText.trim() === "" ? "not-allowed" : "pointer",
+                color:
+                  postText.trim() === "" || isLoading
+                    ? "rgba(0,0,0,0.35)"
+                    : "#ffffff",
+                cursor:
+                  postText.trim() === "" || isLoading
+                    ? "not-allowed"
+                    : "pointer",
               }}
             >
-              Pubblica
+              {isLoading ? "Invio in corso..." : "Pubblica"}
             </Button>
           </div>
         </Modal.Footer>

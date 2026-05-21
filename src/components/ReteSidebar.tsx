@@ -45,12 +45,14 @@ export const ReteSidebar = () => {
   return (
     <Container fluid className="p-0">
       {/* Box con i ling della sidebar */}
-      <article className="bg-white border-card-linkedin  pb-2 mb-2 rounded-2">
-        <h6 className="mx-n4 border-bottom border-secondary-subtle py-3 text-center">
-          Gestsci la tua rete
-        </h6>
+      <article className="bg-white border-card-linkedin  mb-2 rounded-2">
+        <div className="d-flex justify-content-between align-content-center p-3">
+          {" "}
+          <h6 className=" text-start">Gestisci la tua rete</h6>{" "}
+          <i className="fas fa-arrow-right align-content-center d-sm-none"></i>
+        </div>
 
-        <div className="d-flex flex-column gap-3 px-4">
+        <div className="d-flex flex-column gap-3 px-4 border-top border-secondary-subtle d-none d-sm-flex py-2">
           {links.map((link, i) => (
             <a
               key={i}
@@ -108,7 +110,7 @@ export const ReteSidebar = () => {
           <img
             src="/JobImg.png"
             alt="Job Advertisement"
-            className="w-100 h-auto my-2"
+            className="w-100 h-auto my-2 d-none d-sm-block"
           />
         </Link>
       </article>

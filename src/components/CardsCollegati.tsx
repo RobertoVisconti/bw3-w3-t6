@@ -8,11 +8,13 @@ import { Row, Col } from "react-bootstrap";
 interface CardsCollegatiContainerProps {
   collegati?: boolean;
   limit?: number;
+  colClasses?: string;
 }
 
 export const CardsCollegati = ({
   collegati = true,
   limit = 8,
+  colClasses = "xs={6} md={4} lg={3}",
 }: CardsCollegatiContainerProps) => {
   const { allProfiles = [] } = useSelector(
     (state: RootState) => state.profile || {},
@@ -24,10 +26,17 @@ export const CardsCollegati = ({
     return [...allProfiles].sort(() => Math.random() - 0.5).slice(0, limit);
   }, [allProfiles, limit]);
 
+  const isSpecialGrid = colClasses.includes("xs={12}");
+
   return (
     <Row className="g-3 ">
       {randomProfiles.map((profilo: Profile) => (
-        <Col xs={12} md={4} lg={3} key={profilo._id}>
+        <Col
+          xs={isSpecialGrid ? 12 : 6}
+          md={isSpecialGrid ? 4 : 4}
+          lg={isSpecialGrid ? 4 : 3}
+          key={profilo._id}
+        >
           <div className="user-select-none h-100" style={{ cursor: "pointer" }}>
             <CardsCollegatiSingolo {...profilo} collegati={collegati} />
           </div>
