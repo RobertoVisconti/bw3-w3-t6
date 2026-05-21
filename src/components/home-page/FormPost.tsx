@@ -85,7 +85,12 @@ const FormPost = function () {
               src={myProfile?.image || "https://placecats.com/48/48"}
               alt="img-profile"
               className="rounded-circle"
-              style={{ width: "48px", height: "48px", objectFit: "cover" }}
+              style={{
+                width: "48px",
+                height: "48px",
+                objectFit: "cover",
+                aspectRatio: "1/1",
+              }}
             />
             <FormControl
               type="text"
