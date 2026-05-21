@@ -60,7 +60,6 @@ const Navbar = () => {
     if (!isLoggedIn) {
       navigate("/login")
     } else if (!myProfile && !isLoading && !error) {
-      // Evita di sparare fetch a raffica se c'è già un caricamento in corso o un errore 429
       dispatch(getMyProfileAsync())
     }
   }, [dispatch, isLoggedIn, navigate, myProfile, isLoading, error])
@@ -221,83 +220,6 @@ const Navbar = () => {
             <FaBars />
           </button>
 
-            {showMobileMenu && (
-              <div className="mobile-menu-panel">
-                <Link
-                  to="/"
-                  className="mobile-menu-item"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  <FaHome />
-                  Home
-                </Link>
-
-                <Link
-                  to="/rete"
-                  className="mobile-menu-item"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  <FaUserFriends />
-                  Rete
-                </Link>
-
-                <Link
-                  to="/lavoro"
-                  className="mobile-menu-item"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  <FaBriefcase />
-                  Lavoro
-                </Link>
-
-                <Link
-                  to="/messaggistica"
-                  className="mobile-menu-item"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  <FaCommentDots />
-                  Messaggistica
-                </Link>
-
-                <Link
-                  to="/notifiche"
-                  className="mobile-menu-item"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  <FaBell />
-                  Notifiche
-                </Link>
-
-                <div className="mobile-menu-item">
-                  <Image
-                    src={myProfile?.image || "/roberto.jpeg"}
-                    roundedCircle
-                    style={{
-                      width: "24px",
-                      height: "24px",
-                      objectFit: "cover",
-                    }}
-                  />
-                  Tu
-                </div>
-
-                <div className="mobile-menu-item">
-                  <FaTh />
-                  Per le aziende
-                </div>
-
-                <button
-                  type="button"
-                  className="mobile-menu-item mobile-premium-item border-0 bg-transparent text-decoration-underline"
-                  onClick={() => {
-                    setShowPremiumModal(true)
-                    setShowMobileMenu(false)
-                  }}
-                >
-                  Prova premium per 0 €
-                </button>
-              </div>
-            )}
           {/* MENU MOBILE PANEL */}
           {showMobileMenu && (
             <div className="mobile-menu-panel shadow-sm border-bottom">
@@ -351,8 +273,8 @@ const Navbar = () => {
                 type="button"
                 className="mobile-menu-item mobile-premium-item border-0 bg-transparent text-decoration-underline text-start"
                 onClick={() => {
-                  setShowPremiumModal(true);
-                  setShowMobileMenu(false);
+                  setShowPremiumModal(true)
+                  setShowMobileMenu(false)
                 }}
               >
                 Prova premium per 0 €
@@ -427,34 +349,40 @@ const Navbar = () => {
                 <span>Notifiche</span>
               </Link>
 
-                <Dropdown className="linkedin-business-dropdown">
-                  <Dropdown.Toggle
-                    as="div"
-                    className="button-custom d-flex flex-column linkedin-item linkedin-business"
-                  >
-                    <Image
-                      src={myProfile?.image || "/roberto.jpeg"} // Operatore Optional Chaining di sicurezza
-                      roundedCircle
-                      className="linkedin-avatar"
-                      style={{
-                        width: "25px",
-                        height: "25px",
-                        objectFit: "cover",
-                      }}
-                    />
+              {/* Dropdown "Tu" */}
+              <Dropdown className="linkedin-business-dropdown">
+                <Dropdown.Toggle
+                  as="div"
+                  className="d-flex flex-column align-items-center linkedin-item cursor-pointer"
+                >
+                  <Image
+                    src={myProfile?.image || "/roberto.jpeg"}
+                    roundedCircle
+                    className="linkedin-avatar mb-1"
+                    style={{
+                      width: "24px",
+                      height: "24px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <span className="d-flex align-items-center gap-1">
+                    Tu <FaCaretDown className="linkedin-caret" />
+                  </span>
+                </Dropdown.Toggle>
+                <Dropdown.Menu
+                  align="end"
+                  className="m-0 p-0 shadow-lg"
+                  style={{ minWidth: "400px" }}
+                >
+                  <DropDownTu />
+                </Dropdown.Menu>
+              </Dropdown>
 
-                    <span className="button-custom">
-                      Tu <FaCaretDown className="linkedin-caret" />
-                    </span>
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu align="end" className="m-0 p-0">
-                    <DropDownTu />
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>
-
-              {/* <div className="vr mx-2 linkedin-divider"></div> */}
+              {/* Divisore Verticale Nativo e Pulito */}
+              <div
+                className="border-start d-none d-md-block"
+                style={{ height: "32px", opacity: "0.15" }}
+              ></div>
 
               {/* Dropdown "Per le aziende" */}
               <Dropdown className="linkedin-business-dropdown">
@@ -554,7 +482,7 @@ const Navbar = () => {
         </Container>
       </BsNavbar>
 
-     
+      {/* MODAL PREMIUM (Invariato nella logica, pulito nelle spaziature interne) */}
       <Modal
         show={showPremiumModal}
         onHide={() => setShowPremiumModal(false)}
