@@ -18,6 +18,7 @@ import { PaginaErrore } from "./pages/PaginaErrore";
 import { Rete } from "./pages/Rete";
 import DetailsJob from "./components/lavoro/DetailsJob";
 import Login from "./pages/Login";
+import Languages from "./pages/Languages";
 import ChatExpand from "./pages/ChatExpand";
 import Notifications from "./pages/Notifications";
 import Esperienze from "./pages/Esperienze";
@@ -98,6 +99,7 @@ const AppContent = () => {
           <Route path="/messaggistica" element={<ChatExpand />} />
           <Route path="/notifiche" element={<Notifications />} />
           <Route path="/impostazioni" element={<SettingsPage />} />
+          <Route path="/languages" element={<Languages />} />
         </Routes>
       </main>
 

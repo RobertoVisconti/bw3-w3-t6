@@ -1,0 +1,157 @@
+import { useState } from "react";
+import { Card, Col, Container, Row } from "react-bootstrap";
+import { IoArrowBack } from "react-icons/io5";
+import SideBarSettings from "../components/SideBarSettings";
+
+const Languages = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] =
+    useState("Italiano (Italiano)");
+
+  const languages = [
+    "العربية (Arabo)",
+    "বাংলা (Bengali)",
+    "Čeština (Ceco)",
+    "Dansk (Danese)",
+    "Deutsch (Tedesco)",
+    "Ελληνικά (Greco)",
+    "English (Inglese)",
+    "Español (Spagnolo)",
+    "فارسی (Persiano)",
+    "Suomi (Finlandese)",
+    "Français (Francese)",
+    "हिन्दी (Hindi)",
+    "Magyar (Ungherese)",
+    "Bahasa Indonesia (Indonesiano)",
+    "Italiano (Italiano)",
+    "עברית (Ebraico)",
+    "日本語 (Giapponese)",
+    "한국어 (Coreano)",
+    "मराठी (Marathi)",
+    "Bahasa Malaysia (Malese)",
+    "Nederlands (Olandese)",
+    "Norsk (Norvegese)",
+    "ਪੰਜਾਬੀ (Punjabi)",
+    "Polski (Polacco)",
+    "Português (Portoghese)",
+    "Română (Rumeno)",
+    "Русский (Russo)",
+    "Svenska (Svedese)",
+    "తెలుగు (Telugu)",
+    "ภาษาไทย (Tailandese)",
+    "Tagalog (Tagalog)",
+    "Türkçe (Turco)",
+    "Українська (Ucraino)",
+    "Tiếng Việt (Vietnamita)",
+    "简体中文 (Cinese (Semplificato))",
+    "正體中文 (Cinese (Tradizionale))",
+  ];
+
+  return (
+    <Container fluid className="bg-light min-vh-100 px-0">
+      <Row className="g-0 min-vh-100">
+        <Col md={4} lg={3} xl={2} className="d-none d-md-block">
+          <SideBarSettings />
+        </Col>
+
+        <Col xs={12} md={8} lg={9} xl={10}>
+          <div className="d-flex flex-column min-vh-100">
+            <main className="flex-grow-1 py-4 px-3 px-md-4 px-lg-5">
+              <Row className="justify-content-center">
+                <Col xs={12} sm={11} md={10} lg={8} xl={6}>
+                  <Card className="border-0 shadow-sm rounded-3">
+                    <Card.Body className="p-3 p-md-4">
+                      <div className="d-flex align-items-center gap-2 mb-4 text-secondary small">
+                        <IoArrowBack />
+                        <span>Indietro</span>
+                      </div>
+
+                      <h6 className="fw-bold mb-1">Lingua</h6>
+
+                      <p className="small mb-4">
+                        Seleziona la lingua che utilizzi su LinkedIn
+                      </p>
+
+                      <div
+                        className="position-relative w-100"
+                        style={{ maxWidth: "390px" }}
+                      >
+                        <button
+                          type="button"
+                          className="w-100 bg-white text-start border border-secondary px-2 py-3"
+                          onClick={() => setIsOpen(!isOpen)}
+                        >
+                          {selectedLanguage}
+                        </button>
+
+                        {isOpen && (
+                          <div
+                            className="position-absolute bg-white border border-secondary w-100 overflow-auto"
+                            style={{
+                              maxHeight: "min(520px, 55vh)",
+                              zIndex: 10,
+                            }}
+                          >
+                            {languages.map((language) => (
+                              <button
+                                key={language}
+                                type="button"
+                                className={`d-block w-100 text-start border-0 px-2 py-1 ${
+                                  selectedLanguage === language
+                                    ? "bg-primary text-white"
+                                    : "bg-white text-dark"
+                                }`}
+                                onClick={() => {
+                                  setSelectedLanguage(language);
+                                  setIsOpen(false);
+                                }}
+                              >
+                                {language}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      <p className="small text-muted mt-4 mb-0">
+                        Facci sapere quale lingua preferisci usare per LinkedIn.
+                        Potrai modificarla in qualsiasi momento.{" "}
+                        <span className="text-primary fw-semibold">
+                          Per saperne di più
+                        </span>
+                      </p>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Row>
+            </main>
+
+            <footer className="text-center px-3 pb-4 small text-muted">
+              <div className="d-flex flex-wrap justify-content-center gap-2 gap-md-3 mb-2">
+                <span>Centro assistenza</span>
+                <span>Informativa sulla community professionale</span>
+                <span>Informativa sulla privacy</span>
+                <span>Accessibilità</span>
+              </div>
+
+              <div className="d-flex flex-wrap justify-content-center gap-2 gap-md-3 mb-2">
+                <span>Trasparenza sui contenuti consigliati</span>
+                <span>Contratto di licenza</span>
+                <span>Contratto di licenza dell’utente finale</span>
+              </div>
+
+              <div className="fw-bold text-primary">
+                Linked
+                <span className="bg-primary text-white px-1 rounded-1">
+                  in
+                </span>
+              </div>
+            </footer>
+          </div>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
+
+export default Languages;
