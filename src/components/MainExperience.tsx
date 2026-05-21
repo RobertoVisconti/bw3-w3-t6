@@ -1,4 +1,11 @@
-import { Button, Card, Modal } from "react-bootstrap"
+import {
+  Button,
+  Card,
+  FormGroup,
+  FormLabel,
+  Image,
+  Modal,
+} from "react-bootstrap"
 import { FaPlus } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux"
 import type { AppDispatch, RootState } from "../redux/store"
@@ -9,6 +16,7 @@ import Form from "react-bootstrap/Form"
 import ButtonLinkedin from "./generali/ButtonLinkedin"
 import { createExperience } from "../redux/actions/experienceActions"
 import MapExp from "./MapExp"
+import { uploadProfileImage } from "../redux/actions/profileActions"
 
 interface MainExperienceProps {
   userId?: string
@@ -16,6 +24,18 @@ interface MainExperienceProps {
 
 const MainExperience = ({ userId }: MainExperienceProps) => {
   const { myProfile } = useSelector((state: RootState) => state.profile)
+
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [preview, setPreview] = useState<string | null>(null)
+
+  const handleUpload = async () => {
+    if (!selectedFile || !displayedProfile?._id) return
+
+    await dispatch(uploadProfileImage(displayedProfile._id, selectedFile))
+
+    setSelectedFile(null)
+    setPreview(null)
+  }
 
   const dispatch = useDispatch<AppDispatch>()
   const [formExpData, setFormExpData] = useState({
@@ -179,6 +199,41 @@ const MainExperience = ({ userId }: MainExperienceProps) => {
                     label="Termina ora la posizione attuale"
                   />
                 </Form.Group>
+
+                {/* aggiungere img posto di lavoro  */}
+                {/* aggiungere img posto di lavoro  */}
+                <Form.Group>
+                  <Form.Label
+                    onClick={handleUpload}
+                    className="w-100 d-flex justify-content-center cursor-pointer"
+                  >
+                    {preview && (
+                      <Image
+                        src={preview}
+                        roundedCircle
+                        alt="preview"
+                        style={{
+                          width: "200px",
+                          height: "200px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    )}
+                  </Form.Label>
+                  <Form.Control
+                    className="bg-transparent text-light border-0 border-bottom"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e: any) => {
+                      const file = e.target.files?.[0]
+                      if (!file) return
+                      setSelectedFile(file)
+                      setPreview(URL.createObjectURL(file))
+                    }}
+                  />
+                </Form.Group>
+                {/* aggiungere img posto di lavoro  */}
+                {/* aggiungere img posto di lavoro  */}
 
                 {/* Data di inizio */}
                 <Form.Group className="mb-3" controlId="formBasicPassword">
