@@ -113,7 +113,6 @@ const Navbar = () => {
         <div className="alert alert-danger py-2 m-2 small">{error}</div>
       )}
 
-      {/* 🌟 ROBUSTEZZA: Mostriamo comunque la struttura della Navbar anche se il profilo sta caricando */}
       <BsNavbar
         bg="white"
         className="border-bottom py-0 linkedin-navbar position-relative"

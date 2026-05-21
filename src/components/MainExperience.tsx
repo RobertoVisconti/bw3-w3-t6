@@ -80,7 +80,6 @@ const MainExperience = ({ userId }: MainExperienceProps) => {
     }
   };
 
-  // FIX: Svuota l'immagine e resetta la memoria locale
   const handleRemoveSelectedImage = () => {
     if (imagePreview) {
       URL.revokeObjectURL(imagePreview);
@@ -119,7 +118,7 @@ const MainExperience = ({ userId }: MainExperienceProps) => {
       endDate: formExpData.endDate
         ? new Date(formExpData.endDate).toISOString()
         : undefined,
-      image: imagePreview ? imagePreview : "", // Se imagePreview è vuoto, invia stringa vuota
+      image: imagePreview ? imagePreview : "",
     };
 
     if (editingExpId) {
@@ -130,8 +129,6 @@ const MainExperience = ({ userId }: MainExperienceProps) => {
       if (imageFile) {
         await uploadExperienceImage(editingExpId);
       } else if (!imagePreview) {
-        // FIX AGGIORNAMENTO IMMEDIATO: Se l'immagine è stata rimossa,
-        // rinfresca la lista delle esperienze per aggiornare MapExp istantaneamente
         dispatch(getExperience(myProfile._id));
       }
     } else {
