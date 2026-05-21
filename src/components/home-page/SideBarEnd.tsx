@@ -82,7 +82,7 @@ const SideBarEnd = () => {
     <>
       <Container
         fluid
-        className="bg-white rounded-3 border-card-linkedin shadow-sm p-0 text-start m-0 my-2"
+        className="bg-white rounded-3 border-card-linkedin shadow-sm p-0 text-start m-0 my-2 d-none d-sm-block"
       >
         {/* ================= SEZIONE NOTIZIE ================= */}
         <div className="pt-3" style={{ textAlign: "left" }}>

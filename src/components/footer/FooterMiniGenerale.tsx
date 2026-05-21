@@ -73,7 +73,7 @@ export const FooterMiniGenerale = () => {
         ))}
         <p> </p>
       </div>{" "}
-      <div className="text-center">
+      <div className="text-center mb-4">
         <span className="text-primary fw-medium">
           Linked<i className="fab fa-linkedin"></i>
         </span>{" "}

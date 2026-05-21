@@ -23,7 +23,7 @@ const EndSidebarEnd = () => {
       <style>{width75}</style>
       <Container
         fluid
-        className="bg-white rounded-3 border-card-linkedin shadow-sm p-3 text-start mx-auto mx-lg-0 my-2 width-75"
+        className="bg-white rounded-3 border-card-linkedin shadow-sm p-3 text-start mx-auto mx-lg-0 my-2 width-75 d-none d-sm-block"
         // style={{ maxWidth: "300px" }}
         // Mantiene il box compatto ed evita che si allarghi troppo su schermi grandi
       >
