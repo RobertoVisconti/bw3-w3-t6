@@ -10,10 +10,10 @@ const SettingsPage = () => {
           {/* COLONNA SIDEBAR */}
           <Col
             md={3}
-            className="sticky-top d-none d-md-block"
+            className="sticky-top d-none d-md-block z-1"
             style={{
               height: "fit-content",
-              zIndex: 10,
+              top: "55px",
             }}
           >
             <SideBarSettings />

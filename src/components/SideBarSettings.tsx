@@ -66,7 +66,7 @@ const SideBarSettings = () => {
       <Row>
         <Col xs={12}>
           {/* Header Profilo */}
-          <div className="d-flex align-items-center mb-5 gap-2">
+          <div className="d-flex align-items-center mb-5 gap-2 my-5">
             <Image
               src={myProfile?.image || "https://via.placeholder.com/40"}
               roundedCircle

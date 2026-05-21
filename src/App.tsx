@@ -69,7 +69,7 @@ const AppContent = () => {
   return (
     <div className="d-flex flex-column min-vh-100 ">
       {!isLoginPage && (
-        <header className="position-fixed w-100 z-1">
+        <header className="position-fixed w-100 z-3">
           <Navbar />
         </header>
       )}
