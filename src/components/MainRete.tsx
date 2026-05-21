@@ -48,8 +48,8 @@ export const MainRete = () => {
   }, [isCardsLoading, cardsVisibleCount, totalProfilesAvailable]);
 
   return (
-    <section className="d-flex flex-column gap-3 mt-2">
-      <article className="border rounded-2 border-secondary p-2">
+    <section className="d-flex flex-column gap-3 ">
+      <article className="border rounded-2 bg-white border-card-linkedin  p-2">
         <div className="d-flex justify-content-between">
           <div className="d-flex flex-column">
             <h5>Fai decollare la tua rete con le persone che conosci</h5>
@@ -72,11 +72,11 @@ export const MainRete = () => {
           </div>
         </div>
       </article>
-      <article className=" d-flex justify-content-between border rounded-2 border-secondary p-2">
+      <article className=" d-flex justify-content-between border-card-linkedin rounded-2  p-2">
         <h6>Nessun invito in sospeso</h6>
         <span>Gestisci</span>
       </article>
-      <article className="border rounded-2 border-secondary p-3 bg-light">
+      <article className="rounded-2 border-card-linkedin p-3 bg-light">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h6>
             Persone che potresti conoscere in base alla tua attività recente
@@ -90,7 +90,7 @@ export const MainRete = () => {
         </div>
         <CardsCollegati />
       </article>
-      <article className="border rounded-2 border-secondary p-2">
+      <article className="rounded-2 border-card-linkedin p-2">
         <div className="d-flex justify-content-between">
           <h6>Popolare su Linkedin</h6>
           <a
@@ -102,7 +102,7 @@ export const MainRete = () => {
         </div>
         <CardsCollegati collegati={false} />
       </article>
-      <article className="border rounded-2 border-secondary p-2">
+      <article className="rounded-2 border-card-linkedin p-2">
         <h6>Suggeriti per te</h6>
         <CardsCollegati limit={cardsVisibleCount} />
         {isCardsLoading && (

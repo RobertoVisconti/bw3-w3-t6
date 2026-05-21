@@ -25,7 +25,7 @@ export const CardsCollegati = ({
   }, [allProfiles, limit]);
 
   return (
-    <Row className="g-3">
+    <Row className="g-3 ">
       {randomProfiles.map((profilo: Profile) => (
         <Col xs={12} md={4} lg={3} key={profilo._id}>
           <div className="user-select-none h-100" style={{ cursor: "pointer" }}>

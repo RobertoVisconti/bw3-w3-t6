@@ -1,8 +1,8 @@
 import { Container } from "react-bootstrap";
-import { CurrentYear } from "./CurrentYear";
+import { CurrentYear } from "../generali/CurrentYear";
 import { FooterLinkProfile } from "./FooterLinkProfile";
 import { FooterOpzioniLink } from "./FooterOpzioniLink";
-import { SelezioneLingua } from "./SelezioneLingua";
+import { SelezioneLingua } from "../generali/SelezioneLingua";
 
 // Footer per la pagina principale profile
 

@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Container, Row, Col, FormControl } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import type { RootState } from "../redux/store";
+import type { RootState } from "../../redux/store";
 import {
   PiDotsThreeBold,
   PiNotePencilBold,
@@ -9,8 +9,8 @@ import {
   PiImageBold,
   PiPaperclipBold,
   PiGifBold,
-  PiSmileyBold,
 } from "react-icons/pi";
+import EmojiPickerButton from "./emojiButton";
 
 interface Message {
   id: string;
@@ -28,6 +28,9 @@ interface UserProfile {
 }
 
 const Messaggistica = () => {
+  // per l emoji
+  const messageAreaRef = useRef<HTMLTextAreaElement>(null);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [activeChat, setActiveChat] = useState<UserProfile | null>(null);
   const [newMessage, setNewMessage] = useState("");
@@ -73,12 +76,12 @@ const Messaggistica = () => {
   };
 
   return (
-    <Container className="mt-4 pt-3" style={{ maxWidth: "1200px" }}>
-      <Row className="g-3">
+    <Container fluid>
+      <Row >
         {/* COLONNA SINISTRA: LISTA CHAT */}
-        <Col md={4} lg={4}>
+        <Col md={6} lg={4} className="p-0">
           <div
-            className="bg-white rounded-3 border shadow-sm d-flex flex-column"
+            className="bg-white rounded-start-3 border shadow-sm d-flex flex-column"
             style={{ height: "80vh" }}
           >
             {/* Header Lista */}
@@ -182,9 +185,9 @@ const Messaggistica = () => {
         </Col>
 
         {/* COLONNA DESTRA: FINESTRA DI CONVERSAZIONE ATTIVA */}
-        <Col md={8} lg={8}>
+        <Col md={6} lg={8} className="p-0">
           <div
-            className="bg-white rounded-3 border shadow-sm d-flex flex-column"
+            className="bg-white rounded-end-3 border shadow-sm d-flex flex-column"
             style={{ height: "80vh" }}
           >
             {activeChat ? (
@@ -289,6 +292,7 @@ const Messaggistica = () => {
                   className="border-top p-3 bg-white"
                 >
                   <textarea
+                    ref={messageAreaRef}
                     placeholder="Scrivi un messaggio..."
                     className="form-control border-0 p-0 mb-2"
                     rows={3}
@@ -328,12 +332,12 @@ const Messaggistica = () => {
                       >
                         <PiGifBold size={18} />
                       </button>
-                      <button
-                        type="button"
-                        className="btn btn-link text-secondary p-1 border-0 rounded-circle d-flex align-items-center justify-content-center"
-                      >
-                        <PiSmileyBold size={18} />
-                      </button>
+
+                      <EmojiPickerButton
+                        text={newMessage}
+                        setText={setNewMessage}
+                        inputRef={messageAreaRef}
+                      />
                     </div>
                     {/* Bottone Invia */}
                     <button

@@ -1,10 +1,10 @@
 import { GoShieldCheck } from "react-icons/go"
 import SidebarStartHome from "./SidebarSartHome"
-import SidebarStartLavoro from "./SidebarStartLavoro"
+// import SidebarStartLavoro from "../lavoro/SidebarStartLavoro"
 import { useDispatch, useSelector } from "react-redux"
-import type { AppDispatch, RootState } from "../redux/store"
+import type { AppDispatch, RootState } from "../../redux/store"
 import { useEffect } from "react"
-import { getMyProfileAsync } from "../redux/actions/profileActions"
+import { getMyProfileAsync } from "../../redux/actions/profileActions"
 
 const SidebarStart = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -17,7 +17,7 @@ const SidebarStart = () => {
   }, [dispatch])
 
   return (
-    <div className="position-sticky" style={{ top: "10px" }}>
+    <div className="position-sticky pt-2" style={{ top: "3em" }}>
       {/* section profilo */}
       {/* ! PAGE LAVORO --> la section profilo rimane invariata al cambio tra Home e Lavoro */}
       {isLoading && (
@@ -26,7 +26,7 @@ const SidebarStart = () => {
       {error && <div className="alert alert-danger">{error}</div>}
 
       {myProfile && (
-        <section className="bg-light border border-secondary rounded-3 my-2 ">
+        <section className="bg-light rounded-3 my-2 border-card-linkedin">
           <a href="/profilo" className="text-decoration-none text-black">
             {/* banner */}
             <div

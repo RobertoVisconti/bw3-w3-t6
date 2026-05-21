@@ -1,23 +1,28 @@
 import { Col, Container, Row } from "react-bootstrap";
 import ProfileRightSidebar from "../components/ProfileRightSidebar";
 import MainProfile from "../components/MainProfile";
-import FooterLinkedin from "../components/FooterLinkedin";
+import FooterLinkedin from "../components/footer/FooterLinkedin";
 
 const Profilo = () => {
   return (
-    <Container className="mt-4">
+    <Container fluid="xl" className="mt-2">
       <Row>
         {/* colonna principale */}
-        <Col md={9}>
+        <Col md={8} lg={9}>
           <MainProfile />
-          <FooterLinkedin />
+          <div className="d-none d-md-block">
+            <FooterLinkedin />
+          </div>
         </Col>
 
         {/* sidebar destra */}
-        <Col md={3} className="mt-2">
+        <Col md={4} lg={3} className="mt-2">
           <ProfileRightSidebar />
         </Col>
       </Row>
+      <div className="d-md-none d-block">
+        <FooterLinkedin />
+      </div>
     </Container>
   );
 };

@@ -1,10 +1,10 @@
 import { Container } from "react-bootstrap";
 import { HiDotsHorizontal } from "react-icons/hi";
-import ButtonLinkedin from "./ButtonLinkedin";
+import ButtonLinkedin from "../generali/ButtonLinkedin";
 import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../redux/store";
+import type { AppDispatch, RootState } from "../../redux/store";
 import { useEffect } from "react";
-import { getMyProfileAsync } from "../redux/actions/profileActions";
+import { getMyProfileAsync } from "../../redux/actions/profileActions";
 
 const EndSidebarEnd = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -13,13 +13,19 @@ const EndSidebarEnd = () => {
   useEffect(() => {
     dispatch(getMyProfileAsync());
   }, [dispatch]);
-
+  // COSTANTE PER STYLE CSS PER LA LARGHEZZA
+  const width75 = `.width-75 {width: 75%;}@media (min-width: 992px) {.width-75 {width: 100%;
+    }
+  }
+`;
   return (
-    <div>
+    <>
+      <style>{width75}</style>
       <Container
         fluid
-        className="bg-white rounded-3 border border-secondary shadow-sm p-3 text-start m-0 my-2"
-        style={{ maxWidth: "300px" }} // Mantiene il box compatto ed evita che si allarghi troppo su schermi grandi
+        className="bg-white rounded-3 border-card-linkedin shadow-sm p-3 text-start mx-auto mx-lg-0 my-2 width-75"
+        // style={{ maxWidth: "300px" }}
+        // Mantiene il box compatto ed evita che si allarghi troppo su schermi grandi
       >
         <div className="d-flex align-items-center justify-content-end text-muted small mb-2">
           <p className="m-0 p-0 me-1" style={{ fontSize: "12px" }}>
@@ -70,12 +76,13 @@ const EndSidebarEnd = () => {
           <div className="w-70 text-center">
             <ButtonLinkedin
               text="Try for Free"
+              to="#"
               className="rounded-pill border-primary fw-bold"
             />
           </div>
         </div>
       </Container>
-    </div>
+    </>
   );
 };
 

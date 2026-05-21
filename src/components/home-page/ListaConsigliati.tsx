@@ -2,8 +2,8 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import SingleConsigliato from "./SingleConsigliato";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import type { RootState } from "../redux/store";
-import type { Profile } from "../interfaces/interfaces";
+import type { RootState } from "../../redux/store";
+import type { Profile } from "../../interfaces/interfaces";
 
 const ListaConsigliati = function () {
   const { allProfiles = [] } = useSelector(
@@ -17,7 +17,7 @@ const ListaConsigliati = function () {
   }, [allProfiles]);
 
   return (
-    <div className="bg-white mt-3 border border-black rounded-2 pt-2 px-2">
+    <div className="bg-white mt-3 rounded-2 pt-2 px-2 border-card-linkedin">
       <div className="py-2">
         <span className="fw-bold">Consigliati per te</span>
       </div>

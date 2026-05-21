@@ -1,110 +1,110 @@
-import { useDispatch, useSelector } from "react-redux"
-import type { AppDispatch, RootState } from "../redux/store"
-import { useEffect, useState } from "react"
-import { useParams, useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../redux/store";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   getMyProfileAsync,
   uploadProfileImage,
-} from "../redux/actions/profileActions"
-import { GoShieldCheck } from "react-icons/go"
-import ButtonLinkedin from "./ButtonLinkedin"
-import ModalePresentazione from "../components/ModalePresentazione"
-import ProfileModals from "../components/ProfileModals"
-import { Button, Dropdown } from "react-bootstrap"
-import { FaPen, FaUserPlus, FaEnvelope, FaBriefcase } from "react-icons/fa"
-import { AiOutlinePicture } from "react-icons/ai"
-import { IoMdPhotos } from "react-icons/io"
+} from "../redux/actions/profileActions";
+import { GoShieldCheck } from "react-icons/go";
+import ButtonLinkedin from "./generali/ButtonLinkedin";
+import ModalePresentazione from "../components/ModalePresentazione";
+import ProfileModals from "../components/ProfileModals";
+import { Button, Dropdown } from "react-bootstrap";
+import { FaPen, FaUserPlus, FaEnvelope, FaBriefcase } from "react-icons/fa";
+import { AiOutlinePicture } from "react-icons/ai";
+import { IoMdPhotos } from "react-icons/io";
 
-import { FiPlus } from "react-icons/fi"
-import MapExp from "./MapExp"
-import { getExperience } from "../redux/actions/experienceActions"
+import { FiPlus } from "react-icons/fi";
+import MapExp from "./MapExp";
+import { getExperience } from "../redux/actions/experienceActions";
 
 const MainProfile = () => {
-  const { userId } = useParams<{ userId: string }>()
-  const navigate = useNavigate()
-  const dispatch = useDispatch<AppDispatch>()
+  const { userId } = useParams<{ userId: string }>();
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
   // Stato per il profilo visualizzato
-  const [displayedProfile, setDisplayedProfile] = useState<any>(null)
-  const [isOwnProfile, setIsOwnProfile] = useState(true)
+  const [displayedProfile, setDisplayedProfile] = useState<any>(null);
+  const [isOwnProfile, setIsOwnProfile] = useState(true);
 
   // Variabili di stato per i modali
-  const [showUpPic, setShowUpPic] = useState(false)
-  const [showMod, setShowMod] = useState(false)
-  const [showImg, setShowImg] = useState(false)
-  const [showCover, setShowCover] = useState(false)
-  const [showPref, setShowPref] = useState(false)
+  const [showUpPic, setShowUpPic] = useState(false);
+  const [showMod, setShowMod] = useState(false);
+  const [showImg, setShowImg] = useState(false);
+  const [showCover, setShowCover] = useState(false);
+  const [showPref, setShowPref] = useState(false);
 
   // Variabili per l'upload dell'immagine
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
-  const [preview, setPreview] = useState<string | null>(null)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
 
   // Funzioni di chiusura/apertura modali
-  const handleCloseUpPic = () => setShowUpPic(false)
-  const handleShowUpPic = () => setShowUpPic(true)
-  const handleCloseMod = () => setShowMod(false)
-  const handleShowMod = () => setShowMod(true)
-  const handleCloseImg = () => setShowImg(false)
-  const handleShowImg = () => setShowImg(true)
-  const handleCloseCover = () => setShowCover(false)
-  const handleShowCover = () => setShowCover(true)
-  const handleClosePref = () => setShowPref(false)
-  const handleShowPref = () => setShowPref(true)
+  const handleCloseUpPic = () => setShowUpPic(false);
+  const handleShowUpPic = () => setShowUpPic(true);
+  const handleCloseMod = () => setShowMod(false);
+  const handleShowMod = () => setShowMod(true);
+  const handleCloseImg = () => setShowImg(false);
+  const handleShowImg = () => setShowImg(true);
+  const handleCloseCover = () => setShowCover(false);
+  const handleShowCover = () => setShowCover(true);
+  const handleClosePref = () => setShowPref(false);
+  const handleShowPref = () => setShowPref(true);
 
   // Selettori Redux
   const { myProfile, allProfiles, isLoading, error } = useSelector(
     (state: RootState) => state.profile,
-  )
+  );
 
   const experiences = useSelector(
     (state: RootState) => state.experience.experiences,
-  )
+  );
 
   // Funzione per l'upload dell'immagine del profilo
   const handleUpload = async () => {
-    if (!selectedFile || !displayedProfile?._id) return
+    if (!selectedFile || !displayedProfile?._id) return;
 
-    await dispatch(uploadProfileImage(displayedProfile._id, selectedFile))
+    await dispatch(uploadProfileImage(displayedProfile._id, selectedFile));
 
-    setSelectedFile(null)
-    setPreview(null)
-    handleCloseImg()
-  }
+    setSelectedFile(null);
+    setPreview(null);
+    handleCloseImg();
+  };
 
   // Carico il mio profilo al mount
   useEffect(() => {
-    dispatch(getMyProfileAsync())
-  }, [dispatch])
+    dispatch(getMyProfileAsync());
+  }, [dispatch]);
 
   // Logica per determinare quale profilo mostrare
   useEffect(() => {
     if (userId) {
-      const foundProfile = allProfiles?.find((p) => p._id === userId)
+      const foundProfile = allProfiles?.find((p) => p._id === userId);
       if (foundProfile) {
-        setDisplayedProfile(foundProfile)
-        setIsOwnProfile(foundProfile._id === myProfile?._id)
+        setDisplayedProfile(foundProfile);
+        setIsOwnProfile(foundProfile._id === myProfile?._id);
       }
     } else {
       if (myProfile) {
-        setDisplayedProfile(myProfile)
-        setIsOwnProfile(true)
+        setDisplayedProfile(myProfile);
+        setIsOwnProfile(true);
       }
     }
-  }, [userId, myProfile, allProfiles])
+  }, [userId, myProfile, allProfiles]);
 
   // Funzione per tornare al proprio profilo
   const goToMyProfile = () => {
-    navigate("/profilo")
-    setDisplayedProfile(myProfile)
-    setIsOwnProfile(true)
-  }
+    navigate("/profilo");
+    setDisplayedProfile(myProfile);
+    setIsOwnProfile(true);
+  };
 
   // fetch get exp
   useEffect(() => {
     if (displayedProfile?._id) {
-      dispatch(getExperience(displayedProfile._id))
+      dispatch(getExperience(displayedProfile._id));
     }
-  }, [dispatch, displayedProfile?._id])
+  }, [dispatch, displayedProfile?._id]);
 
   return (
     <>
@@ -115,7 +115,7 @@ const MainProfile = () => {
 
       {displayedProfile && (
         <div className="d-flex flex-column gap-3">
-          <section className="bg-light border border-secondary rounded-3 my-2">
+          <section className="bg-light border-card-linkedin rounded-3 my-2">
             {/* banner */}
             <div
               className="w-100 custom-profile-card rounded-top-2 position-relative"
@@ -297,7 +297,7 @@ const MainProfile = () => {
           </section>
 
           {/* SEZIONE: INFORMAZIONI / BIO */}
-          <section className="bg-light border border-secondary rounded-3 p-3">
+          <section className="bg-light border-card-linkedin rounded-3 p-3">
             <div className="d-flex align-items-center justify-content-between mb-2">
               <h2 className="fs-4 fw-bold m-0">Informazioni</h2>
             </div>
@@ -313,90 +313,35 @@ const MainProfile = () => {
           </section>
 
           {/* SEZIONE: ESPERIENZE */}
-          <section className="bg-light border border-secondary rounded-3 p-3">
-            <div className="d-flex  justify-content-between flex-column mb-3">
+          <section className="bg-light border-card-linkedin rounded-3 p-3">
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h2 className="fs-4 fw-bold m-0">Esperienza</h2>
+
+              {/* I pulsanti per navigare alla pagina di modifica si vedono SOLO se è il proprio profilo */}
               {isOwnProfile && (
-                <div className="">
-                  <div className="d-flex justify-content-between mb-3">
-                    <h2 className="fs-4 fw-bold m-0">Esperienza</h2>
-                    <div>
-                      <Button
-                        variant=""
-                        className=""
-                        onClick={() => navigate("/Esperienze")}
-                      >
-                        <FiPlus className="m-0 p-0" />
-                      </Button>
-                      <Button
-                        variant=""
-                        className=""
-                        onClick={() => navigate("/Esperienze")}
-                      >
-                        <FaPen size={17} />
-                      </Button>
-                    </div>
-                  </div>
-                  <div>
-                    <MapExp userId={displayedProfile._id} />
-                  </div>
+                <div>
+                  <Button
+                    variant="link"
+                    className="text-dark p-1 me-2"
+                    onClick={() => navigate("/Esperienze")}
+                  >
+                    <FiPlus size={22} />
+                  </Button>
+                  <Button
+                    variant="link"
+                    className="text-dark p-1"
+                    onClick={() => navigate("/Esperienze")}
+                  >
+                    <FaPen size={17} />
+                  </Button>
                 </div>
               )}
             </div>
 
-            {/* {displayedProfile.experiences &&
-            displayedProfile.experiences.length > 0 ? (
-              <div className="d-flex flex-column gap-3">
-                <h2 className="fs-4 fw-bold m-0">Esperienza</h2>
-                {displayedProfile.experiences.map((exp: any, index: number) => (
-                  <div
-                    key={exp._id || index}
-                    className="d-flex gap-3 align-items-start pb-3 border-bottom border-light"
-                  >
-                    <div className="p-2 bg-secondary bg-opacity-10 rounded-2 text-secondary">
-                      <FaBriefcase size={22} />
-                    </div>
-                    <div className="d-flex flex-column">
-                      <h4 className="fs-5 fw-bold m-0 text-dark">{exp.role}</h4>
-                      <span className="text-muted small fw-semibold">
-                        {exp.company}
-                      </span>
-                      <span
-                        className="text-secondary mt-0.5"
-                        style={{ fontSize: "0.8rem" }}
-                      >
-                        {exp.startDate
-                          ? new Date(exp.startDate).toLocaleDateString(
-                              "it-IT",
-                              { year: "numeric", month: "short" },
-                            )
-                          : ""}{" "}
-                        -
-                        {exp.endDate
-                          ? new Date(exp.endDate).toLocaleDateString("it-IT", {
-                              year: "numeric",
-                              month: "short",
-                            })
-                          : " In corso"}
-                      </span>
-                      {exp.description && (
-                        <p
-                          className="text-muted mt-2 mb-0"
-                          style={{ fontSize: "13.5px" }}
-                        >
-                          {exp.description}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-muted m-0 small">
-                {isOwnProfile
-                  ? "Non hai ancora inserito esperienze lavorative."
-                  : "Nessuna esperienza lavorativa presente nel profilo di questo utente."}
-              </p>
-            )} */}
+            {/* Il componente MapExp viene renderizzato SEMPRE, passando l'ID del profilo correntemente visualizzato */}
+            <div>
+              <MapExp userId={displayedProfile._id} />
+            </div>
           </section>
         </div>
       )}
@@ -420,7 +365,7 @@ const MainProfile = () => {
         setPreview={setPreview}
       />
     </>
-  )
-}
+  );
+};
 
-export default MainProfile
+export default MainProfile;

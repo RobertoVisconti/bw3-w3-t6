@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../redux/store";
-import { getPost } from "../redux/actions/postActions";
+import type { AppDispatch, RootState } from "../../redux/store";
+import { getPost } from "../../redux/actions/postActions";
 import { Col } from "react-bootstrap";
 import SingleArticle from "./SingleArticle";
-import type { Post } from "../interfaces/interfaces";
+import type { Post } from "../../interfaces/interfaces";
 
 const ListArticle = function () {
   const dispatch = useDispatch<AppDispatch>();
@@ -64,9 +64,10 @@ const ListArticle = function () {
       },
       { threshold: 0.1 },
     );
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
+    // COMMENTATO MOMENTANEAMENTE
+    // if (currentRef) {
+    //   observer.observe(currentRef);
+    // }
 
     return () => {
       if (currentRef) {

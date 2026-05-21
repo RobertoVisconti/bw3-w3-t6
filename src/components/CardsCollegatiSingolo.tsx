@@ -1,6 +1,6 @@
 import { Card, Button } from "react-bootstrap";
 import type { Profile } from "../interfaces/interfaces";
-import ButtonFollow from "./ButtonFollow";
+import ButtonFollow from "./generali/ButtonFollow";
 
 interface CardsCollegatiProps extends Profile {
   collegati: boolean;
@@ -37,7 +37,7 @@ export const CardsCollegatiSingolo = ({
   };
 
   return (
-    <Card className="position-relative" style={{ height: "320px" }}>
+    <Card className="position-relative border-card-linkedin shadow-sm" style={{ height: "320px" }}>
       <Card.Img
         style={{ height: "60px" }}
         variant="top"

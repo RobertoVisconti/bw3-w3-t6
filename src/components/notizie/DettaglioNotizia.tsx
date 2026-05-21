@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import type { RootState } from "../redux/store";
-import type { News } from "../interfaces/interfaces";
+import type { RootState } from "../../redux/store";
+import type { News } from "../../interfaces/interfaces";
 import { Container } from "react-bootstrap";
-import formatDate from "./formatDate";
-import BigCardPlaceholder from "./BigCardPlaceholder";
+import formatDate from "../generali/formatDate";
+import BigCardPlaceholder from "../placeholders/BigCardPlaceholder";
 
 const DettaglioNotizia = function () {
   const params = useParams();
@@ -62,7 +62,7 @@ const DettaglioNotizia = function () {
             </div>
             <div>
               <button className="news-btn mx-2" onClick={() => navigate("/")}>
-                ← Torna alla home
+                ← Torna indietro
               </button>
 
               <button

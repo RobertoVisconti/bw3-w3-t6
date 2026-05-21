@@ -1,13 +1,15 @@
 import { Button } from "react-bootstrap";
 import { IoMdAdd } from "react-icons/io";
 import { FaArrowTrendUp } from "react-icons/fa6";
-import type { Profile } from "../interfaces/interfaces";
+import type { Profile } from "../../interfaces/interfaces";
+import { useState } from "react";
 
 interface SingleConsigliatoProps {
   profilo: Profile;
 }
 
 const SingleConsigliato = function ({ profilo }: SingleConsigliatoProps) {
+  const [seguito, setSegui] = useState(false);
   return (
     <div className="d-flex align-items-center justify-content-between border-bottom py-2">
       <div className="d-flex align-items-center gap-2 border-0 overflow-hidden">
@@ -36,15 +38,12 @@ const SingleConsigliato = function ({ profilo }: SingleConsigliatoProps) {
         </div>
       </div>
       <div className="ms-2">
-        <Button
-          variant="outline-secondary"
-          className="rounded-5 btn-sm px-3 fw-semibold"
+        <button
+          className={`btn-segui btn-border ${seguito ? "seguito" : ""}`}
+          onClick={() => setSegui(!seguito)}
         >
-          <span className="d-flex align-items-center gap-1">
-            <IoMdAdd className="fs-5" />
-            Segui
-          </span>
-        </Button>
+          {seguito ? "✓ Seguito" : "+ Segui"}
+        </button>
       </div>
     </div>
   );

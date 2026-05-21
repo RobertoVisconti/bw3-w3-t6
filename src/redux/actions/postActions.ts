@@ -84,10 +84,12 @@ export const updatePost = (postId: string, postData: PostInput) => async (dispat
 export const deletePost = (postId: string) => async (dispatch: Dispatch) => {
   dispatch({ type: POST_LOADING });
   try {
+   
     await customFetch(`posts/${postId}`, 'DELETE');
+    
     dispatch({ type: DELETE_POST_SUCCESS, payload: postId });
   } catch (err) {
-    const msg = err instanceof Error ? err.message : 'Errore sconosciuto';
+    const msg = err instanceof Error ? err.message : 'Errore durante la cancellazione del post';
     dispatch({ type: POST_ERROR, payload: msg });
   }
 };

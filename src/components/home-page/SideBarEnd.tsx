@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Container, ListGroup } from "react-bootstrap";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import {
@@ -7,48 +7,70 @@ import {
   IoChevronUpOutline,
 } from "react-icons/io5";
 
-import { FooterMiniGenerale } from "./FooterMiniGenerale";
+import { FooterMiniGenerale } from "../footer/FooterMiniGenerale";
 import EndSidebarEnd from "./endSidebarEnd";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../redux/store";
-import { getNewsAsync } from "../redux/actions/NotizieActions";
-import type { News } from "../interfaces/interfaces";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../redux/store";
+import type { News } from "../../interfaces/interfaces";
 import { useNavigate } from "react-router-dom";
-import formatDate from "./formatDate";
+import formatDate from "../generali/formatDate";
 
 const SideBarEnd = () => {
+  const [giochiVisualizzati, setGiochiVisualizzati] = useState(4);
   const gamesData = [
     {
       id: 1,
-      name: "Patches",
-      number: "#62",
-      desc: "Metti insieme i pezzi",
-      icon: "🧩",
-      bgIcon: "#e0f1ff",
+      name: "Sudoku",
+      number: "#1",
+      desc: "Riempi la griglia",
+      icon: "🔢",
+      bgIcon: "#d1e7dd",
+      route: "/giochi/sudoku",
     },
     {
       id: 2,
-      name: "Zip",
-      number: "#427",
-      desc: "Completa il percorso",
-      icon: "⚡",
-      bgIcon: "#fff3cd",
+      name: "Jigsaw Puzzle",
+      number: "#2",
+      desc: "Ricomponi l'immagine",
+      icon: "🧩",
+      bgIcon: "#e0f1ff",
+      route: "/giochi/puzzle",
     },
     {
       id: 3,
-      name: "Mini Sudoku",
-      number: "#280",
-      desc: "Il gioco classico, in versione mini",
-      icon: "🔢",
-      bgIcon: "#d1e7dd",
+      name: "Snake",
+      number: "#3",
+      desc: "Mangia e cresci",
+      icon: "🐍",
+      bgIcon: "#d1f0d1",
+      route: "/giochi/snake",
     },
     {
       id: 4,
-      name: "Tango",
-      number: "#588",
-      desc: "Armonizza la griglia",
-      icon: "🎨",
+      name: "Tetris",
+      number: "#4",
+      desc: "Incastra i blocchi",
+      icon: "🟦",
       bgIcon: "#ffe2e2",
+      route: "/giochi/tetris",
+    },
+    {
+      id: 5,
+      name: "Pong",
+      number: "#5",
+      desc: "Sfida l'IA a ping pong",
+      icon: "🏓",
+      bgIcon: "#fff3cd",
+      route: "/giochi/pong",
+    },
+    {
+      id: 6,
+      name: "Flappy Bird",
+      number: "#6",
+      desc: "Vola il più lontano possibile",
+      icon: "🐦",
+      bgIcon: "#fce4ec",
+      route: "/giochi/flappy",
     },
   ];
   const navigate = useNavigate();
@@ -56,13 +78,11 @@ const SideBarEnd = () => {
 
   const news = useSelector((state: RootState) => state.news.news);
   const [notizieMostrate, setNotizieMostrate] = useState(5);
-;
-
   return (
     <>
       <Container
         fluid
-        className="bg-white rounded-3 border border-secondary shadow-sm p-0 text-start m-0 my-2"
+        className="bg-white rounded-3 border-card-linkedin shadow-sm p-0 text-start m-0 my-2"
       >
         {/* ================= SEZIONE NOTIZIE ================= */}
         <div className="pt-3" style={{ textAlign: "left" }}>
@@ -224,7 +244,7 @@ const SideBarEnd = () => {
             className="border-0 p-0 m-0 mb-2"
             style={{ display: "flex", flexDirection: "column" }}
           >
-            {gamesData.map((game) => (
+            {gamesData.slice(0, giochiVisualizzati).map((game) => (
               <ListGroup.Item
                 key={game.id}
                 as="div"
@@ -245,6 +265,7 @@ const SideBarEnd = () => {
                 onMouseLeave={(e) =>
                   (e.currentTarget.style.backgroundColor = "transparent")
                 }
+                onClick={() => navigate(`${game.route}`)}
               >
                 {/* Box Sinistro */}
                 <div
@@ -338,14 +359,27 @@ const SideBarEnd = () => {
               flexDirection: "row",
               alignItems: "center",
             }}
+            onClick={() => {
+              if (giochiVisualizzati === 4) {
+                setGiochiVisualizzati(gamesData.length);
+              } else {
+                setGiochiVisualizzati(4);
+              }
+            }}
           >
-            <span className="ps-1">Mostra altro</span>
-            <IoChevronDownOutline size={15} />
+            <span className="ps-1">
+              {giochiVisualizzati === 4 ? "Mostra altro" : "Mostra meno"}
+            </span>
+            {giochiVisualizzati === 4 ? (
+              <IoChevronDownOutline size={15} />
+            ) : (
+              <IoChevronUpOutline size={15} />
+            )}
           </div>
         </div>
       </Container>
 
-      <div className="position-sticky" style={{ top: "10px" }}>
+      <div className="position-sticky pt-2" style={{ top: "3em" }}>
         <EndSidebarEnd />
         <FooterMiniGenerale></FooterMiniGenerale>
       </div>

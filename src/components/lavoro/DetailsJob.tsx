@@ -1,12 +1,12 @@
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import type { Job } from "../interfaces/interfaces";
+import type { Job } from "../../interfaces/interfaces";
 import { useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { IoMdArrowDropup } from "react-icons/io";
-import type { RootState } from "../redux/store";
-import BigCardPlaceholder from "./BigCardPlaceholder";
+import type { RootState } from "../../redux/store";
+import BigCardPlaceholder from "../placeholders/BigCardPlaceholder";
 
 const DetailsJob = function () {
   const params = useParams();

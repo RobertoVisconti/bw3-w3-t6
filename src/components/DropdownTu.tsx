@@ -1,69 +1,83 @@
-import { useDispatch, useSelector } from "react-redux"
-import type { AppDispatch, RootState } from "../redux/store"
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../redux/store";
 
-import { useEffect } from "react"
-import { getMyProfileAsync } from "../redux/actions/profileActions"
-import { GoShieldCheck } from "react-icons/go"
-import { Col, Image } from "react-bootstrap"
-import type { FooterLink } from "../components/FooterLinkProfile"
-import ButtonLinkedin from "./ButtonLinkedin"
-import { useNavigate } from "react-router-dom"
+import { useEffect } from "react";
+import { getMyProfileAsync } from "../redux/actions/profileActions";
+import { GoShieldCheck } from "react-icons/go";
+import { Col, Image } from "react-bootstrap";
+
+import { useNavigate } from "react-router-dom";
+import ButtonLinkedin from "./generali/ButtonLinkedin";
+
+interface LocalFooterLink {
+  label: string;
+  path?: string;
+  isLogout?: boolean;
+}
 
 const DropDownTu = () => {
-  // funzuoine navigazione
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const dispatch = useDispatch<AppDispatch>()
   const { myProfile, isLoading, error } = useSelector(
     (state: RootState) => state.profile,
-  )
+  );
 
   useEffect(() => {
-    dispatch(getMyProfileAsync())
-  }, [dispatch])
+    dispatch(getMyProfileAsync());
+  }, [dispatch]);
 
-  // Funzione per gestire la disconnessione reale
   const handleLogout = (e: React.MouseEvent) => {
-    e.preventDefault()
+    e.preventDefault();
+    localStorage.removeItem("isLoggedIn");
+    window.location.href = "/login";
+  };
 
-    localStorage.removeItem("isLoggedIn")
+  const links: LocalFooterLink[] = [
+    { label: "Account", path: "/account" },
+    { label: "Prova 1 mese di Premium per 0€", path: "/premium" },
+    { label: "Impostazioni e privacy", path: "/impostazioni" },
+    { label: "Guida", path: "/help" },
+    { label: "Lingua", path: "/language" },
+    { label: "Gestisci", path: "/manage" },
+    { label: "Post e attività", path: "/activities" },
+    {
+      label: "Account per la pubblicazione di offerte di lavoro",
+      path: "/lavoro",
+    },
+    { label: "Esci", isLogout: true },
+  ];
 
-    window.location.href = "/login"
-  }
-
-  const links: FooterLink[] = [
-    { label: "Account", url: "#" },
-    { label: "Prova 1 mese di Premium per 0€", url: "#" },
-    { label: "impostazioni e privacy", url: "#" },
-    { label: "Guida", url: "#" },
-    { label: "Lingua", url: "#" },
-    { label: "Gestisci", url: "#" },
-    { label: "Post e attività", url: "#" },
-    { label: "Account per la pubblicazione di offerte di lavoro", url: "#" },
-    { label: "Esci", url: "#" },
-  ]
+  // 3. Funzione centralizzata per gestire il click sui link
+  const handleLinkClick = (e: React.MouseEvent, link: LocalFooterLink) => {
+    e.preventDefault();
+    if (link.isLogout) {
+      handleLogout(e);
+    } else if (link.path) {
+      navigate(link.path);
+    }
+  };
 
   return (
     <>
-      {/* section profilo */}
-      {/* ! PAGE LAVORO --> la section profilo rimane invariata al cambio tra Home e Lavoro */}
       {isLoading && (
         <div className="text-center my-3">Caricamento profilo...</div>
       )}
       {error && <div className="alert alert-danger">{error}</div>}
       {myProfile && (
         <>
-          <section className=" d-flex  flex-column bg-light border border-secondary rounded-3 my-2 align-items-center p-3">
+          <section className="d-flex flex-column bg-light border border-secondary rounded-3 my-2 align-items-center p-3">
             <div className="d-flex">
               <Image
                 src={myProfile?.image}
                 roundedCircle
-                className="linkedin-avatar  me-3"
+                className="linkedin-avatar me-3"
                 alt="foto-profilo"
                 style={{
                   width: "80px",
                   height: "80px",
                   objectFit: "cover",
+                  cursor: "pointer", // Aggiunto per far capire che è cliccabile
                 }}
                 onClick={() => navigate("/profilo")}
               />
@@ -82,54 +96,49 @@ const DropDownTu = () => {
               className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2 "
               to="/profilo"
             />
-
-            {links.slice(0, 5).map((link, i) => {
-              return (
-                <Col xs={12} key={i} className={i === 0 ? "bold-link" : ""}>
-                  {" "}
-                  <a
-                    href={link.url}
-                    className="text-decoration-none text-muted small d-inline-block mb-2  "
-                  >
-                    {link.label}
-                  </a>
-                </Col>
-              )
-            })}
-            <hr />
-            {links.slice(5, 8).map((link, i) => {
-              return (
-                <Col xs={12} key={i} className={i === 0 ? "bold-link" : ""}>
-                  {" "}
-                  <a
-                    href={link.url}
-                    className="text-decoration-none text-muted small d-inline-block mb-2  "
-                  >
-                    {link.label}
-                  </a>
-                </Col>
-              )
-            })}
-
-            {links.slice(8, 9).map((link, i) => {
-              return (
-                <Col xs={12} key={i} className="bold-link">
-                  {" "}
-                  <a
-                    href={link.url}
-                    onClick={handleLogout}
-                    className="text-decoration-none text-danger fw-semibold small d-inline-block mb-2"
-                  >
-                    {link.label}
-                  </a>
-                </Col>
-              )
-            })}
+            {/* Primi 5 Link (Indici 0-4) */}
+            {links.slice(0, 5).map((link, i) => (
+              <Col xs={12} key={i} className={i === 0 ? "bold-link" : ""}>
+                <a
+                  href="#"
+                  onClick={(e) => handleLinkClick(e, link)}
+                  className="text-decoration-none text-muted small d-inline-block mb-2"
+                >
+                  {link.label}
+                </a>
+              </Col>
+            ))}
+            <hr className="w-100" />{" "}
+            {/* Aggiunto w-100 per renderlo visibile a tutta larghezza se necessario */}
+            {/* Successivi 3 Link (Indici 5-7) */}
+            {links.slice(5, 8).map((link, i) => (
+              <Col xs={12} key={i} className={i === 0 ? "bold-link" : ""}>
+                <a
+                  href="#"
+                  onClick={(e) => handleLinkClick(e, link)}
+                  className="text-decoration-none text-muted small d-inline-block mb-2"
+                >
+                  {link.label}
+                </a>
+              </Col>
+            ))}
+            {/* Ultimo Link - Esci (Indice 8) */}
+            {links.slice(8, 9).map((link, i) => (
+              <Col xs={12} key={i} className="bold-link">
+                <a
+                  href="#"
+                  onClick={(e) => handleLinkClick(e, link)}
+                  className="text-decoration-none text-danger fw-semibold small d-inline-block mb-2"
+                >
+                  {link.label}
+                </a>
+              </Col>
+            ))}
           </section>
         </>
       )}
     </>
-  )
-}
+  );
+};
 
-export default DropDownTu
+export default DropDownTu;

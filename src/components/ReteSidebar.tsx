@@ -1,6 +1,7 @@
 // import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { FooterMiniGenerale } from "./FooterMiniGenerale";
+import { FooterMiniGenerale } from "./footer/FooterMiniGenerale";
+import { Container } from "react-bootstrap";
 
 interface LinkFormat {
   icon: React.ReactNode;
@@ -16,7 +17,7 @@ export const ReteSidebar = () => {
     },
     {
       icon: <i className="fas fa-user-plus"></i>,
-      label: "Persone che segui e follower",
+      label: "Persone che segui",
       url: "#",
     },
     {
@@ -42,10 +43,10 @@ export const ReteSidebar = () => {
   ];
 
   return (
-    <section className="">
+    <Container fluid className="p-0">
       {/* Box con i ling della sidebar */}
-      <article className="bg-light border border-secondary my-2 pb-2 rounded-2">
-        <h6 className="mx-n4 w-auto border-bottom border-secondary-subtle py-3 px-4">
+      <article className="bg-white border-card-linkedin  pb-2 mb-2 rounded-2">
+        <h6 className="mx-n4 border-bottom border-secondary-subtle py-3 text-center">
           Gestsci la tua rete
         </h6>
 
@@ -111,7 +112,9 @@ export const ReteSidebar = () => {
           />
         </Link>
       </article>
-      <FooterMiniGenerale />
-    </section>
+      <div className="d-none d-md-block">
+        <FooterMiniGenerale />
+      </div>
+    </Container>
   );
 };

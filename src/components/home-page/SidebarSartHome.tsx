@@ -6,7 +6,7 @@ const SidebarStartHome = () => {
   return (
     <div>
       {/* section premium */}
-      <section className="bg-light border border-secondary rounded-3 p-3 mb-2">
+      <section className="bg-light border-card-linkedin rounded-3 p-3 mb-2">
         <p>Accedi a strumenti e informazioni in esclusiva</p>
         <div className="d-flex align-items-center">
           <FaLinkedin />
@@ -16,7 +16,7 @@ const SidebarStartHome = () => {
         </div>
       </section>
       {/* section visitatori */}
-      <section className="bg-light border border-secondary rounded-3 p-3 mb-2">
+      <section className="bg-light border-card-linkedin rounded-3 p-3 mb-2">
         <div className="d-flex justify-content-between">
           <p>
             <b>visitatori del profilo</b>
@@ -28,7 +28,7 @@ const SidebarStartHome = () => {
         </p>
       </section>
       {/* section icon */}
-      <section className="bg-light border border-secondary rounded-3 p-3">
+      <section className="bg-light border-card-linkedin rounded-3 p-3">
         {/* bookmark */}
         <div className="d-flex align-items-center">
           <FaBookmark />
