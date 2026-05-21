@@ -27,13 +27,19 @@ const MapExp = ({ userId, onEditClick, onDeleteClick }: MapExpProps) => {
 
   const userExperiences = experiences.filter((exp) => exp.user === finalUserId)
 
+  const invertMapOrder = [...userExperiences].sort((a, b) => {
+    const dateA = new Date(a.createdAt).getTime()
+    const dateB = new Date(b.createdAt).getTime()
+    return dateB - dateA
+  })
+
   if (!userExperiences.length) {
     return <p className="text-muted">Nessuna esperienza inserita</p>
   }
 
   return (
     <div>
-      {userExperiences.map((exp: Experience) => (
+      {invertMapOrder.map((exp: Experience) => (
         <div
           key={exp._id}
           className="d-flex justify-content-between align-items-start mb-3"

@@ -1,119 +1,119 @@
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../redux/store";
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux"
+import type { AppDispatch, RootState } from "../redux/store"
+import { useEffect, useState } from "react"
+import { useParams, useNavigate } from "react-router-dom"
 import {
   getMyProfileAsync,
   uploadProfileImage,
   deleteProfileImage,
-} from "../redux/actions/profileActions";
-import { GoShieldCheck } from "react-icons/go";
-import ButtonLinkedin from "./generali/ButtonLinkedin";
-import ModalePresentazione from "../components/ModalePresentazione";
-import ProfileModals from "../components/ProfileModals";
-import { Button, Dropdown } from "react-bootstrap";
-import { FaPen, FaUserPlus, FaEnvelope } from "react-icons/fa";
-import { AiOutlinePicture } from "react-icons/ai";
-import { IoMdPhotos } from "react-icons/io";
-import { FiPlus } from "react-icons/fi";
-import MapExp from "./MapExp";
-import { getExperience } from "../redux/actions/experienceActions";
+} from "../redux/actions/profileActions"
+import { GoShieldCheck } from "react-icons/go"
+import ButtonLinkedin from "./generali/ButtonLinkedin"
+import ModalePresentazione from "../components/ModalePresentazione"
+import ProfileModals from "../components/ProfileModals"
+import { Button, Dropdown } from "react-bootstrap"
+import { FaPen, FaUserPlus, FaEnvelope } from "react-icons/fa"
+import { AiOutlinePicture } from "react-icons/ai"
+import { IoMdPhotos } from "react-icons/io"
+import { FiPlus } from "react-icons/fi"
+import MapExp from "./MapExp"
+import { getExperience } from "../redux/actions/experienceActions"
 
 const MainProfile = () => {
-  const { userId } = useParams<{ userId: string }>();
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
+  const { userId } = useParams<{ userId: string }>()
+  const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>()
 
   // Stato per il profilo visualizzato
-  const [displayedProfile, setDisplayedProfile] = useState<any>(null);
-  const [isOwnProfile, setIsOwnProfile] = useState(true);
+  const [displayedProfile, setDisplayedProfile] = useState<any>(null)
+  const [isOwnProfile, setIsOwnProfile] = useState(true)
 
   // Variabili di stato per i modali
-  const [showUpPic, setShowUpPic] = useState(false);
-  const [showMod, setShowMod] = useState(false);
-  const [showImg, setShowImg] = useState(false);
-  const [showCover, setShowCover] = useState(false);
-  const [showPref, setShowPref] = useState(false);
+  const [showUpPic, setShowUpPic] = useState(false)
+  const [showMod, setShowMod] = useState(false)
+  const [showImg, setShowImg] = useState(false)
+  const [showCover, setShowCover] = useState(false)
+  const [showPref, setShowPref] = useState(false)
 
   // Variabili per l'upload dell'immagine
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [preview, setPreview] = useState<string | null>(null)
 
   // Funzioni di chiusura/apertura modali
-  const handleCloseUpPic = () => setShowUpPic(false);
-  const handleShowUpPic = () => setShowUpPic(true);
-  const handleCloseMod = () => setShowMod(false);
-  const handleShowMod = () => setShowMod(true);
-  const handleCloseImg = () => setShowImg(false);
-  const handleShowImg = () => setShowImg(true);
-  const handleCloseCover = () => setShowCover(false);
-  const handleShowCover = () => setShowCover(true);
-  const handleClosePref = () => setShowPref(false);
-  const handleShowPref = () => setShowPref(true);
+  const handleCloseUpPic = () => setShowUpPic(false)
+  const handleShowUpPic = () => setShowUpPic(true)
+  const handleCloseMod = () => setShowMod(false)
+  const handleShowMod = () => setShowMod(true)
+  const handleCloseImg = () => setShowImg(false)
+  const handleShowImg = () => setShowImg(true)
+  const handleCloseCover = () => setShowCover(false)
+  const handleShowCover = () => setShowCover(true)
+  const handleClosePref = () => setShowPref(false)
+  const handleShowPref = () => setShowPref(true)
 
   // Selettori Redux
   const { myProfile, allProfiles, isLoading, error } = useSelector(
     (state: RootState) => state.profile,
-  );
+  )
 
   const experiences = useSelector(
     (state: RootState) => state.experience.experiences,
-  );
+  )
 
   // Funzione per l'upload dell'immagine del profilo
   const handleUpload = async () => {
-    if (!selectedFile || !displayedProfile?._id) return;
+    if (!selectedFile || !displayedProfile?._id) return
 
-    await dispatch(uploadProfileImage(displayedProfile._id, selectedFile));
+    await dispatch(uploadProfileImage(displayedProfile._id, selectedFile))
 
-    setSelectedFile(null);
-    setPreview(null);
-    handleCloseImg();
-  };
+    setSelectedFile(null)
+    setPreview(null)
+    handleCloseImg()
+  }
 
   // 🔥 NUOVA FUNZIONE: Gestisce l'eliminazione "finta" resettando l'immagine a stringa vuota tramite API
   const handleDelete = async () => {
-    await dispatch(deleteProfileImage());
+    await dispatch(deleteProfileImage())
 
     // Puliamo anche gli stati locali delle anteprime per sicurezza
-    setSelectedFile(null);
-    setPreview(null);
-  };
+    setSelectedFile(null)
+    setPreview(null)
+  }
 
   // Carico il mio profilo al mount
   useEffect(() => {
-    dispatch(getMyProfileAsync());
-  }, [dispatch]);
+    dispatch(getMyProfileAsync())
+  }, [dispatch])
 
   // Logica per determinare quale profilo mostrare
   useEffect(() => {
     if (userId) {
-      const foundProfile = allProfiles?.find((p) => p._id === userId);
+      const foundProfile = allProfiles?.find((p) => p._id === userId)
       if (foundProfile) {
-        setDisplayedProfile(foundProfile);
-        setIsOwnProfile(foundProfile._id === myProfile?._id);
+        setDisplayedProfile(foundProfile)
+        setIsOwnProfile(foundProfile._id === myProfile?._id)
       }
     } else {
       if (myProfile) {
-        setDisplayedProfile(myProfile);
-        setIsOwnProfile(true);
+        setDisplayedProfile(myProfile)
+        setIsOwnProfile(true)
       }
     }
-  }, [userId, myProfile, allProfiles]);
+  }, [userId, myProfile, allProfiles])
 
   // Funzione per tornare al proprio profilo
   const goToMyProfile = () => {
-    navigate("/profilo");
-    setDisplayedProfile(myProfile);
-    setIsOwnProfile(true);
-  };
+    navigate("/profilo")
+    setDisplayedProfile(myProfile)
+    setIsOwnProfile(true)
+  }
 
   // fetch get exp
   useEffect(() => {
     if (displayedProfile?._id) {
-      dispatch(getExperience(displayedProfile._id));
+      dispatch(getExperience(displayedProfile._id))
     }
-  }, [dispatch, displayedProfile?._id]);
+  }, [dispatch, displayedProfile?._id])
 
   return (
     <>
@@ -129,7 +129,8 @@ const MainProfile = () => {
             <div
               className="w-100 custom-profile-card rounded-top-2 position-relative"
               style={{
-                backgroundImage: 'url("https://placebear.com/1000/1000")',
+                backgroundImage:
+                  'url("https://png.pngtree.com/background/20250104/original/pngtree-free-vector-linkedin-banner-with-linked-technology-and-gradient-texture-picture-image_15305713.jpg")',
               }}
             >
               {/* dropdown modifica copertina - visibile solo per il proprio profilo */}
@@ -375,7 +376,7 @@ const MainProfile = () => {
         setPreview={setPreview}
       />
     </>
-  );
-};
+  )
+}
 
-export default MainProfile;
+export default MainProfile

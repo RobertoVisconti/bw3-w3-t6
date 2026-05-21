@@ -47,7 +47,8 @@ const SidebarStart = () => {
             <div
               className="w-100 custom-profile-card rounded-top-2 position-relative"
               style={{
-                backgroundImage: 'url("https://placebear.com/1000/1000")',
+                backgroundImage:
+                  'url("https://png.pngtree.com/background/20250104/original/pngtree-free-vector-linkedin-banner-with-linked-technology-and-gradient-texture-picture-image_15305713.jpg")',
               }}
             >
               <img
@@ -71,16 +72,16 @@ const SidebarStart = () => {
                 <img
                   src={
                     experiences && experiences.length > 0
-                      ? experiences[0].image
+                      ? experiences[experiences.length - 1].image
                       : "https://placehold.co/30x30"
                   }
                   alt="logo-lavoro"
-                  className="me-3"
+                  className="me-3 w-25"
                 />
                 <p className="p-0 m-0">
                   <b>
                     {experiences && experiences.length > 0
-                      ? experiences[0].role
+                      ? experiences[experiences.length - 1].role
                       : "Nessuna esperienza"}
                   </b>
                 </p>
