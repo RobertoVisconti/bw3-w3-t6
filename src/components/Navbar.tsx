@@ -9,12 +9,10 @@ import {
   ListGroup,
   Modal,
   Button,
-  NavbarCollapse,
 } from "react-bootstrap";
 import {
   FaLinkedin,
   FaSearch,
-  FaMapMarkerAlt,
   FaUserFriends,
   FaBriefcase,
   FaCommentDots,
@@ -27,6 +25,7 @@ import {
   FaCheckCircle,
   FaTimes,
   FaHome,
+  FaBars,
 } from "react-icons/fa";
 
 import { useEffect, useState, useRef, useMemo } from "react";
@@ -44,6 +43,8 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [showPremiumModal, setShowPremiumModal] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Stato di autenticazione reattivo
@@ -74,6 +75,7 @@ const Navbar = () => {
         setShowDropdown(false);
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -81,6 +83,7 @@ const Navbar = () => {
   // 🌟 OTTIMIZZAZIONE: Memorizziamo il filtro per evitare re-render infiniti in console
   const filteredResults = useMemo(() => {
     if (!searchQuery.trim()) return [];
+
     return (allProfiles || []).filter((user) =>
       `${user.name} ${user.surname}`
         .toLowerCase()
@@ -92,6 +95,7 @@ const Navbar = () => {
   if (!isLoggedIn) {
     return null;
   }
+
   const isHomePath =
     location.pathname === "/" ||
     location.pathname.startsWith("/notizia") ||
@@ -136,6 +140,7 @@ const Navbar = () => {
                 <InputGroup.Text className="bg-white border-end-0 rounded-start-pill">
                   <FaSearch />
                 </InputGroup.Text>
+
                 <Form.Control
                   placeholder="Qualifica, competenza..."
                   className="border-start-0 rounded-end-pill shadow-none"
@@ -179,6 +184,7 @@ const Navbar = () => {
                             objectFit: "cover",
                           }}
                         />
+
                         <div
                           className="d-flex flex-column overflow-hidden"
                           style={{ lineHeight: "1.2" }}
@@ -189,6 +195,7 @@ const Navbar = () => {
                           >
                             {user.name} {user.surname}
                           </span>
+
                           <span
                             className="text-muted text-truncate"
                             style={{ fontSize: "0.72rem" }}
@@ -206,22 +213,95 @@ const Navbar = () => {
                 </ListGroup>
               )}
             </div>
-
-            <InputGroup size="sm" className="linkedin-location">
-              <InputGroup.Text className="bg-white border-end-0 rounded-start-pill">
-                <FaMapMarkerAlt />
-              </InputGroup.Text>
-              <Form.Control
-                placeholder="Città, stato o..."
-                className="border-start-0 rounded-end-pill shadow-none"
-              />
-            </InputGroup>
           </div>
-          <div className="d-flex align-items-center">
-            <BsNavbar.Toggle
-              aria-controls="navbar-links"
-              className="border-0 shadow-none ms-auto"
-            />
+
+          <div className="d-flex align-items-center position-relative">
+            <button
+              type="button"
+              className="mobile-hamburger-btn border-0 bg-transparent"
+              onClick={() => setShowMobileMenu(!showMobileMenu)}
+            >
+              <FaBars />
+            </button>
+
+            {showMobileMenu && (
+              <div className="mobile-menu-panel">
+                <Link
+                  to="/"
+                  className="mobile-menu-item"
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <FaHome />
+                  Home
+                </Link>
+
+                <Link
+                  to="/rete"
+                  className="mobile-menu-item"
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <FaUserFriends />
+                  Rete
+                </Link>
+
+                <Link
+                  to="/lavoro"
+                  className="mobile-menu-item"
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <FaBriefcase />
+                  Lavoro
+                </Link>
+
+                <Link
+                  to="/messaggistica"
+                  className="mobile-menu-item"
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <FaCommentDots />
+                  Messaggistica
+                </Link>
+
+                <Link
+                  to="/notifiche"
+                  className="mobile-menu-item"
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <FaBell />
+                  Notifiche
+                </Link>
+
+                <div className="mobile-menu-item">
+                  <Image
+                    src={myProfile?.image || "/roberto.jpeg"}
+                    roundedCircle
+                    style={{
+                      width: "24px",
+                      height: "24px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  Tu
+                </div>
+
+                <div className="mobile-menu-item">
+                  <FaTh />
+                  Per le aziende
+                </div>
+
+                <button
+                  type="button"
+                  className="mobile-menu-item mobile-premium-item border-0 bg-transparent text-decoration-underline"
+                  onClick={() => {
+                    setShowPremiumModal(true);
+                    setShowMobileMenu(false);
+                  }}
+                >
+                  Prova premium per 0 €
+                </button>
+              </div>
+            )}
+
             <BsNavbar.Collapse id="navbar-links">
               <div className="d-flex justify-content-between w-100">
                 <Link
@@ -235,6 +315,7 @@ const Navbar = () => {
                   <FaHome />
                   <span>Home</span>
                 </Link>
+
                 <Link
                   to="/rete"
                   className={
@@ -299,9 +380,11 @@ const Navbar = () => {
                         objectFit: "cover",
                       }}
                     />
+
                     <span className="button-custom">
-                      Tu <FaCaretDown className="linkedin-caret " />
+                      Tu <FaCaretDown className="linkedin-caret" />
                     </span>
+
                     <Dropdown.Menu align="end" className="m-0 p-0">
                       <DropDownTu />
                     </Dropdown.Menu>
@@ -330,28 +413,35 @@ const Navbar = () => {
                     <div className="d-flex">
                       <div className="business-left p-4">
                         <h6 className="fw-bold mb-4">Le mie app</h6>
+
                         <div className="business-app mb-4">
                           <FaCompass className="business-icon" />
                           <strong>Vendi</strong>
                         </div>
+
                         <div className="business-app mb-4">
                           <FaUsers className="business-icon" />
                           <strong>Gruppi</strong>
                         </div>
+
                         <p className="text-secondary fw-bold small mb-4">
                           Talent
                         </p>
+
                         <div className="business-app mb-4">
                           <FaBriefcase className="business-icon" />
                           <strong>Assumi con l'IA</strong>
                         </div>
+
                         <div className="business-app mb-4">
                           <FaChartBar className="business-icon" />
                           <strong>Talent Insights</strong>
                         </div>
+
                         <p className="text-secondary fw-bold small mb-4">
                           Vendite
                         </p>
+
                         <div className="business-app">
                           <FaCheckCircle className="business-icon" />
                           <strong>Marketplace dei servizi</strong>
@@ -362,16 +452,19 @@ const Navbar = () => {
                         <h6 className="fw-bold mb-4">
                           Scopri altro per il business
                         </h6>
+
                         <div className="mb-4">
                           <strong>Assumi su LinkedIn</strong>
                           <p className="small mb-0">Trova, attrai e assumi</p>
                         </div>
+
                         <div className="mb-4">
                           <strong>Vendi con LinkedIn</strong>
                           <p className="small mb-0">
                             Sblocca nuove opportunità di vendita
                           </p>
                         </div>
+
                         <div className="mb-4">
                           <strong>
                             Pubblica un'offerta di lavoro gratuita
@@ -380,6 +473,7 @@ const Navbar = () => {
                             Trova candidati di qualità
                           </p>
                         </div>
+
                         <div className="mb-4">
                           <strong>Fai pubblicità su LinkedIn</strong>
                           <p className="small mb-0">
@@ -470,6 +564,7 @@ const Navbar = () => {
                   zIndex: 3,
                 }}
               />
+
               <Image
                 src="https://placehold.co/28x28"
                 roundedCircle
@@ -482,6 +577,7 @@ const Navbar = () => {
                   zIndex: 2,
                 }}
               />
+
               <Image
                 src="https://placehold.co/28x28"
                 roundedCircle
