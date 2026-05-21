@@ -379,7 +379,7 @@ const SideBarEnd = () => {
         </div>
       </Container>
 
-      <div className="position-sticky" style={{ top: "10px" }}>
+      <div className="position-sticky pt-2" style={{ top: "3em" }}>
         <EndSidebarEnd />
         <FooterMiniGenerale></FooterMiniGenerale>
       </div>

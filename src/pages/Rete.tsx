@@ -1,10 +1,11 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { ReteSidebar } from "../components/ReteSidebar";
 import { MainRete } from "../components/MainRete";
+import { FooterMiniGenerale } from "../components/footer/FooterMiniGenerale";
 
 export const Rete = () => {
   return (
-    <Container fluid="md" className="px-0  mt-sm-4">
+    <Container fluid="lg" className="mt-3">
       <Row className="g-0 g-sm-3">
         {/* sidebar sx */}
         <Col xs={12} md={4} lg={3}>
@@ -17,6 +18,9 @@ export const Rete = () => {
           <MainRete></MainRete>
         </Col>
       </Row>
+      <div className="d-md-none">
+        <FooterMiniGenerale />
+      </div>
     </Container>
   );
 };

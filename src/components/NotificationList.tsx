@@ -15,7 +15,7 @@ const NotificationList = () => {
   const listaContatti = useSelector((state: RootState) => state.rete.listaRete);
 
   return (
-    <div className="bg-white border rounded-3 shadow-sm my-2">
+    <div className="bg-white border-card-linkedin rounded-3 mb-2">
       {/* Filtri Superiori */}
       <div className="p-3 border-bottom d-flex gap-2 align-items-center flex-wrap">
         <Button

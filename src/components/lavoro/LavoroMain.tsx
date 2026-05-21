@@ -20,18 +20,18 @@ const LavoroMain = function () {
   const [visualizzatiRandom, setVisualizzatiRandom] = useState(5);
 
   return (
-    <Container className="mt-2 mb-5 d-flex flex-column gap-3">
+    <Container fluid className="mt-3 mb-5 pb-2 d-flex flex-column gap-3">
       {/* LAVORI PENSATI PER TE */}
       <Row className="bg-white rounded-3 border">
         <Col xs={12} className="pt-3">
-          <h3>Le principali offerte di lavoro</h3>
-          <p className=" text-secondary" style={{ lineHeight: "1" }}>
+          <h3 className="text-center">Le principali offerte di lavoro</h3>
+          <p className=" text-secondary text-center" style={{ lineHeight: "1" }}>
             In base al tuo profilo , alle tue preferenze e ad attivitá come
             candidature , ricerche e salvataggi
           </p>
         </Col>
         <Col>
-          <Container className="d-flex justify-content-between">
+          <Container fluid className="d-flex justify-content-between">
             <Row className="d-flex">
               <Col>
                 {isLoading
@@ -74,14 +74,14 @@ const LavoroMain = function () {
       </Row>
       <Row className="bg-white rounded-3 border">
         <Col xs={12} className="pt-3">
-          <h3>Altre offerte di lavoro</h3>
-          <p className=" text-secondary" style={{ lineHeight: "1" }}>
+          <h3 className="text-center">Altre offerte di lavoro</h3>
+          <p className=" text-secondary text-center" style={{ lineHeight: "1" }}>
             In base al tuo profilo , alle tue preferenze e ad attivitá come
             candidature , ricerche e salvataggi
           </p>
         </Col>
         <Col>
-          <Container className="d-flex justify-content-between">
+          <Container fluid className="d-flex justify-content-between">
             <Row className="d-flex">
               <Col>
                 {isLoading

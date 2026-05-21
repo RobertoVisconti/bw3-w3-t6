@@ -4,14 +4,14 @@ import Messaggistica from "../components/generali/Messaggistica";
 
 const ChatExpand = () => {
   return (
-    <Container>
+    <Container fluid="xl" className="mt-3">
       <Row>
         {/* Colonna Chat */}
-        <Col md={9}>
+        <Col md={8} lg={9}>
           <Messaggistica />
         </Col>
         {/* Colonna Footer */}
-        <Col md={3}>
+        <Col md={4} lg={3}>
           <ReteSidebar />
         </Col>
       </Row>

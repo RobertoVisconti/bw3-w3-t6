@@ -9,6 +9,7 @@ import {
   ListGroup,
   Modal,
   Button,
+  NavbarCollapse,
 } from "react-bootstrap";
 import {
   FaLinkedin,
@@ -91,6 +92,10 @@ const Navbar = () => {
   if (!isLoggedIn) {
     return null;
   }
+  const isHomePath =
+    location.pathname === "/" ||
+    location.pathname.startsWith("/notizia") ||
+    location.pathname.startsWith("/giochi");
 
   return (
     <>
@@ -105,7 +110,11 @@ const Navbar = () => {
       )}
 
       {/* 🌟 ROBUSTEZZA: Mostriamo comunque la struttura della Navbar anche se il profilo sta caricando */}
-      <BsNavbar bg="white" className="border-bottom py-0 linkedin-navbar">
+      <BsNavbar
+        bg="white"
+        className="border-bottom py-0 linkedin-navbar"
+        expand="md"
+      >
         <Container
           fluid
           className="d-flex align-items-center justify-content-center gap-3"
@@ -208,142 +217,181 @@ const Navbar = () => {
               />
             </InputGroup>
           </div>
-  
-              <Link to="/" className="linkedin-item home-shift">
-            <FaHome />
-            <span>Home</span>
-          </Link>
-
           <div className="d-flex align-items-center">
-            <Link to="/rete" className="linkedin-item">
-              <FaUserFriends />
-              <span>La mia rete</span>
-            </Link>
-
-            <Link
-              to="/lavoro"
-              className={
-                location.pathname.includes("/lavoro") ||
-                location.pathname.includes("/dettaglio-lavoro")
-                  ? "linkedin-item text-black"
-                  : "linkedin-item"
-              }
-            >
-              <FaBriefcase />
-              <span>Lavoro</span>
-            </Link>
-
-            <Link to="/messaggistica" className="linkedin-item">
-              <FaCommentDots />
-              <span>Messaggistica</span>
-            </Link>
-
-            <Link to="/notifiche" className="linkedin-item">
-              <FaBell />
-              <span>Notifiche</span>
-            </Link>
-
-            <Dropdown className="linkedin-business-dropdown">
-              <Dropdown.Toggle
-                as="div"
-                className="button-custom d-flex flex-column linkedin-item linkedin-business"
+            <BsNavbar.Toggle
+              aria-controls="navbar-links"
+              className="border-0 shadow-none ms-auto"
+            />
+            <BsNavbar.Collapse>
+              <Link
+                to="/"
+                className={
+                  isHomePath
+                    ? "linkedin-item text-black home-shift"
+                    : "linkedin-item home-shift"
+                }
               >
-                <Image
-                  src={myProfile?.image || "/roberto.jpeg"} // Operatore Optional Chaining di sicurezza
-                  roundedCircle
-                  className="linkedin-avatar"
-                  style={{
-                    width: "25px",
-                    height: "25px",
-                    objectFit: "cover",
-                  }}
-                />
-                <span className="button-custom">
-                  Tu <FaCaretDown className="linkedin-caret " />
-                </span>
-                <Dropdown.Menu align="end" className="m-0 p-0">
-                  <DropDownTu />
+                <FaHome />
+                <span>Home</span>
+              </Link>
+              <Link
+                to="/rete"
+                className={
+                  location.pathname.includes("/rete")
+                    ? "linkedin-item text-black"
+                    : "linkedin-item"
+                }
+              >
+                <FaUserFriends />
+                <span>Rete</span>
+              </Link>
+
+              <Link
+                to="/lavoro"
+                className={
+                  location.pathname.includes("/lavoro") ||
+                  location.pathname.includes("/dettaglio-lavoro")
+                    ? "linkedin-item text-black"
+                    : "linkedin-item"
+                }
+              >
+                <FaBriefcase />
+                <span>Lavoro</span>
+              </Link>
+
+              <Link
+                to="/messaggistica"
+                className={
+                  location.pathname.includes("/messaggistica")
+                    ? "linkedin-item text-black"
+                    : "linkedin-item"
+                }
+              >
+                <FaCommentDots />
+                <span>Messaggistica</span>
+              </Link>
+
+              <Link
+                to="/notifiche"
+                className={
+                  location.pathname.includes("/notifiche")
+                    ? "linkedin-item text-black"
+                    : "linkedin-item"
+                }
+              >
+                <FaBell />
+                <span>Notifiche</span>
+              </Link>
+
+              <Dropdown className="linkedin-business-dropdown">
+                <Dropdown.Toggle
+                  as="div"
+                  className="button-custom d-flex flex-column linkedin-item linkedin-business"
+                >
+                  <Image
+                    src={myProfile?.image || "/roberto.jpeg"} // Operatore Optional Chaining di sicurezza
+                    roundedCircle
+                    className="linkedin-avatar"
+                    style={{
+                      width: "25px",
+                      height: "25px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <span className="button-custom">
+                    Tu <FaCaretDown className="linkedin-caret " />
+                  </span>
+                  <Dropdown.Menu align="end" className="m-0 p-0">
+                    <DropDownTu />
+                  </Dropdown.Menu>
+                </Dropdown.Toggle>
+              </Dropdown>
+
+              <div className="vr mx-2 linkedin-divider"></div>
+
+              <Dropdown className="linkedin-business-dropdown">
+                <Dropdown.Toggle
+                  as="div"
+                  className="linkedin-item linkedin-business"
+                >
+                  <FaTh />
+                  <span>
+                    Per le aziende <FaCaretDown className="linkedin-caret" />
+                  </span>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu
+                  align="end"
+                  className="linkedin-business-menu p-0"
+                >
+                  <div className="d-flex">
+                    <div className="business-left p-4">
+                      <h6 className="fw-bold mb-4">Le mie app</h6>
+                      <div className="business-app mb-4">
+                        <FaCompass className="business-icon" />
+                        <strong>Vendi</strong>
+                      </div>
+                      <div className="business-app mb-4">
+                        <FaUsers className="business-icon" />
+                        <strong>Gruppi</strong>
+                      </div>
+                      <p className="text-secondary fw-bold small mb-4">
+                        Talent
+                      </p>
+                      <div className="business-app mb-4">
+                        <FaBriefcase className="business-icon" />
+                        <strong>Assumi con l'IA</strong>
+                      </div>
+                      <div className="business-app mb-4">
+                        <FaChartBar className="business-icon" />
+                        <strong>Talent Insights</strong>
+                      </div>
+                      <p className="text-secondary fw-bold small mb-4">
+                        Vendite
+                      </p>
+                      <div className="business-app">
+                        <FaCheckCircle className="business-icon" />
+                        <strong>Marketplace dei servizi</strong>
+                      </div>
+                    </div>
+
+                    <div className="business-right p-4">
+                      <h6 className="fw-bold mb-4">
+                        Scopri altro per il business
+                      </h6>
+                      <div className="mb-4">
+                        <strong>Assumi su LinkedIn</strong>
+                        <p className="small mb-0">Trova, attrai e assumi</p>
+                      </div>
+                      <div className="mb-4">
+                        <strong>Vendi con LinkedIn</strong>
+                        <p className="small mb-0">
+                          Sblocca nuove opportunità di vendita
+                        </p>
+                      </div>
+                      <div className="mb-4">
+                        <strong>Pubblica un'offerta di lavoro gratuita</strong>
+                        <p className="small mb-0">Trova candidati di qualità</p>
+                      </div>
+                      <div className="mb-4">
+                        <strong>Fai pubblicità su LinkedIn</strong>
+                        <p className="small mb-0">
+                          Acquisisci clienti e fai crescere l'azienda
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </Dropdown.Menu>
-              </Dropdown.Toggle>
-            </Dropdown>
+              </Dropdown>
 
-            <div className="vr mx-2 linkedin-divider"></div>
-
-            <Dropdown className="linkedin-business-dropdown">
-              <Dropdown.Toggle
-                as="div"
-                className="linkedin-item linkedin-business"
+              <button
+                type="button"
+                className="linkedin-premium text-decoration-underline border-0 bg-transparent"
+                onClick={() => setShowPremiumModal(true)}
               >
-                <FaTh />
-                <span>
-                  Per le aziende <FaCaretDown className="linkedin-caret" />
-                </span>
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu align="end" className="linkedin-business-menu p-0">
-                <div className="d-flex">
-                  <div className="business-left p-4">
-                    <h6 className="fw-bold mb-4">Le mie app</h6>
-                    <div className="business-app mb-4">
-                      <FaCompass className="business-icon" />
-                      <strong>Vendi</strong>
-                    </div>
-                    <div className="business-app mb-4">
-                      <FaUsers className="business-icon" />
-                      <strong>Gruppi</strong>
-                    </div>
-                    <p className="text-secondary fw-bold small mb-4">Talent</p>
-                    <div className="business-app mb-4">
-                      <FaBriefcase className="business-icon" />
-                      <strong>Assumi con l'IA</strong>
-                    </div>
-                    <div className="business-app mb-4">
-                      <FaChartBar className="business-icon" />
-                      <strong>Talent Insights</strong>
-                    </div>
-                    <p className="text-secondary fw-bold small mb-4">Vendite</p>
-                    <div className="business-app">
-                      <FaCheckCircle className="business-icon" />
-                      <strong>Marketplace dei servizi</strong>
-                    </div>
-                  </div>
-
-                  <div className="business-right p-4">
-                    <h6 className="fw-bold mb-4">
-                      Scopri altro per il business
-                    </h6>
-                    <div className="mb-4">
-                      <strong>Assumi su LinkedIn</strong>
-                      <p className="small mb-0">Trova, attrai e assumi</p>
-                    </div>
-                    <div className="mb-4">
-                      <strong>Vendi con LinkedIn</strong>
-                      <p className="small mb-0">
-                        Sblocca nuove opportunità di vendita
-                      </p>
-                    </div>
-                    <div className="mb-4">
-                      <strong>Pubblica un'offerta di lavoro gratuita</strong>
-                      <p className="small mb-0">Trova candidati di qualità</p>
-                    </div>
-                    <div className="mb-4">
-                      <strong>Fai pubblicità su LinkedIn</strong>
-                      <p className="small mb-0">
-                        Acquisisci clienti e fai crescere l'azienda
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </Dropdown.Menu>
-            </Dropdown>
-
-            <button
-              type="button"
-              className="linkedin-premium text-decoration-underline border-0 bg-transparent"
-              onClick={() => setShowPremiumModal(true)}
-            >
-              Prova premium per 0 €
-            </button>
+                Prova premium per 0 €
+              </button>
+            </BsNavbar.Collapse>
           </div>
         </Container>
       </BsNavbar>

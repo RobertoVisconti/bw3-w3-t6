@@ -67,14 +67,14 @@ const AppContent = () => {
   const isLoginPage = location.pathname === "/login";
   const isSettingsPage = location.pathname === "/impostazioni";
   return (
-    <div className="d-flex flex-column min-vh-100">
+    <div className="d-flex flex-column min-vh-100 ">
       {!isLoginPage && (
-        <header>
+        <header className="position-fixed w-100 z-1">
           <Navbar />
         </header>
       )}
 
-      <main className="flex-grow-1">
+      <main className="flex-grow-1 pt-5">
         <Routes>
           <Route element={<Home />}>
             <Route path="/" element={<MainCenter />} />

@@ -17,7 +17,7 @@ const SidebarStart = () => {
   }, [dispatch])
 
   return (
-    <div className="position-sticky" style={{ top: "10px" }}>
+    <div className="position-sticky pt-2" style={{ top: "3em" }}>
       {/* section profilo */}
       {/* ! PAGE LAVORO --> la section profilo rimane invariata al cambio tra Home e Lavoro */}
       {isLoading && (

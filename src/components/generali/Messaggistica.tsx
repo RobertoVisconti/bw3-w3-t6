@@ -76,12 +76,12 @@ const Messaggistica = () => {
   };
 
   return (
-    <Container className="mt-4 pt-3" style={{ maxWidth: "1200px" }}>
-      <Row className="g-3">
+    <Container fluid>
+      <Row >
         {/* COLONNA SINISTRA: LISTA CHAT */}
-        <Col md={4} lg={4}>
+        <Col md={6} lg={4} className="p-0">
           <div
-            className="bg-white rounded-3 border shadow-sm d-flex flex-column"
+            className="bg-white rounded-start-3 border shadow-sm d-flex flex-column"
             style={{ height: "80vh" }}
           >
             {/* Header Lista */}
@@ -185,9 +185,9 @@ const Messaggistica = () => {
         </Col>
 
         {/* COLONNA DESTRA: FINESTRA DI CONVERSAZIONE ATTIVA */}
-        <Col md={8} lg={8}>
+        <Col md={6} lg={8} className="p-0">
           <div
-            className="bg-white rounded-3 border shadow-sm d-flex flex-column"
+            className="bg-white rounded-end-3 border shadow-sm d-flex flex-column"
             style={{ height: "80vh" }}
           >
             {activeChat ? (

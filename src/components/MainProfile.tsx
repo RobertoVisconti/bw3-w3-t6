@@ -115,7 +115,7 @@ const MainProfile = () => {
 
       {displayedProfile && (
         <div className="d-flex flex-column gap-3">
-          <section className="bg-light border border-secondary rounded-3 my-2">
+          <section className="bg-light border-card-linkedin rounded-3 my-2">
             {/* banner */}
             <div
               className="w-100 custom-profile-card rounded-top-2 position-relative"
@@ -297,7 +297,7 @@ const MainProfile = () => {
           </section>
 
           {/* SEZIONE: INFORMAZIONI / BIO */}
-          <section className="bg-light border border-secondary rounded-3 p-3">
+          <section className="bg-light border-card-linkedin rounded-3 p-3">
             <div className="d-flex align-items-center justify-content-between mb-2">
               <h2 className="fs-4 fw-bold m-0">Informazioni</h2>
             </div>
@@ -313,7 +313,7 @@ const MainProfile = () => {
           </section>
 
           {/* SEZIONE: ESPERIENZE */}
-          <section className="bg-light border border-secondary rounded-3 p-3">
+          <section className="bg-light border-card-linkedin rounded-3 p-3">
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h2 className="fs-4 fw-bold m-0">Esperienza</h2>
 

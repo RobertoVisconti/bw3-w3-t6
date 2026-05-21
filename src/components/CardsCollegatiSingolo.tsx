@@ -37,7 +37,7 @@ export const CardsCollegatiSingolo = ({
   };
 
   return (
-    <Card className="position-relative" style={{ height: "320px" }}>
+    <Card className="position-relative border-card-linkedin shadow-sm" style={{ height: "320px" }}>
       <Card.Img
         style={{ height: "60px" }}
         variant="top"
