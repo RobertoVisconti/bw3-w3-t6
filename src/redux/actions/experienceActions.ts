@@ -37,6 +37,7 @@ export const createExperience =
         expData,
       )
       dispatch({ type: CREATE_EXP_SUCCESS, payload: data })
+      return data; // FONDAMENTALE: ritorna la risposta per estrarre l'_id nel componente!
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Errore sconosciuto"
       dispatch({ type: EXP_ERROR, payload: msg })
@@ -54,6 +55,7 @@ export const updateExperience =
         expData,
       )
       dispatch({ type: UPDATE_EXP_SUCCESS, payload: { expId, data } })
+      return data;
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Errore sconosciuto"
       dispatch({ type: EXP_ERROR, payload: msg })
