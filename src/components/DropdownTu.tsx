@@ -38,7 +38,7 @@ const DropDownTu = () => {
     { label: "Prova 1 mese di Premium per 0€", path: "/premium" },
     { label: "Impostazioni e privacy", path: "/impostazioni" },
     { label: "Guida", path: "/help" },
-    { label: "Lingua", path: "/Languages" }, 
+    { label: "Lingua", path: "/Languages" },
     { label: "Gestisci", path: "/manage" },
     { label: "Post e attività", path: "/activities" },
     {
@@ -68,7 +68,7 @@ const DropDownTu = () => {
       {error && <div className="alert alert-danger">{error}</div>}
 
       {myProfile && (
-        <section className="d-flex flex-column bg-light border border-secondary rounded-3 my-2 align-items-center p-3">
+        <section className="d-flex flex-column bg-light border border-secondary rounded-3  align-items-center p-3">
           <div className="d-flex">
             <Image
               src={myProfile.image}
@@ -102,7 +102,7 @@ const DropDownTu = () => {
             className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2"
             to="/profilo"
           />
-             {/* Primi 5 Link (Indici 0-4) */}
+          {/* Primi 5 Link (Indici 0-4) */}
           {links.slice(0, 5).map((link, i) => (
             <Col xs={12} key={i} className={i === 0 ? "bold-link" : ""}>
               <a
@@ -117,7 +117,7 @@ const DropDownTu = () => {
 
           <hr className="w-100" />
           {/* Aggiunto w-100 per renderlo visibile a tutta larghezza se necessario */}
-            {/* Successivi 3 Link (Indici 5-7) */}
+          {/* Successivi 3 Link (Indici 5-7) */}
           {links.slice(5, 8).map((link, i) => (
             <Col xs={12} key={i} className={i === 0 ? "bold-link" : ""}>
               <a
