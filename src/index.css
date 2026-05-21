@@ -291,7 +291,22 @@
   background: #fff;
 }
 /* NAVBAR */
-/* .navbar-collapse {
+.navbar-collapse {
+  width: 100%;
   background: #fff !important;
   z-index: 1000 !important;
-} */
+}
+@media (max-width: 767px) {
+  .navbar-collapse {
+    display: flex;
+    background: #fff;
+    padding: 12px 16px;
+    border-top: 1px solid #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  }
+}
