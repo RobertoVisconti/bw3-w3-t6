@@ -5,16 +5,16 @@ import { useParams, useNavigate } from "react-router-dom";
 import {
   getMyProfileAsync,
   uploadProfileImage,
+  deleteProfileImage,
 } from "../redux/actions/profileActions";
 import { GoShieldCheck } from "react-icons/go";
 import ButtonLinkedin from "./generali/ButtonLinkedin";
 import ModalePresentazione from "../components/ModalePresentazione";
 import ProfileModals from "../components/ProfileModals";
 import { Button, Dropdown } from "react-bootstrap";
-import { FaPen, FaUserPlus, FaEnvelope, FaBriefcase } from "react-icons/fa";
+import { FaPen, FaUserPlus, FaEnvelope } from "react-icons/fa";
 import { AiOutlinePicture } from "react-icons/ai";
 import { IoMdPhotos } from "react-icons/io";
-
 import { FiPlus } from "react-icons/fi";
 import MapExp from "./MapExp";
 import { getExperience } from "../redux/actions/experienceActions";
@@ -69,6 +69,15 @@ const MainProfile = () => {
     setSelectedFile(null);
     setPreview(null);
     handleCloseImg();
+  };
+
+  // 🔥 NUOVA FUNZIONE: Gestisce l'eliminazione "finta" resettando l'immagine a stringa vuota tramite API
+  const handleDelete = async () => {
+    await dispatch(deleteProfileImage());
+
+    // Puliamo anche gli stati locali delle anteprime per sicurezza
+    setSelectedFile(null);
+    setPreview(null);
   };
 
   // Carico il mio profilo al mount
@@ -361,6 +370,7 @@ const MainProfile = () => {
         handleCloseUpPic={handleCloseUpPic}
         preview={preview}
         handleUpload={handleUpload}
+        handleDeleteImage={handleDelete}
         setSelectedFile={setSelectedFile}
         setPreview={setPreview}
       />
