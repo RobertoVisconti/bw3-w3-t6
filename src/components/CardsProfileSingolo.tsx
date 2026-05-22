@@ -36,7 +36,7 @@ export const CardsProfileSingolo = (props: CardsCollegatiProps) => {
             aspectRatio: "1/1",
           }}
           className="rounded-circle mx-auto"
-          src={image || "https://placecats.com/100/100"}
+          src={image || "https://placecats.com/50/50"}
         />
         <Card.Body className="p-0 d-flex flex-column overflow-hidden w-100">
           <div className="overflow-hidden w-100" style={{ maxHeight: "65px" }}>
