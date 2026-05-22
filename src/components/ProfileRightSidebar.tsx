@@ -50,9 +50,12 @@ const ProfileRightSidebar = () => {
           </div>
         </Card.Body>
       </Card>
-      <div>
-        <CardsProfile></CardsProfile>
-      </div>
+      <Card className="rounded-3 overflow-hidden">
+        <h6 className="fw-semibold p-3 mb-0 border-bottom">
+          Persone che potresti conoscere
+        </h6>
+        <CardsProfile initialLimit={8} />
+      </Card>
 
       {/* <Card className="rounded-3">
         <Card.Body className="p-3">
