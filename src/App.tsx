@@ -67,8 +67,8 @@ const AppContent = () => {
 
   useEffect(() => {
     dispatch(getNewsAsync());
-    dispatch(getJobsAsync()); // se vuoi anche i jobs
-  }, []);
+    dispatch(getJobsAsync());
+  }, [dispatch]);
 
   const isLoginPage = location.pathname === "/login";
   const isSettingsPage = location.pathname === "/impostazioni";
@@ -113,7 +113,7 @@ const AppContent = () => {
         </Routes>
       </main>
 
-      {/* Mostra la ChatBar solo se l'utente è loggato e fuori dal login */}
+      {/* Mostra la ChatBar solo se l'utente Ã¨ loggato e fuori dal login */}
       {!isLoginPage && !isSettingsPage && <ChatBar />}
       <footer></footer>
     </div>

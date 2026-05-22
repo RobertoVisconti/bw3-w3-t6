@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 
 import { CardsProfile } from "./CardsProfile";
+import { Link } from "react-router-dom";
 
 const ProfileRightSidebar = () => {
   const [showLanguageModal, setShowLanguageModal] = useState(false);
@@ -49,11 +50,18 @@ const ProfileRightSidebar = () => {
             </Button>
           </div>
         </Card.Body>
+      </Card>{" "}
+      <Link to="/Lavoro">
+        <img
+          src="/JobImg.png"
+          alt="Job Advertisement"
+          className="w-100 h-auto my-2 d-none d-sm-block"
+        />
+      </Link>
+      <Card className="rounded-3 overflow-hidden">
+        <h6 className="fw-semibold p-3 mb-0">Persone che potresti conoscere</h6>
+        <CardsProfile initialLimit={8} />
       </Card>
-      <div>
-        <CardsProfile></CardsProfile>
-      </div>
-
       {/* <Card className="rounded-3">
         <Card.Body className="p-3">
           <h6 className="fw-semibold mb-0">Persone che potresti conoscere</h6>
@@ -92,7 +100,6 @@ const ProfileRightSidebar = () => {
           </div>
         </Card.Body>
       </Card> */}
-
       <Modal
         show={showLanguageModal}
         onHide={() => setShowLanguageModal(false)}

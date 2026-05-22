@@ -24,7 +24,7 @@ export const CardsProfileSingolo = (props: CardsCollegatiProps) => {
 
   return (
     <Card
-      className="position-relative  shadow-sm p-3 rounded-0"
+      className="position-relative  shadow-sm p-3 rounded-0 border-top-0"
       style={{ height: "130px" }}
     >
       <div className="d-flex gap-1">

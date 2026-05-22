@@ -334,6 +334,14 @@ const MainProfile = () => {
                   : "L'utente non ha ancora inserito una descrizione di presentazione.")}
             </p>
           </section>
+          {/* SEZIONE: INTERESSI */}
+          <section>
+            {" "}
+            <Card className="rounded-3 overflow-hidden">
+              <h6 className="fw-semibold p-3 mb-0">Interessi</h6>
+              <CardsProfile initialLimit={2} collegati={false} />
+            </Card>
+          </section>
 
           {/* SEZIONE: ESPERIENZE */}
           <section className="bg-light border-card-linkedin rounded-3 p-3">
