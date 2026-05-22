@@ -1,80 +1,80 @@
-import { useState, useRef } from "react";
-import { Col, FormControl, Modal, Button } from "react-bootstrap";
-import { PiVideoFill, PiArticleBold, PiXBold } from "react-icons/pi";
-import { AiFillPicture } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../../redux/store";
-import { createPost, uploadPostImage } from "../../redux/actions/postActions";
-import type { Post } from "../../interfaces/interfaces";
-import { BsCalendarEvent, BsChevronDown, BsClockHistory } from "react-icons/bs";
-import { FaAward } from "react-icons/fa";
-import EmojiPickerButton from "../generali/emojiButton";
+import { useState, useRef } from "react"
+import { Col, FormControl, Modal, Button } from "react-bootstrap"
+import { PiVideoFill, PiArticleBold, PiXBold } from "react-icons/pi"
+import { AiFillPicture } from "react-icons/ai"
+import { useDispatch, useSelector } from "react-redux"
+import type { AppDispatch, RootState } from "../../redux/store"
+import { createPost, uploadPostImage } from "../../redux/actions/postActions"
+import type { Post } from "../../interfaces/interfaces"
+import { BsCalendarEvent, BsChevronDown, BsClockHistory } from "react-icons/bs"
+import { FaAward } from "react-icons/fa"
+import EmojiPickerButton from "../generali/emojiButton"
 
 const FormPost = function () {
-  const emojiPostRef = useRef<HTMLInputElement>(null);
+  const emojiPostRef = useRef<HTMLInputElement>(null)
 
-  const dispatch = useDispatch<AppDispatch>();
-  const { myProfile } = useSelector((state: RootState) => state.profile);
+  const dispatch = useDispatch<AppDispatch>()
+  const { myProfile } = useSelector((state: RootState) => state.profile)
   // Estraiamo isLoading dallo stato dei post di Redux
-  const { isLoading } = useSelector((state: RootState) => state.post);
+  const { isLoading } = useSelector((state: RootState) => state.post)
 
-  const [showModal, setShowModal] = useState(false);
-  const [postText, setPostText] = useState("");
+  const [showModal, setShowModal] = useState(false)
+  const [postText, setPostText] = useState("")
 
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null)
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleClose = () => {
     // Impedisci la chiusura accidentale se sta caricando
-    if (isLoading) return;
-    setShowModal(false);
-    setPostText("");
-    setSelectedImage(null);
-    setImagePreview(null);
-  };
+    if (isLoading) return
+    setShowModal(false)
+    setPostText("")
+    setSelectedImage(null)
+    setImagePreview(null)
+  }
 
-  const handleShow = () => setShowModal(true);
+  const handleShow = () => setShowModal(true)
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setSelectedImage(file);
-      setImagePreview(URL.createObjectURL(file));
+      const file = e.target.files[0]
+      setSelectedImage(file)
+      setImagePreview(URL.createObjectURL(file))
     }
-  };
+  }
 
   const handleRemoveImage = () => {
-    setSelectedImage(null);
-    setImagePreview(null);
-  };
+    setSelectedImage(null)
+    setImagePreview(null)
+  }
 
   const handlePublish = async () => {
-    if (postText.trim() === "" || isLoading) return;
+    if (postText.trim() === "" || isLoading) return
 
     if (!myProfile) {
-      console.error("Profilo non caricato. Impossibile pubblicare.");
-      return;
+      console.error("Profilo non caricato. Impossibile pubblicare.")
+      return
     }
 
     try {
       // 1. Creiamo prima il post testuale
       const newPost = await (dispatch(
         createPost({ text: postText }, myProfile),
-      ) as unknown as Promise<Post | null>);
+      ) as unknown as Promise<Post | null>)
 
       // 2. Se il post è nato e c'è una foto, aspettiamo che finisca l'upload dell'immagine
       if (newPost && newPost._id && selectedImage) {
-        await dispatch(uploadPostImage(newPost._id, selectedImage, myProfile));
+        await dispatch(uploadPostImage(newPost._id, selectedImage, myProfile))
       }
 
       // 3. Solo a questo punto (quando Redux ha aggiornato lo stato con il post completo) chiudiamo la modale
-      handleClose();
+      handleClose()
     } catch (error) {
-      console.error("Errore durante la pubblicazione:", error);
+      console.error("Errore durante la pubblicazione:", error)
     }
-  };
+  }
 
   return (
     <>
@@ -119,21 +119,25 @@ const FormPost = function () {
               className="btn btn-link text-secondary text-decoration-none d-flex align-items-center gap-2 fw-semibold border-0 p-2"
             >
               <AiFillPicture className="fs-4 text-primary" />
-              <span className="small text-dark">Contenuti multimediali</span>
+              <span className="small text-dark link-custom">
+                Contenuti multimediali
+              </span>
             </button>
             <button
               onClick={handleShow}
               className="btn btn-link text-secondary text-decoration-none d-flex align-items-center gap-2 fw-semibold border-0 p-2"
             >
               <PiVideoFill className="fs-4 text-success" />
-              <span className="small text-dark">Video</span>
+              <span className="small text-dark link-custom">Video</span>
             </button>
             <button
               onClick={handleShow}
               className="btn btn-link text-secondary text-decoration-none d-flex align-items-center gap-2 fw-semibold border-0 p-2"
             >
               <PiArticleBold className="fs-4 text-danger" />
-              <span className="small text-dark">Scrivi un articolo</span>
+              <span className="small text-dark link-custom">
+                Scrivi un articolo
+              </span>
             </button>
           </div>
         </Col>
@@ -309,7 +313,7 @@ const FormPost = function () {
         </Modal.Footer>
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default FormPost;
+export default FormPost

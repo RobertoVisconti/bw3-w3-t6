@@ -1,22 +1,22 @@
-import { useState } from "react";
-import { Container, ListGroup } from "react-bootstrap";
-import { IoMdInformationCircleOutline } from "react-icons/io";
+import { useState } from "react"
+import { Container, ListGroup } from "react-bootstrap"
+import { IoMdInformationCircleOutline } from "react-icons/io"
 import {
   IoChevronDownOutline,
   IoChevronForwardOutline,
   IoChevronUpOutline,
-} from "react-icons/io5";
+} from "react-icons/io5"
 
-import { FooterMiniGenerale } from "../footer/FooterMiniGenerale";
-import EndSidebarEnd from "./endSidebarEnd";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../redux/store";
-import type { News } from "../../interfaces/interfaces";
-import { useNavigate } from "react-router-dom";
-import formatDate from "../generali/formatDate";
+import { FooterMiniGenerale } from "../footer/FooterMiniGenerale"
+import EndSidebarEnd from "./endSidebarEnd"
+import { useSelector } from "react-redux"
+import type { RootState } from "../../redux/store"
+import type { News } from "../../interfaces/interfaces"
+import { useNavigate } from "react-router-dom"
+import formatDate from "../generali/formatDate"
 
 const SideBarEnd = () => {
-  const [giochiVisualizzati, setGiochiVisualizzati] = useState(4);
+  const [giochiVisualizzati, setGiochiVisualizzati] = useState(4)
   const gamesData = [
     {
       id: 1,
@@ -72,17 +72,17 @@ const SideBarEnd = () => {
       bgIcon: "#fce4ec",
       route: "/giochi/flappy",
     },
-  ];
-  const navigate = useNavigate();
-  const [activeNews, setActiveNews] = useState("");
+  ]
+  const navigate = useNavigate()
+  const [activeNews, setActiveNews] = useState("")
 
-  const news = useSelector((state: RootState) => state.news.news);
-  const [notizieMostrate, setNotizieMostrate] = useState(5);
+  const news = useSelector((state: RootState) => state.news.news)
+  const [notizieMostrate, setNotizieMostrate] = useState(5)
   return (
     <>
       <Container
         fluid
-        className="bg-white rounded-3 border-card-linkedin shadow-sm p-0 text-start m-0 my-2 d-none d-sm-block"
+        className="bg-white rounded-3 border-card-linkedin shadow-sm p-0 text-start m-0 my-3 d-none d-sm-block"
       >
         {/* ================= SEZIONE NOTIZIE ================= */}
         <div className="pt-3" style={{ textAlign: "left" }}>
@@ -145,11 +145,11 @@ const SideBarEnd = () => {
                 }}
                 onMouseEnter={(e) => {
                   if (activeNews !== news.id)
-                    e.currentTarget.style.backgroundColor = "#f3f3f3";
+                    e.currentTarget.style.backgroundColor = "#f3f3f3"
                 }}
                 onMouseLeave={(e) => {
                   if (activeNews !== news.id)
-                    e.currentTarget.style.backgroundColor = "transparent";
+                    e.currentTarget.style.backgroundColor = "transparent"
                 }}
               >
                 {/* Titolo  */}
@@ -361,9 +361,9 @@ const SideBarEnd = () => {
             }}
             onClick={() => {
               if (giochiVisualizzati === 4) {
-                setGiochiVisualizzati(gamesData.length);
+                setGiochiVisualizzati(gamesData.length)
               } else {
-                setGiochiVisualizzati(4);
+                setGiochiVisualizzati(4)
               }
             }}
           >
@@ -384,7 +384,7 @@ const SideBarEnd = () => {
         <FooterMiniGenerale></FooterMiniGenerale>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default SideBarEnd;
+export default SideBarEnd

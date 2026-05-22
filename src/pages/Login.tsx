@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Container, Card, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
@@ -12,14 +12,6 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Se l'utente risulta già loggato nel localStorage, mandalo direttamente alla Home "/"
-    const userHasLogged = localStorage.getItem("isLoggedIn") === "true";
-    if (userHasLogged) {
-      navigate("/");
-    }
-  }, [navigate]);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg("");
@@ -27,10 +19,10 @@ const Login = () => {
     const passwordValida = "Epicode2026";
 
     if (email === emailValida && password === passwordValida) {
-      console.log("Login effettuato con successo!");
+      console.log("✅ Login effettuato con successo!");
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("userEmail", email);
-      navigate("/");
+      navigate("/", { replace: true });
     } else {
       setErrorMsg(
         "Email o password non valide. Usa l'indirizzo associato al tuo profilo Epicode.",
@@ -43,7 +35,8 @@ const Login = () => {
       fluid
       className="vh-100 bg-white bg-sm-light d-flex flex-column p-0"
     >
-      <header className="p-3 p-sm-5 ms-0 ms-sm-5 text-start">
+      {/* Header con padding ridotto in alto e azzerato in basso */}
+      <header className="p-3 pt-sm-4 pb-sm-0 ms-0 ms-sm-5 text-start">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -55,7 +48,8 @@ const Login = () => {
         </svg>
       </header>
 
-      <main className="d-flex flex-grow-1 align-items-start align-items-sm-center justify-content-center pb-5">
+      {/* Cambiato align-items-sm-center in align-items-start e aggiunto pt-sm-4 */}
+      <main className="d-flex flex-grow-1 align-items-start justify-content-center pt-sm-4 pb-5">
         <div className="w-100 px-3 px-sm-0" style={{ maxWidth: "400px" }}>
           <Card className="border-0 border-sm bg-transparent bg-sm-white rounded-0 rounded-sm-4 shadow-none shadow-sm-sm p-2 p-sm-4">
             <Card.Body className="p-1 p-sm-2">

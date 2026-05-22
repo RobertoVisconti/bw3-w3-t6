@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Navbar as BsNavbar,
   Container,
@@ -9,7 +9,7 @@ import {
   ListGroup,
   Modal,
   Button,
-} from "react-bootstrap"
+} from "react-bootstrap";
 import {
   FaLinkedin,
   FaSearch,
@@ -26,43 +26,43 @@ import {
   FaTimes,
   FaHome,
   FaBars,
-} from "react-icons/fa"
+} from "react-icons/fa";
 
-import { useEffect, useState, useRef, useMemo } from "react"
-import { getMyProfileAsync } from "../redux/actions/profileActions"
-import { useDispatch, useSelector } from "react-redux"
-import type { AppDispatch, RootState } from "../redux/store"
+import { useEffect, useState, useRef, useMemo } from "react";
+import { getMyProfileAsync } from "../redux/actions/profileActions";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../redux/store";
 
-import DropDownTu from "./DropdownTu"
+import DropDownTu from "./DropdownTu";
 
 const Navbar = () => {
-  const dispatch = useDispatch<AppDispatch>()
-  const navigate = useNavigate()
-  const location = useLocation()
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const [searchQuery, setSearchQuery] = useState("")
-  const [showDropdown, setShowDropdown] = useState(false)
-  const [showPremiumModal, setShowPremiumModal] = useState(false)
-  const [showMobileMenu, setShowMobileMenu] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [showPremiumModal, setShowPremiumModal] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
-  const dropdownRef = useRef<HTMLDivElement>(null)
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Stato di autenticazione reattivo
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true"
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
   // Estraiamo i dati dallo store Redux
   const { myProfile, allProfiles, isLoading, error } = useSelector(
     (state: RootState) => state.profile,
-  )
+  );
 
   // Controllo degli accessi ed esecuzione chiamate protetta
   useEffect(() => {
     if (!isLoggedIn) {
-      navigate("/login")
+      navigate("/login");
     } else if (!myProfile && !isLoading && !error) {
-      dispatch(getMyProfileAsync())
+      dispatch(getMyProfileAsync());
     }
-  }, [dispatch, isLoggedIn, navigate, myProfile, isLoading, error])
+  }, [dispatch, isLoggedIn, navigate, myProfile, isLoading, error]);
 
   // Gestione della chiusura del dropdown cliccando fuori
   useEffect(() => {
@@ -71,34 +71,34 @@ const Navbar = () => {
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        setShowDropdown(false)
+        setShowDropdown(false);
       }
-    }
+    };
 
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [])
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // 🌟 OTTIMIZZAZIONE: Memorizziamo il filtro per evitare re-render infiniti in console
   const filteredResults = useMemo(() => {
-    if (!searchQuery.trim()) return []
+    if (!searchQuery.trim()) return [];
 
     return (allProfiles || []).filter((user) =>
       `${user.name} ${user.surname}`
         .toLowerCase()
         .includes(searchQuery.toLowerCase()),
-    )
-  }, [allProfiles, searchQuery])
+    );
+  }, [allProfiles, searchQuery]);
 
   // Protezione di rotta immediata
   if (!isLoggedIn) {
-    return null
+    return null;
   }
 
   const isHomePath =
     location.pathname === "/" ||
     location.pathname.startsWith("/notizia") ||
-    location.pathname.startsWith("/giochi")
+    location.pathname.startsWith("/giochi");
 
   return (
     <>
@@ -144,8 +144,8 @@ const Navbar = () => {
                   className="border-start-0 rounded-end-pill shadow-none"
                   value={searchQuery}
                   onChange={(e) => {
-                    setSearchQuery(e.target.value)
-                    setShowDropdown(true)
+                    setSearchQuery(e.target.value);
+                    setShowDropdown(true);
                   }}
                   onFocus={() => setShowDropdown(true)}
                 />
@@ -167,9 +167,9 @@ const Navbar = () => {
                         action
                         className="d-flex align-items-center gap-2 py-2 border-start-0 border-end-0"
                         onClick={() => {
-                          navigate(`/profilo/${user._id}`)
-                          setShowDropdown(false)
-                          setSearchQuery("")
+                          navigate(`/profilo/${user._id}`);
+                          setShowDropdown(false);
+                          setSearchQuery("");
                         }}
                       >
                         <img
@@ -211,10 +211,10 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* MOBILE HAMBURGER BUTTON (Allineato a destra simmetricamente) */}
+          {/* MOBILE HAMBURGER BUTTON */}
           <button
             type="button"
-            className="mobile-hamburger-btn border-0 bg-transparent d-md-none p-2 fs-4"
+            className="mobile-hamburger-btn border-0 bg-transparent d-md-none p-2 fs-4 cursor-pointer"
             onClick={() => setShowMobileMenu(!showMobileMenu)}
           >
             <FaBars />
@@ -271,10 +271,10 @@ const Navbar = () => {
               </div>
               <button
                 type="button"
-                className="mobile-menu-item mobile-premium-item border-0 bg-transparent text-decoration-underline text-start"
+                className="mobile-menu-item mobile-premium-item border-0 bg-transparent text-decoration-underline text-start cursor-pointer"
                 onClick={() => {
-                  setShowPremiumModal(true)
-                  setShowMobileMenu(false)
+                  setShowPremiumModal(true);
+                  setShowMobileMenu(false);
                 }}
               >
                 Prova premium per 0 €
@@ -282,12 +282,12 @@ const Navbar = () => {
             </div>
           )}
 
-          {/* SEZIONE DESTRA: Link di Navigazione Desktop (Distanze uniformi ed equilibrate) */}
+          {/* SEZIONE DESTRA: Link di Navigazione Desktop */}
           <BsNavbar.Collapse
             id="navbar-links"
             className="justify-content-md-end flex-grow-0"
           >
-            <div className="d-flex align-items-center gap-3 gap-lg-4">
+            <div className="d-flex align-items-center gap-3 gap-lg-4 linkedin-nav-links">
               <Link
                 to="/"
                 className={
@@ -374,11 +374,17 @@ const Navbar = () => {
                   className="m-0 p-0 shadow-lg"
                   style={{ minWidth: "400px" }}
                 >
-                  <DropDownTu />
+                  {/* 🌟 RISOLTO: Avvolgendo il componente in Dropdown.Item (come div), si chiude automaticamente quando clicchi le opzioni dentro DropDownTu */}
+                  <Dropdown.Item
+                    as="div"
+                    className="bg-transparent p-0 m-0 border-0 nopointer-item"
+                  >
+                    <DropDownTu />
+                  </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
 
-              {/* Divisore Verticale Nativo e Pulito */}
+              {/* Divisore Verticale */}
               <div
                 className="border-start d-none d-md-block"
                 style={{ height: "32px", opacity: "0.15" }}
@@ -403,29 +409,29 @@ const Navbar = () => {
                   <div className="d-flex">
                     <div className="business-left p-4">
                       <h6 className="fw-bold mb-4">Le mie app</h6>
-                      <div className="business-app mb-4">
+                      <div className="business-app mb-4 cursor-pointer">
                         <FaCompass className="business-icon" />
                         <strong>Vendi</strong>
                       </div>
-                      <div className="business-app mb-4">
+                      <div className="business-app mb-4 cursor-pointer">
                         <FaUsers className="business-icon" />
                         <strong>Gruppi</strong>
                       </div>
                       <p className="text-secondary fw-bold small mb-4">
                         Talent
                       </p>
-                      <div className="business-app mb-4">
+                      <div className="business-app mb-4 cursor-pointer">
                         <FaBriefcase className="business-icon" />
                         <strong>Assumi con l'IA</strong>
                       </div>
-                      <div className="business-app mb-4">
+                      <div className="business-app mb-4 cursor-pointer">
                         <FaChartBar className="business-icon" />
                         <strong>Talent Insights</strong>
                       </div>
                       <p className="text-secondary fw-bold small mb-4">
                         Vendite
                       </p>
-                      <div className="business-app">
+                      <div className="business-app cursor-pointer">
                         <FaCheckCircle className="business-icon" />
                         <strong>Marketplace dei servizi</strong>
                       </div>
@@ -435,25 +441,25 @@ const Navbar = () => {
                       <h6 className="fw-bold mb-4">
                         Scopri altro per il business
                       </h6>
-                      <div className="mb-4">
+                      <div className="mb-4 cursor-pointer">
                         <strong>Assumi su LinkedIn</strong>
                         <p className="small mb-0 text-muted">
                           Trova, attrai e assumi
                         </p>
                       </div>
-                      <div className="mb-4">
+                      <div className="mb-4 cursor-pointer">
                         <strong>Vendi con LinkedIn</strong>
                         <p className="small mb-0 text-muted">
                           Sblocca nuove opportunità di vendita
                         </p>
                       </div>
-                      <div className="mb-4">
+                      <div className="mb-4 cursor-pointer">
                         <strong>Pubblica un'offerta di lavoro gratuita</strong>
                         <p className="small mb-0 text-muted">
                           Trova candidati di qualità
                         </p>
                       </div>
-                      <div className="mb-4">
+                      <div className="mb-4 cursor-pointer">
                         <strong>Fai pubblicità su LinkedIn</strong>
                         <p className="small mb-0 text-muted">
                           Acquisisci clienti e fai crescere l'azienda
@@ -467,12 +473,13 @@ const Navbar = () => {
               {/* Link Premium */}
               <button
                 type="button"
-                className="linkedin-premium text-decoration-underline border-0 bg-transparent small fw-semibold text-warning-emphasis"
+                className="linkedin-premium text-decoration-underline border-0 bg-transparent small fw-semibold text-warning-emphasis cursor-pointer premium-hover-effect"
                 onClick={() => setShowPremiumModal(true)}
                 style={{
                   fontSize: "0.8rem",
                   maxWidth: "90px",
                   lineHeight: "1.2",
+                  transition: "color 0.2s ease-in-out",
                 }}
               >
                 Prova premium per 0 €
@@ -482,7 +489,7 @@ const Navbar = () => {
         </Container>
       </BsNavbar>
 
-      {/* MODAL PREMIUM (Invariato nella logica, pulito nelle spaziature interne) */}
+      {/* MODAL PREMIUM */}
       <Modal
         show={showPremiumModal}
         onHide={() => setShowPremiumModal(false)}
@@ -498,13 +505,14 @@ const Navbar = () => {
             </h6>
             <Button
               variant="link"
-              className="text-dark p-0 border-0 shadow-none"
+              className="text-dark p-0 border-0 shadow-none cursor-pointer"
               onClick={() => setShowPremiumModal(false)}
             >
               <FaTimes size={22} />
             </Button>
           </div>
 
+          {/* Elenco fisso descrittivo (Rimosso il click errato) */}
           <div className="d-flex flex-column gap-3 mb-4">
             <div className="d-flex gap-3 align-items-center">
               <span className="text-warning fw-bold fs-5">✓</span>
@@ -575,16 +583,19 @@ const Navbar = () => {
             </span>
           </div>
 
-          <Button
-  className="rounded-pill fw-semibold border-0 px-4 py-2 mb-3"
-  style={{ backgroundColor: "#f8c77e", color: "black" }}
-  onClick={() => {
-    setShowPremiumModal(false);
-    navigate("/premium");
-  }}
->
-  Prova 1 mese di Premium per 0 €
-</Button>
+          {/* 🌟 RISOLTO: Questo è il bottone reale che attiva l'azione e chiude il modale */}
+          <div className="d-grid">
+            <Button
+            className="rounded-pill fw-semibold border-0 px-4 py-2 mb-3"
+            style={{ backgroundColor: "#f8c77e", color: "black" }}
+            onClick={() => {
+              setShowPremiumModal(false);
+              navigate("/premium");
+            }}
+          >
+            Prova 1 mese di Premium per 0 €
+          </Button>
+          </div>
 
           <p className="text-secondary small mb-0 lh-sm text-center">
             Prova gratuita di 1 mese con assistenza 24/7. Facile da annullare.
@@ -594,7 +605,7 @@ const Navbar = () => {
         </Modal.Body>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

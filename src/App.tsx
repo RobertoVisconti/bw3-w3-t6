@@ -35,6 +35,13 @@ import PuzzleGame from "./components/games/PuzzleGame";
 import PongGame from "./components/games/PongGame";
 import FlappyGame from "./components/games/FlippyGame";
 import Premium from "./pages/Premium";
+import SettingsWork from "./pages/SettingsWork";
+import MieiPost from "./pages/MieiPost";
+import Authentication from "./pages/Authentication";
+import Landing from "./pages/Landing";
+
+// Pagine pubbliche che non richiedono login
+const PUBLIC_PAGES = ["/landing", "/login", "/authentication"];
 
 const AppContent = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -45,32 +52,40 @@ const AppContent = () => {
     () => localStorage.getItem("isLoggedIn") === "true",
   );
 
+  // Controlla login status al mount e quando cambia il path
   useEffect(() => {
     const loggedStatus = localStorage.getItem("isLoggedIn") === "true";
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsLoggedIn(loggedStatus);
+    const isPublicPage = PUBLIC_PAGES.includes(location.pathname);
 
-    if (!loggedStatus && location.pathname !== "/login") {
-      navigate("/login");
+    // Se non loggato e NON è una pagina pubblica → vai a /landing
+    if (!loggedStatus && !isPublicPage) {
+      navigate("/landing", { replace: true });
     }
+
+    setIsLoggedIn(loggedStatus);
   }, [location.pathname, navigate]);
 
+  // Carica dati utente quando loggato
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(getAllProfilesAction());
     }
   }, [dispatch, isLoggedIn]);
 
+  // Carica notizie e lavori
   useEffect(() => {
     dispatch(getNewsAsync());
-    dispatch(getJobsAsync()); // se vuoi anche i jobs
-  }, []);
+    dispatch(getJobsAsync());
+  }, [dispatch]);
 
-  const isLoginPage = location.pathname === "/login";
+  // Determina quali elementi mostrare
+  const isPublicPage = PUBLIC_PAGES.includes(location.pathname);
   const isSettingsPage = location.pathname === "/impostazioni";
+
   return (
-    <div className="d-flex flex-column min-vh-100 ">
-      {!isLoginPage && (
+    <div className="d-flex flex-column min-vh-100">
+      {/* Navbar visibile solo se loggato E non in pagine pubbliche */}
+      {isLoggedIn && !isPublicPage && (
         <header className="position-fixed w-100 z-3">
           <Navbar />
         </header>
@@ -78,6 +93,12 @@ const AppContent = () => {
 
       <main className="flex-grow-1 pt-5">
         <Routes>
+          {/* Pagine pubbliche */}
+          <Route path="/landing" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/authentication" element={<Authentication />} />
+
+          {/* Pagine protette - richiedono login */}
           <Route element={<Home />}>
             <Route path="/" element={<MainCenter />} />
             <Route path="/notizia/:id" element={<DettaglioNotizia />} />
@@ -88,13 +109,11 @@ const AppContent = () => {
             <Route path="/giochi/pong" element={<PongGame />} />
             <Route path="/giochi/flappy" element={<FlappyGame />} />
           </Route>
-          <Route path="/login" element={<Login />} />
+
           <Route path="/lavoro" element={<Lavoro />} />
           <Route path="/profilo" element={<Profilo />} />
           <Route path="/profilo/:userId" element={<Profilo />} />
           <Route path="/Rete" element={<Rete />} />
-          <Route path="*" element={<PaginaErrore />} />
-          <Route path="/Rete" element={<Rete />}></Route>
           <Route path="/dettaglio-lavoro/:id" element={<DetailsJob />} />
           <Route path="/Esperienze" element={<Esperienze />} />
           <Route path="/messaggistica" element={<ChatExpand />} />
@@ -102,11 +121,17 @@ const AppContent = () => {
           <Route path="/impostazioni" element={<SettingsPage />} />
           <Route path="/languages" element={<Languages />} />
           <Route path="/premium" element={<Premium />} />
+          <Route path="/crearelavoro" element={<SettingsWork />} />
+          <Route path="/mypost" element={<MieiPost />} />
+
+          {/* 404 - deve essere last */}
+          <Route path="*" element={<PaginaErrore />} />
         </Routes>
       </main>
 
-      {/* Mostra la ChatBar solo se l'utente è loggato e fuori dal login */}
-      {!isLoginPage && !isSettingsPage && <ChatBar />}
+      {/* ChatBar visibile solo se loggato E non in pagine pubbliche E non settings */}
+      {isLoggedIn && !isPublicPage && !isSettingsPage && <ChatBar />}
+
       <footer></footer>
     </div>
   );

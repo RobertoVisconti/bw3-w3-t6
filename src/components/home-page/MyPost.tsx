@@ -6,8 +6,13 @@ import { Col } from "react-bootstrap";
 import SingleArticle from "./SingleArticle";
 import type { Post } from "../../interfaces/interfaces";
 
-const ListArticle = function () {
+const MyPost = function () {
   const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    dispatch(getPost());
+  }, [dispatch]);
+
+  const { myProfile } = useSelector((state: RootState) => state.profile || {});
 
   const {
     posts = [],
@@ -21,23 +26,23 @@ const ListArticle = function () {
   const observerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    dispatch(getPost());
-  }, [dispatch]);
-
-  useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setVisibleCount(5);
+    setVisibleCount(7);
   }, [posts]);
 
   const chronologicalPosts = useMemo(() => {
-    if (!posts || posts.length === 0) return [];
+    if (!posts || posts.length === 0 || !myProfile) return [];
 
-    return [...posts].sort((a, b) => {
+    const filteredMyPosts = posts.filter(
+      (articolo) => articolo.user && articolo.user._id === myProfile._id,
+    );
+
+    return [...filteredMyPosts].sort((a, b) => {
       const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
       const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-      return dateB - dateA; // così renderizzo l ultimo post creato in cima alla pagina
+      return dateB - dateA;
     });
-  }, [posts]);
+  }, [posts, myProfile]);
 
   const displayedPosts = useMemo(() => {
     return chronologicalPosts.slice(0, visibleCount);
@@ -54,9 +59,8 @@ const ListArticle = function () {
           if (visibleCount < chronologicalPosts.length) {
             setIsLocalLoading(true);
 
-            // Ritardo di 1 secondo prima di mostrare i nuovi post
             setTimeout(() => {
-              setVisibleCount((prev) => prev + 5);
+              setVisibleCount((prev) => prev + 7);
               setIsLocalLoading(false);
             }, 1000);
           }
@@ -81,7 +85,7 @@ const ListArticle = function () {
       <div>
         {isLoading && (
           <div className="text-center my-4 text-secondary">
-            Caricamento del feed in corso...
+            Caricamento delle tue attività in corso...
           </div>
         )}
 
@@ -91,7 +95,6 @@ const ListArticle = function () {
           </div>
         )}
 
-        {/* Renderizzazione dei post attuali */}
         {displayedPosts.map((articolo: Post) => {
           return <SingleArticle key={articolo._id} post={articolo} />;
         })}
@@ -113,11 +116,15 @@ const ListArticle = function () {
               style={{ height: "30px", background: "transparent" }}
             />
           )}
-
-        {/* Messaggio se l'array è vuoto */}
-        {!isLoading && posts.length === 0 && !error && (
-          <div className="text-center my-4 text-muted">
-            Nessun post da mostrare nella timeline.
+        {!isLoading && chronologicalPosts.length === 0 && !error && (
+          <div className="text-center my-4 text-muted bg-white p-4 border rounded-3 shadow-sm">
+            <h5 className="fw-bold mb-2 text-dark">
+              Nessuna attività da mostrare
+            </h5>
+            <p className="small mb-0 text-secondary">
+              Non hai ancora pubblicato nessun post. I tuoi interventi
+              appariranno qui.
+            </p>
           </div>
         )}
       </div>
@@ -125,4 +132,4 @@ const ListArticle = function () {
   );
 };
 
-export default ListArticle;
+export default MyPost;
