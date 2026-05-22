@@ -14,19 +14,27 @@ interface RootState {
 }
 
 type NotificaItem =
-  | { tipo: "connessione"; data: Profile }
-  | { tipo: "commento"; data: Comment & { postId: string } };
+  | { tipo: "connessione"; data: Profile; dataOrdinamento: Date }
+  | {
+      tipo: "commento";
+      data: Comment & { postId: string };
+      dataOrdinamento: Date;
+    };
 
 const NotificationList = () => {
   const dispatch = useDispatch();
 
   const [hiddenCommentIds, setHiddenCommentIds] = useState<string[]>([]);
+  const [visibiliCount, setVisibiliCount] = useState<number>(7);
 
   const listaNotifiche = useSelector((state: RootState) => {
     const contatti: NotificaItem[] = (state.rete.listaRete || []).map(
       (utente) => ({
         tipo: "connessione",
         data: utente,
+        dataOrdinamento: utente.createdAt
+          ? new Date(utente.createdAt)
+          : new Date(),
       }),
     );
 
@@ -38,12 +46,20 @@ const NotificationList = () => {
         .map((commento) => ({
           tipo: "commento",
           data: { ...commento, postId },
+          dataOrdinamento: commento.createdAt
+            ? new Date(commento.createdAt)
+            : new Date(),
         })),
     );
-    return [...contatti, ...tuttiICommenti];
+
+    return [...contatti, ...tuttiICommenti].sort(
+      (a, b) => b.dataOrdinamento.getTime() - a.dataOrdinamento.getTime(),
+    );
   });
 
-  //  cambio visualizzazzione autore commento
+  const notificheVisualizzate = listaNotifiche.slice(0, visibiliCount);
+
+  // cambio visualizzazzione autore commento
   const formattaNomeAutore = (authorString: string) => {
     if (!authorString) return "Utente LinkedIn";
 
@@ -54,9 +70,7 @@ const NotificationList = () => {
 
     if (authorString.includes("@")) {
       const partePrincipale = authorString.split(/[+@]/)[0];
-
       const pezzi = partePrincipale.split(".");
-
       return pezzi
         .map((pezzo) => pezzo.charAt(0).toUpperCase() + pezzo.slice(1))
         .join(" ");
@@ -107,9 +121,9 @@ const NotificationList = () => {
         </Button>
       </div>
 
-      {/* Lista Dinamica Unificata */}
+      {/* Lista Dinamica Commenti + Collegati*/}
       <div className="d-flex flex-column">
-        {listaNotifiche.length === 0 ? (
+        {notificheVisualizzate.length === 0 ? (
           <div className="p-5 text-center text-muted">
             <i className="fas fa-bell fs-1 mb-3 text-opacity-50 text-secondary"></i>
             <p className="mb-0 fw-medium">Non hai ancora nessuna notifica.</p>
@@ -118,12 +132,12 @@ const NotificationList = () => {
             </small>
           </div>
         ) : (
-          listaNotifiche.map((item) => {
+          notificheVisualizzate.map((item, index) => {
             if (item.tipo === "connessione") {
               const utente = item.data;
               return (
                 <div
-                  key={`connessione-${utente._id}`}
+                  key={`connessione-${utente._id}-${index}`}
                   className="p-3 border-bottom d-flex align-items-start gap-3 position-relative hover-bg-light"
                   style={{ transition: "background-color 0.2s" }}
                 >
@@ -174,7 +188,9 @@ const NotificationList = () => {
                       className="text-muted small"
                       style={{ fontSize: "11px" }}
                     >
-                      Ora
+                      {utente.createdAt
+                        ? formattaData(utente.createdAt)
+                        : "Ora"}
                     </span>
 
                     <Button
@@ -188,15 +204,13 @@ const NotificationList = () => {
                 </div>
               );
             } else {
-              // Rendering specifico per la notifica del Commento
               const commento = item.data;
               return (
                 <div
-                  key={`commento-${commento._id}`}
+                  key={`commento-${commento._id}-${index}`}
                   className="p-3 border-bottom d-flex align-items-start gap-3 position-relative hover-bg-light"
                   style={{ transition: "background-color 0.2s" }}
                 >
-                  {/* Icona segnaposto per il commento */}
                   <div
                     className="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center text-primary"
                     style={{ width: "48px", height: "48px", minWidth: "48px" }}
@@ -217,7 +231,6 @@ const NotificationList = () => {
                       </span>
                     </div>
 
-                    {/* Testo del commento */}
                     <p
                       className="small text-dark mb-1 mt-1 p-2 rounded-2 bg-light"
                       style={{
@@ -229,7 +242,6 @@ const NotificationList = () => {
                       "{commento.comment}"
                     </p>
 
-                    {/* Data e Ora mostrate sotto il commento */}
                     <span
                       className="text-muted d-block"
                       style={{ fontSize: "11px" }}
@@ -261,6 +273,18 @@ const NotificationList = () => {
               );
             }
           })
+        )}
+
+        {listaNotifiche.length > visibiliCount && (
+          <div className="p-2 d-flex justify-content-center bg-light border-top rounded-bottom-3">
+            <Button
+              variant="link"
+              className="text-decoration-none fw-bold text-secondary text-opacity-75 w-100 py-1 hover-text-dark"
+              onClick={() => setVisibiliCount((prev) => prev + 7)}
+            >
+              Mostra altro <i className="fas fa-chevron-down ms-1 fs-6"></i>
+            </Button>
+          </div>
         )}
       </div>
     </div>
