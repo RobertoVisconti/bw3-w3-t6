@@ -8,7 +8,11 @@ const Landing = () => {
   const navigate = useNavigate();
 
   return (
-    <Container fluid className="bg-white min-vh-100 px-0 overflow-hidden">
+    <Container
+      fluid
+      className="bg-white min-vh-100 px-0 overflow-hidden"
+      style={{ marginTop: "-3rem" }}
+    >
       <Container style={{ maxWidth: "1220px" }}>
         <nav
           className="d-flex align-items-center justify-content-between"
@@ -17,13 +21,13 @@ const Landing = () => {
           <div
             className="d-flex align-items-center text-primary fw-bold"
             style={{
-                fontSize: "34px",
-                letterSpacing: "-1px",
+              fontSize: "34px",
+              letterSpacing: "-1px",
             }}
-            >
+          >
             Linked
             <FaLinkedin className="ms-1" />
-            </div>
+          </div>
 
           <div className="d-none d-lg-flex align-items-center">
             <div className="d-flex align-items-center gap-4 me-4">
@@ -92,17 +96,17 @@ const Landing = () => {
               <h1
                 className="fw-light mb-5"
                 style={{
-                    color: "#d85905",
-                    fontSize: "56px",
-                    lineHeight: "1.1",
-                    letterSpacing: "-1.4px",
-                    width: "560px",
+                  color: "#d85905",
+                  fontSize: "56px",
+                  lineHeight: "1.1",
+                  letterSpacing: "-1.4px",
+                  width: "560px",
                 }}
-                >
+              >
                 Ti diamo il benvenuto nella tua community
                 <br />
-                    professionale
-                </h1>
+                professionale
+              </h1>
               <Form>
                 <Form.Group className="mb-3">
                   <Form.Label className="fw-semibold text-secondary small">
@@ -195,4 +199,3 @@ const Landing = () => {
 };
 
 export default Landing;
-

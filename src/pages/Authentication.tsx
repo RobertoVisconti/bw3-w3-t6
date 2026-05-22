@@ -1,4 +1,4 @@
-import { Card, Col, Container, Image, Navbar, Row } from "react-bootstrap";
+import { Card, Col, Container, Image, Row } from "react-bootstrap";
 import { IoArrowBack } from "react-icons/io5";
 import { BsPhoneFill, BsPatchCheckFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
