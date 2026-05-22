@@ -51,9 +51,7 @@ const ProfileRightSidebar = () => {
         </Card.Body>
       </Card>
       <Card className="rounded-3 overflow-hidden">
-        <h6 className="fw-semibold p-3 mb-0 border-bottom">
-          Persone che potresti conoscere
-        </h6>
+        <h6 className="fw-semibold p-3 mb-0">Persone che potresti conoscere</h6>
         <CardsProfile initialLimit={8} />
       </Card>
 
