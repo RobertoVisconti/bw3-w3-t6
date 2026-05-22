@@ -12,13 +12,14 @@ import ButtonLinkedin from "./generali/ButtonLinkedin"
 import ModalePresentazione from "../components/ModalePresentazione"
 import ProfileModals from "../components/ProfileModals"
 import ContactInfoModal from "../components/ContactInfoModal"
-import { Button, Dropdown } from "react-bootstrap"
+import { Button, Card, Dropdown } from "react-bootstrap"
 import { FaPen, FaUserPlus, FaEnvelope } from "react-icons/fa"
 import { AiOutlinePicture } from "react-icons/ai"
 import { IoMdPhotos } from "react-icons/io"
 import { FiPlus } from "react-icons/fi"
 import MapExp from "./MapExp"
 import { getExperience } from "../redux/actions/experienceActions"
+import { CardsProfile } from "./CardsProfile"
 
 const MainProfile = () => {
   const { userId } = useParams<{ userId: string }>()
