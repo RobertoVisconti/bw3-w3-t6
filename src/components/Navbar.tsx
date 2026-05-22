@@ -586,14 +586,15 @@ const Navbar = () => {
           {/* 🌟 RISOLTO: Questo è il bottone reale che attiva l'azione e chiude il modale */}
           <div className="d-grid">
             <Button
-              className="rounded-pill fw-semibold border-0 py-2 mb-3 shadow-none cursor-pointer premium-btn-submit"
-              style={{ backgroundColor: "#f8c77e", color: "black" }}
-              onClick={() => {
-                setShowPremiumModal(false);
-              }}
-            >
-              Prova 1 mese di Premium per 0 €
-            </Button>
+            className="rounded-pill fw-semibold border-0 px-4 py-2 mb-3"
+            style={{ backgroundColor: "#f8c77e", color: "black" }}
+            onClick={() => {
+              setShowPremiumModal(false);
+              navigate("/premium");
+            }}
+          >
+            Prova 1 mese di Premium per 0 €
+          </Button>
           </div>
 
           <p className="text-secondary small mb-0 lh-sm text-center">

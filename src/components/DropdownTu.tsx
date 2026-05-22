@@ -112,7 +112,7 @@ const DropDownTu = () => {
             <ButtonLinkedin
               text="Verifica ora"
               className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 ms-3 fw-bold border-2"
-              to="/Authentication"
+              to="/authentication"
             />
           </div>
           {/* Primi 5 Link (Indici 0-4) */}
@@ -165,3 +165,4 @@ const DropDownTu = () => {
 }
 
 export default DropDownTu
+

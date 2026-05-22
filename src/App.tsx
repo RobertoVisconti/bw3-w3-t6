@@ -37,6 +37,7 @@ import FlappyGame from "./components/games/FlippyGame";
 import Premium from "./pages/Premium";
 import SettingsWork from "./pages/SettingsWork";
 import MieiPost from "./pages/MieiPost";
+import Authentication from "./pages/Authentication";
 
 const AppContent = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -106,6 +107,7 @@ const AppContent = () => {
           <Route path="/premium" element={<Premium />} />
           <Route path="/crearelavoro" element={<SettingsWork />} />
           <Route path="/mypost" element={<MieiPost />} />
+          <Route path="/authentication" element={<Authentication />} />
         </Routes>
       </main>
 
