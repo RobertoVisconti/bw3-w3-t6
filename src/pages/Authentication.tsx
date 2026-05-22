@@ -8,11 +8,7 @@ const Authentication = () => {
 
   return (
     <>
-      <Container
-        fluid
-        className="bg-light min-vh-100 py-4 py-md-5 px-3"
-        style={{ marginTop: "-3rem" }}
-      >
+      <Container fluid className="bg-light min-vh-100 py-4 py-md-5 px-3">
         <Row className="justify-content-center">
           <Col xs={12} md={11} lg={9} xl={7}>
             <Card className="border-0 shadow-sm rounded-4">

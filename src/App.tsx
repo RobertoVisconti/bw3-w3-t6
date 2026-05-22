@@ -41,7 +41,7 @@ import Authentication from "./pages/Authentication";
 import Landing from "./pages/Landing";
 
 // Pagine pubbliche che non richiedono login
-const PUBLIC_PAGES = ["/landing", "/login", "/authentication"];
+const PUBLIC_PAGES = ["/landing", "/login"];
 
 const AppContent = () => {
   const dispatch = useDispatch<AppDispatch>();
