@@ -7,9 +7,10 @@ import { useState } from "react";
 interface ButtonFollowProps {
   utente: Profile;
   isCollegato: boolean;
+  isMini?: boolean;
 }
 
-const ButtonFollow = ({ utente, isCollegato }: ButtonFollowProps) => {
+const ButtonFollow = ({ utente, isCollegato, isMini }: ButtonFollowProps) => {
   const dispatch = useDispatch();
   const [isClicked, setIsClicked] = useState(false);
 
@@ -22,27 +23,56 @@ const ButtonFollow = ({ utente, isCollegato }: ButtonFollowProps) => {
   return (
     <Button
       variant="outline-primary"
-      className="rounded-5 bg-light text-primary fw-medium w-100 custom-btn-follow"
+      className="rounded-5 bg-light text-primary fw-medium custom-btn-follow"
       onClick={handleClick}
       disabled={isClicked}
+      style={{ width: isMini ? "100px" : "100%" }}
     >
       {isClicked ? (
         isCollegato ? (
-          <span>
-            <i className="fas fa-check me-1"></i> Collegato
+          <span className="d-flex align-items-center justify-content-center">
+            <i
+              className="fas fa-check"
+              style={{
+                fontSize: isMini ? "0.75rem" : "1rem",
+                marginRight: isMini ? "3px" : "4px",
+              }}
+            ></i>{" "}
+            Collegato
           </span>
         ) : (
-          <span>
-            <i className="fas fa-check me-1"></i> Seguito
+          <span className="d-flex align-items-center justify-content-center">
+            <i
+              className="fas fa-check"
+              style={{
+                fontSize: isMini ? "0.75rem" : "1rem",
+                marginRight: isMini ? "3px" : "4px",
+              }}
+            ></i>{" "}
+            Seguito
           </span>
         )
       ) : isCollegato ? (
-        <span>
-          <i className="fas fa-user-plus me-1"></i> Collegati
+        <span className="d-flex align-items-center justify-content-center">
+          <i
+            className="fas fa-user-plus"
+            style={{
+              fontSize: isMini ? "0.75rem" : "1rem",
+              marginRight: isMini ? "3px" : "4px",
+            }}
+          ></i>{" "}
+          Collegati
         </span>
       ) : (
-        <span>
-          <i className="fas fa-plus me-1"></i> Segui
+        <span className="d-flex align-items-center justify-content-center">
+          <i
+            className="fas fa-plus"
+            style={{
+              fontSize: isMini ? "0.75rem" : "1rem",
+              marginRight: isMini ? "3px" : "4px",
+            }}
+          ></i>{" "}
+          Segui
         </span>
       )}
     </Button>
