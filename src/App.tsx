@@ -41,7 +41,7 @@ import Authentication from "./pages/Authentication";
 import Landing from "./pages/Landing";
 
 // Pagine pubbliche che non richiedono login
-const PUBLIC_PAGES = ["/landing", "/login", "/authentication"];
+const PUBLIC_PAGES = ["/landing", "/login"];
 
 const AppContent = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -62,6 +62,7 @@ const AppContent = () => {
       navigate("/landing", { replace: true });
     }
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsLoggedIn(loggedStatus);
   }, [location.pathname, navigate]);
 
@@ -91,7 +92,7 @@ const AppContent = () => {
         </header>
       )}
 
-      <main className="flex-grow-1 pt-5">
+      <main className="flex-grow-1 pt-5 ">
         <Routes>
           {/* Pagine pubbliche */}
           <Route path="/landing" element={<Landing />} />
