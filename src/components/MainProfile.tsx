@@ -209,13 +209,10 @@ const MainProfile = () => {
                 >
                   {displayedProfile.title}
                 </p>
-                <p
-                  className="m-0 text-secondary link-custom"
-                  onClick={handleShowMod}
-                >
+                <p className="m-0 text-secondary ">
                   {displayedProfile.area} .{" "}
                   <span
-                    className="fw-bold text-primary cursor-pointer hover-underline"
+                    className="fw-bold text-primary cursor-pointer  link-custom"
                     onClick={() => setShowContactModal(true)}
                     style={{ color: "#0a66c2", cursor: "pointer" }}
                   >
