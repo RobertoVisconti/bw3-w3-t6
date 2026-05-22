@@ -106,12 +106,12 @@ const DropDownTu = () => {
           <div className="d-flex">
             <ButtonLinkedin
               text="Visualizza profilo"
-              className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2"
+              className=" bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2 text-primary custom-btn-follow"
               to="/profilo"
             />
             <ButtonLinkedin
               text="Verifica ora"
-              className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 ms-3 fw-bold border-2"
+              className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 ms-3 fw-bold border-2 custom-btn-follow"
               to="/Authentication"
             />
           </div>
@@ -121,7 +121,7 @@ const DropDownTu = () => {
               <a
                 href="#"
                 onClick={(e) => handleLinkClick(e, link)}
-                className="text-decoration-none text-muted small d-inline-block mb-2"
+                className=" text-muted small d-inline-block mb-2 link-custom"
               >
                 {link.label}
               </a>
@@ -132,11 +132,11 @@ const DropDownTu = () => {
           {/* Aggiunto w-100 per renderlo visibile a tutta larghezza se necessario */}
           {/* Successivi 3 Link (Indici 5-7) */}
           {links.slice(5, 8).map((link, i) => (
-            <Col xs={12} key={i} className={i === 0 ? "bold-link" : ""}>
+            <Col xs={12} key={i} className={i === 0 ? "bold-link " : ""}>
               <a
                 href="#"
                 onClick={(e) => handleLinkClick(e, link)}
-                className="text-decoration-none text-muted small d-inline-block mb-2"
+                className=" text-muted small d-inline-block mb-2 link-custom"
               >
                 {link.label}
               </a>
@@ -148,7 +148,7 @@ const DropDownTu = () => {
               <a
                 href="#"
                 onClick={(e) => handleLinkClick(e, link)}
-                className="text-decoration-none text-danger fw-semibold small d-inline-block mb-2"
+                className=" text-danger fw-semibold small d-inline-block mb-2 link-custom"
               >
                 {link.label}
               </a>

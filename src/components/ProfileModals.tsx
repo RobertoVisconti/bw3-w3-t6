@@ -1,29 +1,30 @@
-import { Modal, Button, Form, FormCheck, Image } from "react-bootstrap";
-import { FaTrashAlt, FaCamera } from "react-icons/fa";
-import ButtonLinkedin from "./generali/ButtonLinkedin";
-import type { Profile } from "../interfaces/interfaces";
+import { Modal, Button, Form, FormCheck, Image } from "react-bootstrap"
+import { FaTrashAlt, FaCamera } from "react-icons/fa"
+import ButtonLinkedin from "./generali/ButtonLinkedin"
+import type { Profile } from "../interfaces/interfaces"
+import { useState } from "react"
 
 interface ProfileModalsProps {
-  isOwnProfile: boolean;
-  displayedProfile: Profile | null;
+  isOwnProfile: boolean
+  displayedProfile: Profile | null
   // Modal Foto Profilo
-  showImg: boolean;
-  handleCloseImg: () => void;
-  handleShowUpPic: () => void;
+  showImg: boolean
+  handleCloseImg: () => void
+  handleShowUpPic: () => void
   // Modal Copertina
-  showCover: boolean;
-  handleCloseCover: () => void;
+  showCover: boolean
+  handleCloseCover: () => void
   // Modal Preferenze Lavoro
-  showPref: boolean;
-  handleClosePref: () => void;
+  showPref: boolean
+  handleClosePref: () => void
   // Modal Caricamento Foto
-  showUpPic: boolean;
-  handleCloseUpPic: () => void;
-  preview: string | null;
-  handleUpload: () => void;
-  handleDeleteImage: () => void;
-  setSelectedFile: (file: File | null) => void;
-  setPreview: (preview: string | null) => void;
+  showUpPic: boolean
+  handleCloseUpPic: () => void
+  preview: string | null
+  handleUpload: () => void
+  handleDeleteImage: () => void
+  setSelectedFile: (file: File | null) => void
+  setPreview: (preview: string | null) => void
 }
 
 const ProfileModals = ({
@@ -44,7 +45,54 @@ const ProfileModals = ({
   setSelectedFile,
   setPreview,
 }: ProfileModalsProps) => {
-  if (!isOwnProfile) return null;
+  const sections = [
+    {
+      type: "qualifications",
+      title: "Qualifiche*",
+      buttons: [
+        { id: "employee", label: "Dipendente", variant: "pref" },
+        { id: "student", label: "Studente", variant: "pref" },
+      ],
+      extraButton: {
+        label: "+ Aggiungi qualifica",
+        variant: "follow",
+      },
+    },
+
+    {
+      type: "locationType",
+      title: "Tipi di località*",
+      buttons: [
+        { id: "office", label: "In sede", variant: "pref" },
+        { id: "hybrid", label: "Ibrido", variant: "pref" },
+        { id: "remote", label: "Da remoto +", variant: "pref" },
+      ],
+    },
+
+    {
+      type: "employmentType",
+      title: "Tipi di impiego*",
+      buttons: [
+        { id: "fulltime", label: "A tempo pieno", variant: "active" },
+        { id: "parttime", label: "Part-time +", variant: "pref" },
+        { id: "contract", label: "Contratto +", variant: "pref" },
+        { id: "internship", label: "Stage +", variant: "pref" },
+        { id: "temporary", label: "Temporaneo +", variant: "pref" },
+      ],
+    },
+  ]
+  const [state, setState] = useState({})
+  const toggle = (section, id) => {
+    setState((prev) => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [id]: !prev[section]?.[id],
+      },
+    }))
+  }
+
+  if (!isOwnProfile) return null
 
   return (
     <>
@@ -56,7 +104,7 @@ const ProfileModals = ({
         <Modal.Body className="bg-dark">
           <div className="w-100 justify-content-center d-flex">
             <Image
-              src={displayedProfile?.image || "https://placecats.com/300/300"} // Fallback se è vuota
+              src={displayedProfile?.image || "https://placecats.com/300/300"}
               alt="foto profilo"
               style={{
                 width: "250px",
@@ -69,11 +117,11 @@ const ProfileModals = ({
         </Modal.Body>
         <Modal.Footer className="bg-dark border-0 d-flex justify-content-between">
           <Button
-            className="bg-transparent border-0 d-flex flex-column align-items-center text-light"
+            className="bg-transparent border-0 d-flex flex-column align-items-center text-light "
             style={{ fontSize: "13px" }}
             onClick={() => {
-              handleDeleteImage();
-              handleCloseImg();
+              handleDeleteImage()
+              handleCloseImg()
             }}
           >
             <FaTrashAlt />
@@ -103,7 +151,8 @@ const ProfileModals = ({
               style={{
                 width: "300px",
                 height: "150px",
-                backgroundImage: 'url("https://placebear.com/1000/1000")',
+                backgroundImage:
+                  'url("https://png.pngtree.com/background/20250104/original/pngtree-free-vector-linkedin-banner-with-linked-technology-and-gradient-texture-picture-image_15305713.jpg")',
                 backgroundSize: "cover",
                 borderRadius: "10px",
               }}
@@ -133,145 +182,120 @@ const ProfileModals = ({
         <Modal.Header closeButton className="bg-light">
           <Modal.Title>Preferenze offerte di lavoro</Modal.Title>
         </Modal.Header>
+
         <Modal.Body className="bg-white p-4">
+          {/* HEADER */}
           <p className="p-0 m-0">
             <b>A cosa sei interessato?</b>
           </p>
+
           <p style={{ fontSize: "13px" }} className="text-secondary">
             I recruiter vedono queste informazioni, quindi possono offrirti
             ruoli pertinenti
           </p>
-          <div>
-            <p className="p-0 m-0">Qualifiche*</p>
-            <div className="d-flex mb-3">
-              <div className="me-2">
-                <ButtonLinkedin
-                  to="#"
-                  text="Dipendente"
-                  className="bg-success border-0"
-                />
-              </div>
-              <div className="me-2">
-                <ButtonLinkedin
-                  to="#"
-                  text="Studente"
-                  className="bg-success border-0"
-                />
-              </div>
-            </div>
-            <div className="w-50 mb-4">
-              <ButtonLinkedin
-                to="#"
-                className="text-primary bg-transparent"
-                text="+ Aggiungi qualifica"
-              />
-            </div>
 
-            <p className="m-0">Tipi di località*</p>
-            <div className="d-flex mb-4">
-              <div className="me-2">
-                <ButtonLinkedin
-                  to="#"
-                  text="In sede"
-                  className="bg-success border-0"
-                />
+          {/* SEZIONI DINAMICHE */}
+          {sections.map((section) => (
+            <div key={section.type}>
+              {/* TITOLO */}
+              <p className="m-0">{section.title}</p>
+
+              {/* BOTTONI */}
+              <div className="d-flex flex-wrap gap-2 mb-3 mt-2">
+                {section.buttons.map((btn) => (
+                  <ButtonLinkedin
+                    key={btn.id}
+                    to="#"
+                    text={btn.label}
+                    className={`
+              border-0
+              ${
+                btn.variant === "follow"
+                  ? "custom-btn-follow"
+                  : "custom-btn-preferenze"
+              }
+              ${state?.[section.type]?.[btn.id] ? "disable" : ""}
+            `}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      toggle(section.type, btn.id)
+                    }}
+                  />
+                ))}
               </div>
-              <div className="me-2">
-                <ButtonLinkedin
-                  to="#"
-                  text="ibrido"
-                  className="bg-success border-0"
-                />
-              </div>
-              <ButtonLinkedin
-                to="#"
-                className="text-secondary bg-transparent border-secondary"
-                text="Da remoto +"
-              />
-            </div>
 
-            <p className="m-0">Località (in sede)*</p>
-            <div className="d-flex mb-2">
-              <div className="me-2">
-                <ButtonLinkedin
-                  to="#"
-                  text={displayedProfile?.area}
-                  className="bg-success border-0"
-                />
-              </div>
+              {/* BOTTONE EXTRA (solo qualifica) */}
+              {section.extraButton && (
+                <div className="w-50 mb-4">
+                  <ButtonLinkedin
+                    to="#"
+                    className="text-primary bg-transparent custom-btn-follow"
+                    text={section.extraButton.label}
+                  />
+                </div>
+              )}
             </div>
-            <div className="w-50 mb-4">
-              <ButtonLinkedin
-                to="#"
-                className="text-primary bg-transparent"
-                text="+ Aggiungi località"
-              />
-            </div>
+          ))}
 
-            <p className="m-0 p-0">Data di inizio</p>
-            <Form className="mt-2 mb-4">
-              <FormCheck
-                type="radio"
-                name="dataDiInizio"
-                label="Immediatamente, sto attivamente cercando lavoro"
-                id="available"
-              />
-              <FormCheck
-                type="radio"
-                name="dataDiInizio"
-                label="Flessibile, do occasionalmente un'occhiata"
-                id="flexible"
-              />
-            </Form>
+          {/* LOCALITÀ (STATICO COME PRIMA) */}
+          <p className="m-0">Località (in sede)*</p>
 
-            <p className="m-0">Tipi di impiego*</p>
-            <div className="d-flex flex-wrap gap-2 mb-4">
-              <ButtonLinkedin
-                to="#"
-                text="A tempo pieno"
-                className="bg-success border-0"
-              />
-              <ButtonLinkedin
-                to="#"
-                className="text-secondary bg-transparent border-secondary"
-                text="Part-time +"
-              />
-              <ButtonLinkedin
-                to="#"
-                className="text-secondary bg-transparent border-secondary"
-                text="Contratto +"
-              />
-              <ButtonLinkedin
-                to="#"
-                className="text-secondary bg-transparent border-secondary"
-                text="Stage +"
-              />
-              <ButtonLinkedin
-                to="#"
-                className="text-secondary bg-transparent border-secondary"
-                text="Temporaneo +"
-              />
-            </div>
-
-            <p className="m-0 p-0">
-              Visibilità (chi può vedere che sei disponibile a lavorare)
-            </p>
-            <Form className="mt-2">
-              <FormCheck
-                type="radio"
-                name="visibilità"
-                label="Solo recruiter"
-                id="recruiter-only"
-              />
-              <FormCheck
-                type="radio"
-                name="visibilità"
-                label="Tutti gli utenti LinkedIn"
-                id="all-users"
-              />
-            </Form>
+          <div className="d-flex mb-2 mt-2">
+            <ButtonLinkedin
+              to="#"
+              text={displayedProfile?.area}
+              className="bg-success border-0"
+            />
           </div>
+
+          <div className="w-50 mb-4">
+            <ButtonLinkedin
+              to="#"
+              className="text-primary bg-transparent custom-btn-follow"
+              text="+ Aggiungi località"
+            />
+          </div>
+
+          {/* DATA DI INIZIO */}
+          <p className="m-0 p-0">Data di inizio</p>
+
+          <Form className="mt-2 mb-4">
+            <FormCheck
+              type="radio"
+              name="dataDiInizio"
+              label="Immediatamente, sto attivamente cercando lavoro"
+              id="available"
+            />
+            <FormCheck
+              type="radio"
+              name="dataDiInizio"
+              label="Flessibile, do occasionalmente un'occhiata"
+              id="flexible"
+            />
+          </Form>
+
+          {/* TIPI DI IMPIEGO (RESTA STATICO O GIÀ GESTITO IN SECTIONS) */}
+
+          <p className="m-0 p-0">
+            Visibilità (chi può vedere che sei disponibile a lavorare)
+          </p>
+
+          <Form className="mt-2">
+            <FormCheck
+              type="radio"
+              name="visibilità"
+              label="Solo recruiter"
+              id="recruiter-only"
+            />
+            <FormCheck
+              type="radio"
+              name="visibilità"
+              label="Tutti gli utenti LinkedIn"
+              id="all-users"
+            />
+          </Form>
         </Modal.Body>
+
         <Modal.Footer className="d-flex justify-content-between">
           <Button
             variant="light"
@@ -316,10 +340,10 @@ const ProfileModals = ({
               type="file"
               accept="image/*"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                const file = e.target.files?.[0];
-                if (!file) return;
-                setSelectedFile(file);
-                setPreview(URL.createObjectURL(file));
+                const file = e.target.files?.[0]
+                if (!file) return
+                setSelectedFile(file)
+                setPreview(URL.createObjectURL(file))
               }}
             />
           </Form.Group>
@@ -329,8 +353,8 @@ const ProfileModals = ({
             className="bg-transparent border-0 d-flex flex-column align-items-center text-light"
             style={{ fontSize: "13px" }}
             onClick={() => {
-              handleDeleteImage();
-              handleCloseUpPic();
+              handleDeleteImage()
+              handleCloseUpPic()
             }}
           >
             <FaTrashAlt />
@@ -340,8 +364,8 @@ const ProfileModals = ({
             className="bg-transparent border-0 d-flex flex-column align-items-center text-light"
             style={{ fontSize: "13px" }}
             onClick={() => {
-              handleUpload();
-              handleCloseUpPic();
+              handleUpload()
+              handleCloseUpPic()
             }}
           >
             <FaCamera />
@@ -350,7 +374,7 @@ const ProfileModals = ({
         </Modal.Footer>
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default ProfileModals;
+export default ProfileModals

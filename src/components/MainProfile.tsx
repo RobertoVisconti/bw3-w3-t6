@@ -56,10 +56,6 @@ const MainProfile = () => {
     (state: RootState) => state.profile,
   )
 
-  const experiences = useSelector(
-    (state: RootState) => state.experience.experiences,
-  )
-
   // Funzione per l'upload dell'immagine del profilo
   const handleUpload = async () => {
     if (!selectedFile || !displayedProfile?._id) return
@@ -71,7 +67,7 @@ const MainProfile = () => {
     handleCloseImg()
   }
 
-  // 🔥 NUOVA FUNZIONE: Gestisce l'eliminazione "finta" resettando l'immagine a stringa vuota tramite API
+  //  NUOVA FUNZIONE: Gestisce l'eliminazione "finta" resettando l'immagine a stringa vuota tramite API
   const handleDelete = async () => {
     await dispatch(deleteProfileImage())
 
@@ -146,7 +142,7 @@ const MainProfile = () => {
 
                     <Dropdown.Menu>
                       <Dropdown.Item onClick={handleShowCover}>
-                        <div className="fw-bold m-0">
+                        <div className="fw-bold m-0 link-custom">
                           <AiOutlinePicture size={25} className="me-2" />
                           Modifica immagine di copertina
                         </div>
@@ -154,7 +150,7 @@ const MainProfile = () => {
                       <Dropdown.Item className="d-flex align-items-center ">
                         <IoMdPhotos size={17} className="me-2" />
                         <div className="d-flex flex-column">
-                          <p className="m-0">
+                          <p className="m-0 link-custom">
                             <b>Crea una presentazione</b>
                           </p>
                           <p
@@ -183,11 +179,11 @@ const MainProfile = () => {
             <div className="p-3 pt-5">
               <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center">
-                  <div>
-                    <h1 className="fs-3 m-0 me-2">
+                  <div onClick={handleShowMod}>
+                    <h1 className="fs-3 m-0 me-2 link-custom">
                       {displayedProfile.surname} {displayedProfile.name}
                     </h1>
-                    <h6>{displayedProfile.username}</h6>
+                    <h6 className="link-custom">{displayedProfile.username}</h6>
                     <GoShieldCheck />
                   </div>
                 </div>
@@ -199,14 +195,22 @@ const MainProfile = () => {
                 />
               </div>
               <div style={{ fontSize: "15px" }}>
-                <p className="m-0 text-muted">{displayedProfile.title}</p>
-                <p className="m-0 text-secondary">
+                <p
+                  className="m-0 text-muted link-custom"
+                  onClick={handleShowMod}
+                >
+                  {displayedProfile.title}
+                </p>
+                <p
+                  className="m-0 text-secondary link-custom"
+                  onClick={handleShowMod}
+                >
                   {displayedProfile.area} .{" "}
-                  <a href="#" className="fw-bold text-decoration-none">
+                  <a href="#" className="fw-bold  link-custom">
                     informazioni di contatto
                   </a>
                 </p>
-                <a href="#" className="fw-bold text-decoration-none">
+                <a href="#" className="fw-bold  link-custom">
                   381 collegamenti
                 </a>
               </div>
@@ -216,25 +220,25 @@ const MainProfile = () => {
                 <div className="d-flex gap-1">
                   <ButtonLinkedin
                     text="Disponibile per"
-                    className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2"
+                    className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2 custom-btn-follow"
                     style={{ fontSize: "10px" }}
                     to="#"
                   />
                   <ButtonLinkedin
                     text="Aggiungi sezione"
-                    className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2"
+                    className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2 custom-btn-follow"
                     style={{ fontSize: "10px" }}
                     to="#"
                   />
                   <ButtonLinkedin
                     text="Migliore profilo"
-                    className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2"
+                    className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2 custom-btn-follow"
                     style={{ fontSize: "10px" }}
                     to="#"
                   />
                   <ButtonLinkedin
                     text="..."
-                    className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2 "
+                    className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2 custom-btn-follow"
                     style={{ fontSize: "10px" }}
                     to="#"
                   />

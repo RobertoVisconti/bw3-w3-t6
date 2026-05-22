@@ -70,6 +70,20 @@
   cursor: not-allowed;
 }
 
+.custom-btn-preferenze {
+  color: #ffffff !important;
+  border-color: #2a8754 !important;
+  background-color: #2a8754 !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.custom-btn-preferenze.disable {
+  background-color: #f3f3f3 !important;
+  color: #666666 !important;
+  border: 2px solid #666666 !important;
+  cursor: not-allowed;
+}
+
 .link-custom {
   text-decoration: none;
 }

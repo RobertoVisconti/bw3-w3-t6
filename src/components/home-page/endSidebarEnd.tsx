@@ -1,23 +1,23 @@
-import { Container } from "react-bootstrap";
-import { HiDotsHorizontal } from "react-icons/hi";
-import ButtonLinkedin from "../generali/ButtonLinkedin";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../../redux/store";
-import { useEffect } from "react";
-import { getMyProfileAsync } from "../../redux/actions/profileActions";
+import { Container } from "react-bootstrap"
+import { HiDotsHorizontal } from "react-icons/hi"
+import ButtonLinkedin from "../generali/ButtonLinkedin"
+import { useDispatch, useSelector } from "react-redux"
+import type { AppDispatch, RootState } from "../../redux/store"
+import { useEffect } from "react"
+import { getMyProfileAsync } from "../../redux/actions/profileActions"
 
 const EndSidebarEnd = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { myProfile } = useSelector((state: RootState) => state.profile);
+  const dispatch = useDispatch<AppDispatch>()
+  const { myProfile } = useSelector((state: RootState) => state.profile)
 
   useEffect(() => {
-    dispatch(getMyProfileAsync());
-  }, [dispatch]);
+    dispatch(getMyProfileAsync())
+  }, [dispatch])
   // COSTANTE PER STYLE CSS PER LA LARGHEZZA
   const width75 = `.width-75 {width: 75%;}@media (min-width: 992px) {.width-75 {width: 100%;
     }
   }
-`;
+`
   return (
     <>
       <style>{width75}</style>
@@ -83,7 +83,7 @@ const EndSidebarEnd = () => {
         </div>
       </Container>
     </>
-  );
-};
+  )
+}
 
-export default EndSidebarEnd;
+export default EndSidebarEnd
