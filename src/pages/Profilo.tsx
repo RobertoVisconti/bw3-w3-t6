@@ -10,16 +10,17 @@ const Profilo = () => {
         {/* colonna principale */}
         <Col md={8} lg={9}>
           <MainProfile />
-
           <div className="d-none d-md-block">
             <FooterLinkedin />
           </div>
         </Col>
-
         {/* sidebar destra */}
         <Col md={4} lg={3} className="mt-2">
           <ProfileRightSidebar />
-        </Col>
+        </Col>{" "}
+        <div className="d-md-none d-block">
+          <FooterLinkedin />
+        </div>
       </Row>
     </Container>
   );

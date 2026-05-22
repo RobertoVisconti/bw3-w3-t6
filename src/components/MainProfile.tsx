@@ -94,6 +94,7 @@ const MainProfile = () => {
     if (userId) {
       const foundProfile = allProfiles?.find((p) => p._id === userId);
       if (foundProfile) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setDisplayedProfile(foundProfile);
         setIsOwnProfile(foundProfile._id === myProfile?._id);
       }
