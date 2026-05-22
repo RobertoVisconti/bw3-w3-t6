@@ -85,8 +85,17 @@ export const MainRete = () => {
               Importa contatti Gmail
             </Button>
           </div>
-          <div>
-            <img src="https://placecats.com/100/100" alt="" />
+          <div className="p-3 d-flex justify-content-center align-items-center">
+            <img
+              src="/google.png"
+              alt="logo google"
+              style={{
+                width: "100px",
+                height: "100px",
+                aspectRatio: "1/1",
+                objectFit: "cover",
+              }}
+            />
           </div>
         </div>
       </article>
