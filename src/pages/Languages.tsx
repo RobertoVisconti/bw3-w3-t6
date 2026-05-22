@@ -1,51 +1,10 @@
-import { useState } from "react";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { IoArrowBack } from "react-icons/io5";
 import SideBarSettings from "../components/SideBarSettings";
 
 const Languages = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] =
-    useState("Italiano (Italiano)");
-
-  const languages = [
-    "العربية (Arabo)",
-    "বাংলা (Bengali)",
-    "Čeština (Ceco)",
-    "Dansk (Danese)",
-    "Deutsch (Tedesco)",
-    "Ελληνικά (Greco)",
-    "English (Inglese)",
-    "Español (Spagnolo)",
-    "فارسی (Persiano)",
-    "Suomi (Finlandese)",
-    "Français (Francese)",
-    "हिन्दी (Hindi)",
-    "Magyar (Ungherese)",
-    "Bahasa Indonesia (Indonesiano)",
-    "Italiano (Italiano)",
-    "עברית (Ebraico)",
-    "日本語 (Giapponese)",
-    "한국어 (Coreano)",
-    "मराठी (Marathi)",
-    "Bahasa Malaysia (Malese)",
-    "Nederlands (Olandese)",
-    "Norsk (Norvegese)",
-    "ਪੰਜਾਬੀ (Punjabi)",
-    "Polski (Polacco)",
-    "Português (Portoghese)",
-    "Română (Rumeno)",
-    "Русский (Russo)",
-    "Svenska (Svedese)",
-    "తెలుగు (Telugu)",
-    "ภาษาไทย (Tailandese)",
-    "Tagalog (Tagalog)",
-    "Türkçe (Turco)",
-    "Українська (Ucraino)",
-    "Tiếng Việt (Vietnamita)",
-    "简体中文 (Cinese (Semplificato))",
-    "正體中文 (Cinese (Tradizionale))",
-  ];
+  // Nota: Abbiamo rimosso gli stati "isOpen", "selectedLanguage" e l'array "languages"
+  // perché ora ci pensa Google a gestire tutto in autonomia.
 
   return (
     <Container fluid className="bg-light min-vh-100 px-0">
@@ -69,48 +28,15 @@ const Languages = () => {
                       <h6 className="fw-bold mb-1">Lingua</h6>
 
                       <p className="small mb-4">
-                        Seleziona la lingua che utilizzi su LinkedIn
+                        Seleziona la lingua che utilizzi su LinkedIn per
+                        tradurre la pagina
                       </p>
 
                       <div
-                        className="position-relative w-100"
+                        className="p-2 border rounded bg-white"
                         style={{ maxWidth: "390px" }}
                       >
-                        <button
-                          type="button"
-                          className="w-100 bg-white text-start border border-secondary px-2 py-3"
-                          onClick={() => setIsOpen(!isOpen)}
-                        >
-                          {selectedLanguage}
-                        </button>
-
-                        {isOpen && (
-                          <div
-                            className="position-absolute bg-white border border-secondary w-100 overflow-auto"
-                            style={{
-                              maxHeight: "min(520px, 55vh)",
-                              zIndex: 10,
-                            }}
-                          >
-                            {languages.map((language) => (
-                              <button
-                                key={language}
-                                type="button"
-                                className={`d-block w-100 text-start border-0 px-2 py-1 ${
-                                  selectedLanguage === language
-                                    ? "bg-primary text-white"
-                                    : "bg-white text-dark"
-                                }`}
-                                onClick={() => {
-                                  setSelectedLanguage(language);
-                                  setIsOpen(false);
-                                }}
-                              >
-                                {language}
-                              </button>
-                            ))}
-                          </div>
-                        )}
+                        <div id="google_translate_element"></div>
                       </div>
 
                       <p className="small text-muted mt-4 mb-0">
@@ -142,9 +68,7 @@ const Languages = () => {
 
               <div className="fw-bold text-primary">
                 Linked
-                <span className="bg-primary text-white px-1 rounded-1">
-                  in
-                </span>
+                <span className="bg-primary text-white px-1 rounded-1">in</span>
               </div>
             </footer>
           </div>
