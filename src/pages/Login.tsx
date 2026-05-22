@@ -33,7 +33,8 @@ const Login = () => {
   return (
     <Container
       fluid
-      className="vh-100 bg-white bg-sm-light d-flex flex-column p-0"
+      className="vh-100 bg-white bg-sm-light d-flex flex-column"
+      style={{ marginTop: "-3rem" }}
     >
       {/* Header con padding ridotto in alto e azzerato in basso */}
       <header className="p-3 pt-sm-4 pb-sm-0 ms-0 ms-sm-5 text-start">

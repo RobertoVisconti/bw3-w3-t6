@@ -91,7 +91,7 @@ const AppContent = () => {
         </header>
       )}
 
-      <main className="flex-grow-1 pt-5">
+      <main className="flex-grow-1 pt-5 ">
         <Routes>
           {/* Pagine pubbliche */}
           <Route path="/landing" element={<Landing />} />
