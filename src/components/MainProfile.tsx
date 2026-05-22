@@ -11,6 +11,7 @@ import { GoShieldCheck } from "react-icons/go";
 import ButtonLinkedin from "./generali/ButtonLinkedin";
 import ModalePresentazione from "../components/ModalePresentazione";
 import ProfileModals from "../components/ProfileModals";
+import ContactInfoModal from "../components/ContactInfoModal";
 import { Button, Card, Dropdown } from "react-bootstrap";
 import { FaPen, FaUserPlus, FaEnvelope } from "react-icons/fa";
 import { AiOutlinePicture } from "react-icons/ai";
@@ -35,6 +36,8 @@ const MainProfile = () => {
   const [showImg, setShowImg] = useState(false);
   const [showCover, setShowCover] = useState(false);
   const [showPref, setShowPref] = useState(false);
+  // modale info contact
+  const [showContactModal, setShowContactModal] = useState(false);
 
   // Variabili per l'upload dell'immagine
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -72,7 +75,7 @@ const MainProfile = () => {
     handleCloseImg();
   };
 
-  // 🔥 NUOVA FUNZIONE: Gestisce l'eliminazione "finta" resettando l'immagine a stringa vuota tramite API
+  // Gestisce l'eliminazione "finta" resettando l'immagine a stringa vuota tramite API
   const handleDelete = async () => {
     await dispatch(deleteProfileImage());
 
@@ -203,9 +206,13 @@ const MainProfile = () => {
                 <p className="m-0 text-muted">{displayedProfile.title}</p>
                 <p className="m-0 text-secondary">
                   {displayedProfile.area} .{" "}
-                  <a href="#" className="fw-bold text-decoration-none">
+                  <span
+                    className="fw-bold text-primary cursor-pointer hover-underline"
+                    onClick={() => setShowContactModal(true)}
+                    style={{ color: "#0a66c2", cursor: "pointer" }}
+                  >
                     informazioni di contatto
-                  </a>
+                  </span>
                 </p>
                 <a href="#" className="fw-bold text-decoration-none">
                   381 collegamenti
@@ -364,6 +371,14 @@ const MainProfile = () => {
           </section>
         </div>
       )}
+
+      {/* modale info contatto */}
+      <ContactInfoModal
+        show={showContactModal}
+        onHide={() => setShowContactModal(false)}
+        profileUrl={`linkedin.com/in/${displayedProfile?.username || ""}`}
+        email={displayedProfile?.email}
+      />
 
       {/* COMPONENTE CENTRALIZZATO DEI MODALI */}
       <ProfileModals

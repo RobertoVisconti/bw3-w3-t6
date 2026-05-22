@@ -1,6 +1,6 @@
-import { BiNews } from "react-icons/bi";
-import { FaBookmark, FaCalendarAlt, FaLinkedin } from "react-icons/fa";
-import { HiUserGroup } from "react-icons/hi";
+import { BiNews } from "react-icons/bi"
+import { FaBookmark, FaCalendarAlt, FaLinkedin } from "react-icons/fa"
+import { HiUserGroup } from "react-icons/hi"
 
 const SidebarStartHome = () => {
   return (
@@ -19,12 +19,12 @@ const SidebarStartHome = () => {
       <section className="bg-light border-card-linkedin rounded-3 p-3 mb-2">
         <div className="d-flex justify-content-between">
           <p>
-            <b>visitatori del profilo</b>
+            <b className="link-custom">visitatori del profilo</b>
           </p>
           <p>1</p>
         </div>
         <p>
-          <b>vedi tutte le analisi</b>
+          <b className="link-custom">vedi tutte le analisi</b>
         </p>
       </section>
       {/* section icon */}
@@ -32,25 +32,25 @@ const SidebarStartHome = () => {
         {/* bookmark */}
         <div className="d-flex align-items-center">
           <FaBookmark />
-          <p className="m-0 ms-3"> Elementi salvati</p>
+          <p className="m-0 ms-3 link-custom"> Elementi salvati</p>
         </div>
         {/* persone */}
         <div className="d-flex align-items-center">
           <HiUserGroup />
-          <p className="m-0 ms-3"> Gruppi</p>
+          <p className="m-0 ms-3 link-custom"> Gruppi</p>
         </div>
         {/* newsletter */}
         <div className="d-flex align-items-center">
           <BiNews />
-          <p className="m-0 ms-3"> Newsletter</p>
+          <p className="m-0 ms-3 link-custom"> Newsletter</p>
         </div>
         {/* eventi */}
         <div className="d-flex align-items-center">
           <FaCalendarAlt />
-          <p className="m-0 ms-3"> Eventi</p>
+          <p className="m-0 ms-3 link-custom"> Eventi</p>
         </div>
       </section>
     </div>
-  );
-};
-export default SidebarStartHome;
+  )
+}
+export default SidebarStartHome

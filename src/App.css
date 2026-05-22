@@ -69,3 +69,35 @@
   border-color: #666666 !important;
   cursor: not-allowed;
 }
+
+.link-custom {
+  text-decoration: none;
+}
+
+.link-custom:hover {
+  text-decoration: underline;
+}
+
+/* Selettore principale di Google Translate */
+.goog-te-combo {
+  width: 100% !important; /* Forza la larghezza al 100% del container */
+  max-width: 390px !important; /* Limite massimo per combaciare con il tuo vecchio layout */
+  padding: 12px 16px !important; /* Spazio interno per renderlo cicciotto e moderno */
+  font-size: 16px !important; /* Testo leggermente più grande e leggibile */
+  border: 1px solid #dee2e6 !important; /* Colore del bordo simile a Bootstrap */
+  border-radius: 4px !important; /* Angoli leggermente smussati */
+  background-color: #fff !important;
+  color: #212529 !important;
+  font-family: inherit !important;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Rimuove la scritta "Offerto da Google Traduttore" o loghi piccoli se danno fastidio visivamente all'interno del widget */
+.goog-te-gadget {
+  font-size: 0 !important; /* Nasconde il testo di testo "Offerto da..." */
+}
+
+.goog-te-gadget span {
+  display: none !important; /* Nasconde ulteriori link di Google */
+}
