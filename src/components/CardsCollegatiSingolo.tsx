@@ -7,34 +7,18 @@ interface CardsCollegatiProps extends Profile {
   affiliato?: boolean;
 }
 
-export const CardsCollegatiSingolo = ({
-  _id,
-  image,
-  name,
-  surname,
-  title,
-  area,
-  username,
-  email,
-  createdAt,
-  updatedAt,
-  __v,
-  collegati = true,
-  affiliato = true,
-}: CardsCollegatiProps) => {
-  const utenteCompleto: Profile = {
-    _id,
+export const CardsCollegatiSingolo = (props: CardsCollegatiProps) => {
+  const {
     image,
     name,
     surname,
     title,
     area,
-    username,
-    email,
-    createdAt,
-    updatedAt,
-    __v,
-  };
+    collegati = true,
+    affiliato = true,
+  } = props;
+
+  const utenteCompleto: Profile = { ...props };
 
   return (
     <Card
