@@ -62,6 +62,7 @@ const AppContent = () => {
       navigate("/landing", { replace: true });
     }
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsLoggedIn(loggedStatus);
   }, [location.pathname, navigate]);
 
