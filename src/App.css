@@ -69,3 +69,11 @@
   border-color: #666666 !important;
   cursor: not-allowed;
 }
+
+.link-custom {
+  text-decoration: none;
+}
+
+.link-custom:hover {
+  text-decoration: underline;
+}

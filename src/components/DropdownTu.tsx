@@ -1,42 +1,42 @@
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../redux/store";
+import { useDispatch, useSelector } from "react-redux"
+import type { AppDispatch, RootState } from "../redux/store"
 
-import { useEffect, useState } from "react";
-import { getMyProfileAsync } from "../redux/actions/profileActions";
-import { GoShieldCheck } from "react-icons/go";
-import { Col, Image } from "react-bootstrap";
+import { useEffect, useState } from "react"
+import { getMyProfileAsync } from "../redux/actions/profileActions"
+import { GoShieldCheck } from "react-icons/go"
+import { Col, Image } from "react-bootstrap"
 
-import { useNavigate } from "react-router-dom";
-import ButtonLinkedin from "./generali/ButtonLinkedin";
-import OffcanvasGuida from "./generali/OffcanvasGuida";
+import { useNavigate } from "react-router-dom"
+import ButtonLinkedin from "./generali/ButtonLinkedin"
+import OffcanvasGuida from "./generali/OffcanvasGuida"
 
 interface LocalFooterLink {
-  label: string;
-  path?: string;
-  isLogout?: boolean;
-  onClick?: () => void;
+  label: string
+  path?: string
+  isLogout?: boolean
+  onClick?: () => void
 }
 
 const DropDownTu = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>()
 
   const { myProfile, isLoading, error } = useSelector(
     (state: RootState) => state.profile,
-  );
+  )
 
   useEffect(() => {
-    dispatch(getMyProfileAsync());
-  }, [dispatch]);
+    dispatch(getMyProfileAsync())
+  }, [dispatch])
 
   const handleLogout = (e: React.MouseEvent) => {
-    e.preventDefault();
-    localStorage.removeItem("isLoggedIn");
-    window.location.href = "/login";
-  };
+    e.preventDefault()
+    localStorage.removeItem("isLoggedIn")
+    window.location.href = "/login"
+  }
 
   // costante per l'offcanvas di guida
-  const [showGuida, setShowGuida] = useState(false);
+  const [showGuida, setShowGuida] = useState(false)
 
   const links: LocalFooterLink[] = [
     { label: "Account", path: "/account" },
@@ -51,20 +51,20 @@ const DropDownTu = () => {
       path: "/crearelavoro",
     },
     { label: "Esci", isLogout: true },
-  ];
+  ]
 
   // 3. Funzione centralizzata per gestire il click sui link
   const handleLinkClick = (e: React.MouseEvent, link: LocalFooterLink) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (link.isLogout) {
-      handleLogout(e);
+      handleLogout(e)
     } else if (link.onClick) {
-      link.onClick();
+      link.onClick()
     } else if (link.path) {
-      navigate(link.path);
+      navigate(link.path)
     }
-  };
+  }
 
   return (
     <>
@@ -80,7 +80,7 @@ const DropDownTu = () => {
             <Image
               src={myProfile.image}
               roundedCircle
-              className="linkedin-avatar me-3"
+              className="linkedin-avatar me-3 "
               alt="foto-profilo"
               style={{
                 width: "80px",
@@ -94,7 +94,7 @@ const DropDownTu = () => {
 
             <div>
               <div className="d-flex align-items-center">
-                <h1 className="fs-5 m-0 me-2">
+                <h1 className="fs-5 m-0 me-2 link-custom">
                   {myProfile.surname} {myProfile.name}
                 </h1>
                 <GoShieldCheck />
@@ -103,12 +103,18 @@ const DropDownTu = () => {
               <p className="m-0 text-muted text-wrap">{myProfile.title}</p>
             </div>
           </div>
-
-          <ButtonLinkedin
-            text="Visualizza profilo"
-            className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2"
-            to="/profilo"
-          />
+          <div className="d-flex">
+            <ButtonLinkedin
+              text="Visualizza profilo"
+              className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 fw-bold border-2"
+              to="/profilo"
+            />
+            <ButtonLinkedin
+              text="Verifica ora"
+              className="text-primary bg-transparent rounded-pill w-100 mt-2 mb-4 ms-3 fw-bold border-2"
+              to="/Authentication"
+            />
+          </div>
           {/* Primi 5 Link (Indici 0-4) */}
           {links.slice(0, 5).map((link, i) => (
             <Col xs={12} key={i} className={i === 0 ? "bold-link" : ""}>
@@ -155,7 +161,7 @@ const DropDownTu = () => {
         </section>
       )}
     </>
-  );
-};
+  )
+}
 
-export default DropDownTu;
+export default DropDownTu

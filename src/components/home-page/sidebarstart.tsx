@@ -59,13 +59,13 @@ const SidebarStart = () => {
             </div>
             <div className="p-3 pt-5">
               <div className="d-flex align-items-center">
-                <h1 className="fs-3 m-0 me-2">
+                <h1 className="fs-3 m-0 me-2 link-custom">
                   {myProfile.surname} {myProfile.name}
                 </h1>
                 <GoShieldCheck />
               </div>
               <div>
-                <p className="m-0 text-muted">{myProfile.title}</p>
+                <p className="m-0 text-muted ">{myProfile.title}</p>
                 <p className="m-0 text-secondary">{myProfile.area}</p>
               </div>
               <div className="d-flex align-items-center mt-3">
@@ -78,7 +78,7 @@ const SidebarStart = () => {
                   alt="logo-lavoro"
                   className="me-3 w-25"
                 />
-                <p className="p-0 m-0">
+                <p className="p-0 m-0 link-custom">
                   <b>
                     {experiences && experiences.length > 0
                       ? experiences[experiences.length - 1].role
